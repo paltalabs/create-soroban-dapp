@@ -12,6 +12,8 @@ import type { AppProps } from 'next/app'
 import { Inconsolata } from 'next/font/google'
 import Head from 'next/head'
 
+import MySorobanReactProvider from "../components/web3/MySorobanReactProvider"
+
 // Google Font(s) via `next/font`
 const inconsolata = Inconsolata({ subsets: ['latin'] })
 
@@ -54,12 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         `}</style>
       </Head>
 
-      <UseInkathonProvider
-        appName="ink!athon" // TODO
-        connectOnInit={true}
-        defaultChain={env.defaultChain}
-        deployments={getDeployments()}
-      >
+      <MySorobanReactProvider>
         <CacheProvider value={cache}>
           <ChakraProvider>
             <DarkMode>
@@ -73,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </DarkMode>
           </ChakraProvider>
         </CacheProvider>
-      </UseInkathonProvider>
+      </MySorobanReactProvider>
     </>
   )
 }

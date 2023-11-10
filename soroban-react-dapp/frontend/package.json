@@ -1,5 +1,5 @@
 {
-  "name": "@inkathon/frontend",
+  "name": "@create-soroban-dapp/soroban-react-app/frontend",
   "private": true,
   "version": "0.3.0",
   "babelMacros": {
@@ -47,6 +47,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "sharp": "^0.32.6",
+    "soroban-client": "1.0.0-beta.4",
     "spinners-react": "^1.0.7",
     "use-async-effect": "^2.2.7"
   },

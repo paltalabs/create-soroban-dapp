@@ -12,61 +12,123 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'twin.macro'
 
+import { useSorobanReact, SorobanContextType } from "/home/ben/stellar/paltalabsdev/soroban-react/packages/core"
+import * as SorobanClient from 'soroban-client';
+import { useContractValue } from '/home/ben/stellar/paltalabsdev/soroban-react/packages/contracts'
+import { contractTransaction, useSendTransaction } from '/home/ben/stellar/paltalabsdev/soroban-react/packages/contracts'
+
+
+import contract_ids from '/home/ben/stellar/paltalabsdev/multichain-dapp/src/contract_ids.json'
+import { useTitle } from './useTitle'
+import React from 'react'
+import { title } from 'process'
+
 type UpdateGreetingValues = { newMessage: string }
 
+function stringToScVal(title: string) {
+  return SorobanClient.xdr.ScVal.scvString(title)
+}
+
 export const GreeterContractInteractions: FC = () => {
-  const { api, activeAccount, activeSigner } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
+  // const { api, activeAccount, activeSigner } = useInkathon()
+  const sorobanContext = useSorobanReact()
+  // const [api, activeAccount, activeSigner] = [sorobanContext.server, sorobanContext.address, sorobanContext.activeConnector]
+  // const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
   const [greeterMessage, setGreeterMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>()
   const { register, reset, handleSubmit } = useForm<UpdateGreetingValues>()
 
+  const myTitle = useTitle({ sorobanContext })
+  const [newTitle, setNewTitle] = React.useState<string>('');
+
   // Fetch Greeting
-  const fetchGreeting = async () => {
-    if (!contract || !api) return
+  // const fetchGreeting = async () => {
+  //   if (!contract || !sorobanContext.server) return
 
-    setFetchIsLoading(true)
-    try {
-      const result = await contractQuery(api, '', contract, 'greet')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
-      if (isError) throw new Error(decodedOutput)
-      setGreeterMessage(output)
-    } catch (e) {
-      console.error(e)
-      toast.error('Error while fetching greeting. Try again…')
-      setGreeterMessage(undefined)
-    } finally {
-      setFetchIsLoading(false)
-    }
-  }
-  useEffect(() => {
-    fetchGreeting()
-  }, [contract])
+  //   setFetchIsLoading(true)
+  //   try {
+  //     // const result = await contractQuery(api, '', contract, 'greet')
 
-  // Update Greeting
-  const updateGreeting = async ({ newMessage }: UpdateGreetingValues) => {
-    if (!activeAccount || !contract || !activeSigner || !api) {
-      toast.error('Wallet not connected. Try again…')
+  //     const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
+  //     if (isError) throw new Error(decodedOutput)
+  //     setGreeterMessage(output)
+  //   } catch (e) {
+  //     console.error(e)
+  //     toast.error('Error while fetching greeting. Try again…')
+  //     setGreeterMessage(undefined)
+  //   } finally {
+  //     setFetchIsLoading(false)
+  //   }
+  // }
+  // useEffect(() => {
+  //   fetchGreeting()
+  // }, [contract])
+
+  // // Update Greeting
+  // const updateGreeting = async ({ newMessage }: UpdateGreetingValues) => {
+  //   if (!activeAccount || !contract || !activeSigner || !api) {
+  //     toast.error('Wallet not connected. Try again…')
+  //     return
+  //   }
+
+  //   // Send transaction
+  //   setUpdateIsLoading(true)
+  //   try {
+  //     // await contractTxWithToast(api, activeAccount.address, contract, 'setMessage', {}, [
+  //     //   newMessage,
+  //     // ])
+  //     reset()
+  //   } catch (e) {
+  //     console.error(e)
+  //   } finally {
+  //     setUpdateIsLoading(false)
+  //     fetchGreeting()
+  //   }
+  // }
+
+  // if (!api) return null
+
+  const { sendTransaction } = useSendTransaction()
+  const { activeChain, server, address } = sorobanContext
+
+  const handleNewTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(event.target.value)
+  };
+
+  const handleSetNewTitle = async (): Promise<void> => {
+    if (!activeChain || !address || !server) {
+      console.log("No active chain")
       return
     }
+    else {
+      let currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
+      if (!currentChain) {
+        console.log("No active chain")
+        return
+      }
+      else {
+        //   console.log("handleSetNewTitle: currentChain: ", currentChain)
+        // console.log("handleSetNewTitle: contract_ids[currentChain].title_id: ", contract_ids[currentChain]?.title_id)
+        let contractId = (contract_ids as { [char: string]: { title_id: string } })[currentChain]?.title_id;
 
-    // Send transaction
-    setUpdateIsLoading(true)
-    try {
-      await contractTxWithToast(api, activeAccount.address, contract, 'setMessage', {}, [
-        newMessage,
-      ])
-      reset()
-    } catch (e) {
-      console.error(e)
-    } finally {
-      setUpdateIsLoading(false)
-      fetchGreeting()
+        const source = await server.getAccount(address)
+
+        let transaction = contractTransaction({
+          networkPassphrase: activeChain.networkPassphrase,
+          source: source,
+          contractAddress: contractId,
+          method: 'set_title',
+          args: [stringToScVal(newTitle)]
+        })
+
+
+        let result = await sendTransaction(transaction, { sorobanContext })
+        console.log("handleSetNewTitle: result: ", result)
+        sorobanContext.connect();
+      }
     }
   }
-
-  if (!api) return null
 
   return (
     <>
@@ -78,7 +140,8 @@ export const GreeterContractInteractions: FC = () => {
           <FormControl>
             <FormLabel>Fetched Greeting</FormLabel>
             <Input
-              placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
+              // placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
+              placeholder={myTitle}
               disabled={true}
             />
           </FormControl>
@@ -86,18 +149,20 @@ export const GreeterContractInteractions: FC = () => {
 
         {/* Update Greeting */}
         <Card variant="outline" p={4} bgColor="whiteAlpha.100">
-          <form onSubmit={handleSubmit(updateGreeting)}>
+          <form onSubmit={() => handleSetNewTitle()}>
             <Stack direction="row" spacing={2} align="end">
               <FormControl>
                 <FormLabel>Update Greeting</FormLabel>
-                <Input disabled={updateIsLoading} {...register('newMessage')} />
+                <Input 
+                  // disabled={updateIsLoading}
+                  type="text"
+                  value={newTitle}
+                  onChange={handleNewTitleChange} />
               </FormControl>
               <Button
-                type="submit"
-                mt={4}
-                colorScheme="purple"
-                isLoading={updateIsLoading}
-                disabled={updateIsLoading}
+                size="small"
+                variant="contained"
+                onClick={handleSetNewTitle}
               >
                 Submit
               </Button>
@@ -107,7 +172,7 @@ export const GreeterContractInteractions: FC = () => {
 
         {/* Contract Address */}
         <p tw="text-center font-mono text-xs text-gray-600">
-          {contract ? contractAddress : 'Loading…'}
+          {/* {contract ? contractAddress : 'Loading…'} */}
         </p>
       </div>
     </>
