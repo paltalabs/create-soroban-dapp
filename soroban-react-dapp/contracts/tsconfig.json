@@ -1,0 +1,21 @@
+{
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "sourceMap": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "composite": true
+  },
+  "exclude": ["./*/target"],
+  "include": ["./deployments/**/*.json", "./deployments/**/*.ts", "./scripts/**/*.ts"]
+}
