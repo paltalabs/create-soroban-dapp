@@ -1,12 +1,12 @@
 {
-  "name": "@inkathon/monorepo",
-  "description": "Full-Stack DApp Boilerplate for ink! Smart Contracts",
-  "homepage": "https://inkathon.xyz",
-  "author": "Scio Labs <hello@scio.xyz> (https://scio.xyz)",
+  "name": "@create-soroban-dapp",
+  "description": "Full-Stack DApp Boilerplate for Soroban Smart Contracts",
+  "homepage": "",
+  "author": "Benjamin Salon",
   "private": true,
   "workspaces": [
     "frontend",
-    "contracts"
+    "contract"
   ],
   "engines": {
     "node": ">=18",

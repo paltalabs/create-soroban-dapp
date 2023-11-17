@@ -1,8 +1,8 @@
 import React from 'react'
-import {SorobanReactProvider} from '/home/ben/stellar/paltalabsdev/soroban-react/packages/core';
-import {futurenet, sandbox, standalone} from '/home/ben/stellar/paltalabsdev/soroban-react/packages/chains';
-import {freighter} from '/home/ben/stellar/paltalabsdev/soroban-react/packages/freighter';
-import {ChainMetadata, Connector} from "/home/ben/stellar/paltalabsdev/soroban-react/packages/types";
+import {SorobanReactProvider} from '@soroban-react/core';
+import {futurenet, sandbox, standalone} from '@soroban-react/chains';
+import {freighter} from '@soroban-react/freighter';
+import {ChainMetadata, Connector} from "@soroban-react/types";
 import { Server } from 'soroban-client';
       
 const chains: ChainMetadata[] = [sandbox, standalone, futurenet];
@@ -15,7 +15,7 @@ export default function MySorobanReactProvider({children}:{children: React.React
         chains={chains}
         appName={"Example Stellar App"}
         activeChain={standalone}
-        server={new Server('http://localhost:8000/soroban/rpc',{allowHttp:true})}
+        // server={new Server('http://localhost:8000/soroban/rpc',{allowHttp:true})}
         connectors={connectors}>
           {children}
       </SorobanReactProvider>

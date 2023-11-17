@@ -1,12 +1,14 @@
 import { Card, Spinner } from '@chakra-ui/react'
-import { useInkathon } from '@scio-labs/use-inkathon'
+// import { useInkathon } from '@scio-labs/use-inkathon'
+import { useSorobanReact } from '@soroban-react/core'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 import 'twin.macro'
 
 export const ChainInfo: FC = () => {
-  const { api, activeChain } = useInkathon()
+  const sorobanContext = useSorobanReact();
+  const { api, activeChain } = 
   const [chainInfo, setChainInfo] = useState<{ [_: string]: any }>()
 
   // Fetch Chain Info

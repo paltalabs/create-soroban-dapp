@@ -1,8 +1,8 @@
 import * as SorobanClient from 'soroban-client';
-import { SorobanContextType } from '/home/ben/stellar/paltalabsdev/soroban-react/packages/core';
-import { useContractValue } from '/home/ben/stellar/paltalabsdev/soroban-react/packages/contracts'
+import { SorobanContextType } from '@soroban-react/core';
+import { useContractValue } from '@soroban-react/contracts'
 
-import contract_ids from '/home/ben/stellar/paltalabsdev/multichain-dapp/src/contract_ids.json'
+import contract_ids from '../../../../src/contract_ids.json'
 
 
 export function scvalToString(value: SorobanClient.xdr.ScVal): string | undefined {

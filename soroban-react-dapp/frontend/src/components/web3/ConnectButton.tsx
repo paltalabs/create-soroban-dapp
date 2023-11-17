@@ -34,8 +34,8 @@ import { AiOutlineCheckCircle, AiOutlineDisconnect } from 'react-icons/ai'
 import { FiChevronDown, FiExternalLink } from 'react-icons/fi'
 import 'twin.macro'
 
-import {WalletData} from "/home/ben/stellar/paltalabsdev/soroban-react/packages/wallet-data"
-import {useSorobanReact} from "/home/ben/stellar/paltalabsdev/soroban-react/packages/core"
+import {WalletData} from "@soroban-react/wallet-data"
+import {useSorobanReact} from "@soroban-react/core"
 
 
 export const ConnectButton = () => {

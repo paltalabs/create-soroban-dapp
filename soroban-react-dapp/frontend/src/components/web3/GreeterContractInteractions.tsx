@@ -12,13 +12,13 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'twin.macro'
 
-import { useSorobanReact, SorobanContextType } from "/home/ben/stellar/paltalabsdev/soroban-react/packages/core"
+import { useSorobanReact, SorobanContextType } from "@soroban-react/core"
 import * as SorobanClient from 'soroban-client';
-import { useContractValue } from '/home/ben/stellar/paltalabsdev/soroban-react/packages/contracts'
-import { contractTransaction, useSendTransaction } from '/home/ben/stellar/paltalabsdev/soroban-react/packages/contracts'
+import { useContractValue } from '@soroban-react/contracts'
+import { contractTransaction, useSendTransaction } from '@soroban-react/contracts'
 
 
-import contract_ids from '/home/ben/stellar/paltalabsdev/multichain-dapp/src/contract_ids.json'
+import contract_ids from '../../../../src/contract_ids.json'
 import { useTitle } from './useTitle'
 import React from 'react'
 import { title } from 'process'
