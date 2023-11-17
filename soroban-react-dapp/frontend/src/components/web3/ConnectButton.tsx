@@ -15,17 +15,6 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { InjectedAccount } from '@polkadot/extension-inject/types'
-import { encodeAddress } from '@polkadot/util-crypto'
-import {
-  SubstrateChain,
-  SubstrateWalletPlatform,
-  allSubstrateWallets,
-  getSubstrateChain,
-  isWalletInstalled,
-  useBalance,
-  useInkathon,
-} from '@scio-labs/use-inkathon'
 import Image from 'next/image'
 import aznsIconSvg from 'public/icons/azns-icon.svg'
 import { FC, useMemo, useState } from 'react'
