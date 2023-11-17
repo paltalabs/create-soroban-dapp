@@ -19,7 +19,7 @@ import { contractTransaction, useSendTransaction } from '@soroban-react/contract
 
 
 import contract_ids from '../../../../src/contract_ids.json'
-import { useTitle } from './useTitle'
+import { useGreeting } from './useGreeting'
 import React from 'react'
 import { title } from 'process'
 
@@ -32,15 +32,13 @@ function stringToScVal(title: string) {
 export const GreeterContractInteractions: FC = () => {
   // const { api, activeAccount, activeSigner } = useInkathon()
   const sorobanContext = useSorobanReact()
-  // const [api, activeAccount, activeSigner] = [sorobanContext.server, sorobanContext.address, sorobanContext.activeConnector]
-  // const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
-  const [greeterMessage, setGreeterMessage] = useState<string>()
-  const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
+  
+  // const [greeterMessage, setGreeterMessage] = useState<string>()
+  // const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>()
   const { register, reset, handleSubmit } = useForm<UpdateGreetingValues>()
 
-  const myTitle = useTitle({ sorobanContext })
-  const [newTitle, setNewTitle] = React.useState<string>('');
+  const myGreeting = useGreeting({ sorobanContext })
 
   // Fetch Greeting
   // const fetchGreeting = async () => {
@@ -92,26 +90,21 @@ export const GreeterContractInteractions: FC = () => {
   const { sendTransaction } = useSendTransaction()
   const { activeChain, server, address } = sorobanContext
 
-  const handleNewTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(event.target.value)
-  };
-
-  const handleSetNewTitle = async (): Promise<void> => {
+  const updateGreeting = async ({ newMessage }: UpdateGreetingValues ) => {
     if (!activeChain || !address || !server) {
       console.log("No active chain")
+      toast.error('Wallet not connected. Try again…')
       return
     }
     else {
       let currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
       if (!currentChain) {
         console.log("No active chain")
+        toast.error('Wallet not connected. Try again…')
         return
       }
       else {
-        //   console.log("handleSetNewTitle: currentChain: ", currentChain)
-        // console.log("handleSetNewTitle: contract_ids[currentChain].title_id: ", contract_ids[currentChain]?.title_id)
         let contractId = (contract_ids as { [char: string]: { title_id: string } })[currentChain]?.title_id;
-
         const source = await server.getAccount(address)
 
         let transaction = contractTransaction({
@@ -119,12 +112,16 @@ export const GreeterContractInteractions: FC = () => {
           source: source,
           contractAddress: contractId,
           method: 'set_title',
-          args: [stringToScVal(newTitle)]
+          args: [stringToScVal(newMessage)]
         })
 
+        setUpdateIsLoading(true)
 
         let result = await sendTransaction(transaction, { sorobanContext })
-        console.log("handleSetNewTitle: result: ", result)
+        
+        setUpdateIsLoading(false)
+
+        console.log("handleSetNewGreeting: result: ", result)
         sorobanContext.connect();
       }
     }
@@ -141,7 +138,7 @@ export const GreeterContractInteractions: FC = () => {
             <FormLabel>Fetched Greeting</FormLabel>
             <Input
               // placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
-              placeholder={myTitle}
+              placeholder={myGreeting}
               disabled={true}
             />
           </FormControl>
@@ -149,20 +146,18 @@ export const GreeterContractInteractions: FC = () => {
 
         {/* Update Greeting */}
         <Card variant="outline" p={4} bgColor="whiteAlpha.100">
-          <form onSubmit={() => handleSetNewTitle()}>
+          <form onSubmit={handleSubmit(updateGreeting)}>
             <Stack direction="row" spacing={2} align="end">
               <FormControl>
                 <FormLabel>Update Greeting</FormLabel>
-                <Input 
-                  // disabled={updateIsLoading}
-                  type="text"
-                  value={newTitle}
-                  onChange={handleNewTitleChange} />
+                <Input disabled={updateIsLoading} {...register('newMessage')} />
               </FormControl>
               <Button
-                size="small"
-                variant="contained"
-                onClick={handleSetNewTitle}
+                type="submit"
+                mt={4}
+                colorScheme="purple"
+                isLoading={updateIsLoading}
+                disabled={updateIsLoading}
               >
                 Submit
               </Button>
