@@ -8,42 +8,44 @@ import 'twin.macro'
 
 export const ChainInfo: FC = () => {
   const sorobanContext = useSorobanReact();
-  const { api, activeChain } = 
+  // const { api, activeChain } = 
   const [chainInfo, setChainInfo] = useState<{ [_: string]: any }>()
 
   // Fetch Chain Info
   const fetchChainInfo = async () => {
-    if (!api) {
-      setChainInfo(undefined)
-      return
-    }
+    // if (!api) {
+    //   setChainInfo(undefined)
+    //   return
+    // }
 
-    const chain = (await api.rpc.system.chain())?.toString() || ''
-    const version = (await api.rpc.system.version())?.toString() || ''
-    const properties = ((await api.rpc.system.properties())?.toHuman() as any) || {}
-    const tokenSymbol = properties?.tokenSymbol?.[0] || 'UNIT'
-    const tokenDecimals = properties?.tokenDecimals?.[0] || 12
+    const chain = sorobanContext.activeChain ?? {name:"", networkPassphrase:"",networkUrl:"",sorobanRpcUrl:""}
+    // const version = (await api.rpc.system.version())?.toString() || ''
+    // const properties = ((await api.rpc.system.properties())?.toHuman() as any) || {}
+    // const tokenSymbol = properties?.tokenSymbol?.[0] || 'UNIT'
+    // const tokenDecimals = properties?.tokenDecimals?.[0] || 12
     const chainInfo = {
-      Chain: chain,
-      Version: version,
-      Token: `${tokenSymbol} (${tokenDecimals} Decimals)`,
+      Chain: chain.name,
+      PassPhrase: chain.networkPassphrase,
+      NetworkURL: chain.networkUrl,
+      sorobanURL: chain.sorobanRpcUrl
+      // Token: `${tokenSymbol} (${tokenDecimals} Decimals)`,
     }
     setChainInfo(chainInfo)
   }
   useEffect(() => {
     fetchChainInfo()
-  }, [api])
+  }, [sorobanContext])
 
   // Connection Loading Indicator
-  if (!api)
-    return (
-      <div tw="mt-8 mb-4 flex flex-col items-center justify-center space-y-3 text-center font-mono text-sm text-gray-400 sm:(flex-row space-x-3 space-y-0)">
-        <Spinner size="sm" />
-        <div>
-          Connecting to {activeChain?.name} ({activeChain?.rpcUrls?.[0]})
-        </div>
-      </div>
-    )
+  // if (!api)
+  //   return (
+  //     <div tw="mt-8 mb-4 flex flex-col items-center justify-center space-y-3 text-center font-mono text-sm text-gray-400 sm:(flex-row space-x-3 space-y-0)">
+  //       <Spinner size="sm" />
+  //       <div>
+  //         Connecting to {activeChain?.name} ({activeChain?.rpcUrls?.[0]})
+  //       </div>
+  //     </div>
+  //   )
 
   return (
     <>
@@ -61,9 +63,9 @@ export const ChainInfo: FC = () => {
             </div>
           ))}
 
-          <div tw="mt-3 flex items-center justify-center space-x-3">
+          {/* <div tw="mt-3 flex items-center justify-center space-x-3"> */}
             {/* Explorer Link */}
-            {!!activeChain?.explorerUrls && !!Object.keys(activeChain.explorerUrls)?.length && (
+            {/* {!!activeChain?.explorerUrls && !!Object.keys(activeChain.explorerUrls)?.length && (
               <Link
                 href={Object.values(activeChain.explorerUrls)[0]}
                 target="_blank"
@@ -71,9 +73,9 @@ export const ChainInfo: FC = () => {
               >
                 Explorer <HiOutlineExternalLink />
               </Link>
-            )}
+            )} */}
             {/* Faucet Link */}
-            {!!activeChain?.faucetUrls?.length && (
+            {/* {!!activeChain?.faucetUrls?.length && (
               <Link
                 href={activeChain.faucetUrls[0]}
                 target="_blank"
@@ -81,9 +83,9 @@ export const ChainInfo: FC = () => {
               >
                 Faucet <HiOutlineExternalLink />
               </Link>
-            )}
+            )} */}
             {/* Contracts UI Link */}
-            {!!activeChain?.rpcUrls?.length && (
+            {/* {!!activeChain?.rpcUrls?.length && (
               <Link
                 href={`https://contracts-ui.substrate.io/?rpc=${activeChain.rpcUrls[0]}`}
                 target="_blank"
@@ -91,12 +93,12 @@ export const ChainInfo: FC = () => {
               >
                 Contracts UI <HiOutlineExternalLink />
               </Link>
-            )}
-          </div>
+            )} */}
+          {/* </div> */}
         </Card>
 
         {/* Mainnet Security Disclaimer */}
-        {!activeChain?.testnet && (
+        {/* {!activeChain?.testnet && (
           <>
             <h2 tw="text-center font-mono text-red-400">Security Disclaimer</h2>
 
@@ -105,7 +107,7 @@ export const ChainInfo: FC = () => {
               transfer tokens to this contract.
             </Card>
           </>
-        )}
+        )} */}
       </div>
     </>
   )

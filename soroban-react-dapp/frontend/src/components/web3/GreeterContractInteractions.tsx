@@ -32,7 +32,7 @@ export const GreeterContractInteractions: FC = () => {
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>()
   const { register, reset, handleSubmit } = useForm<UpdateGreetingValues>()
 
-  const myGreeting = useGreeting({ sorobanContext })
+  const {isWrongConnection, fetchedGreeting} = useGreeting({ sorobanContext })
 
   // Fetch Greeting
   // const fetchGreeting = async () => {
@@ -131,8 +131,7 @@ export const GreeterContractInteractions: FC = () => {
           <FormControl>
             <FormLabel>Fetched Greeting</FormLabel>
             <Input
-              // placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
-              placeholder={myGreeting}
+              placeholder={isWrongConnection? 'Network could not be connected' : fetchedGreeting}
               disabled={true}
             />
           </FormControl>
@@ -144,14 +143,14 @@ export const GreeterContractInteractions: FC = () => {
             <Stack direction="row" spacing={2} align="end">
               <FormControl>
                 <FormLabel>Update Greeting</FormLabel>
-                <Input disabled={updateIsLoading} {...register('newMessage')} />
+                <Input disabled={updateIsLoading || isWrongConnection} {...register('newMessage')} />
               </FormControl>
               <Button
                 type="submit"
                 mt={4}
                 colorScheme="purple"
+                isDisabled={updateIsLoading || isWrongConnection}
                 isLoading={updateIsLoading}
-                disabled={updateIsLoading}
               >
                 Submit
               </Button>
