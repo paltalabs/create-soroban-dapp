@@ -42,6 +42,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 # contracts
-*contract_ids.json
+# *contract_ids.json
 contract/target
 .soroban
