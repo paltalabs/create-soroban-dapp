@@ -18,10 +18,10 @@ Check the [`LIVE VERSION`](https://create-soroban-dapp.vercel.app/) of the dapp 
 
 Simply use
 
-`npx create-soroban-dapp`
+`npx create-soroban-dapp@latest`
 
 or
 
-`npm create soroban-dapp`
+`npm create soroban-dapp@latest`
 
 Then, cd inside the new project repository called `soroban-dapp`
