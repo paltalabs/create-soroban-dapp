@@ -22,7 +22,7 @@ export function useGreeting({sorobanContext}: useGreetingProps){
       
       fetchedGreeting_scval = useContractValue({ 
         contractAddress: (contract_ids as { [char: string]: {title_id:string} })[currentChain? currentChain: "standalone"]?.title_id,
-        method: 'read_fetchedGreeting',
+        method: 'read_title',
         sorobanContext: sorobanContext
       })
 
