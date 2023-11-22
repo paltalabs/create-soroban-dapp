@@ -40,3 +40,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# contracts
+*contract_ids.json
+contract/target
+.soroban

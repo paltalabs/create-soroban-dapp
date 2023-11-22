@@ -6,7 +6,7 @@ import path from "path";
 import inquirer from 'inquirer';
 
 const projectDir = "./soroban-react-dapp/";
-const srcDir = path.join(fileURLToPath(path.dirname(import.meta.url)),"test-react-create-app");
+const srcDir = path.join(fileURLToPath(path.dirname(import.meta.url)),"soroban-react-dapp");
 const main = async () => {
     console.log("------------------------------ Welcome soroban dev! ----------------------------");
     console.log("\nYou are creating a new soroban dapp. We wish you best of luck!\n");

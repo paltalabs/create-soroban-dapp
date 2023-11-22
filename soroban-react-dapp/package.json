@@ -1,38 +1,34 @@
 {
-  "name": "soroban-react-dapp",
-  "version": "0.1.0",
+  "name": "@create-soroban-dapp",
+  "description": "Full-Stack DApp Boilerplate for Soroban Smart Contracts",
+  "homepage": "",
+  "author": "Benjamin Salon",
   "private": true,
-  "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "lint": "next lint",
-    "start": "next start"
+  "workspaces": [
+    "frontend",
+    "contract"
+  ],
+  "engines": {
+    "node": ">=18",
+    "pnpm": "8"
   },
-  "dependencies": {
-    "@t3-oss/env-nextjs": "^0.7.0",
-    "next": "^13.5.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "zod": "^3.22.4"
+  "scripts": {
+    "dev": "pnpm run -F frontend dev",
+    "build": "pnpm run -F frontend build",
+    "start": "pnpm run -F frontend start",
+    "node": "pnpm run -F contracts node",
+    "lint": "pnpm run -F '*' lint",
+    "lint:fix": "pnpm run -F '*' lint:fix",
+    "lint:format": "pnpm run -F '*' lint:format",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish"
   },
   "devDependencies": {
-    "@types/eslint": "^8.44.2",
-    "@types/node": "^18.16.0",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.3.0",
-    "@typescript-eslint/parser": "^6.3.0",
-    "autoprefixer": "^10.4.14",
-    "eslint": "^8.47.0",
-    "eslint-config-next": "^13.5.4",
-    "postcss": "^8.4.27",
-    "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.5.1",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^5.1.6"
-  },
-  "ct3aMetadata": {
-    "initVersion": "7.22.0"
-  },
-  "packageManager": "yarn@1.22.19"
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.2",
+    "lint-staged": "^15.0.2",
+    "next": "^13.5.6",
+    "simple-git-hooks": "^2.9.0",
+    "typescript": "^5.2.2"
+  }
 }
