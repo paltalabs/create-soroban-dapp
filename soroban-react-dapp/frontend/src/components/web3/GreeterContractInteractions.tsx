@@ -1,5 +1,3 @@
-// import { ContractIds } from '@/deployments/deployments'
-// import { contractTxWithToast } from '@/utils/contractTxWithToast'
 import { Button, Card, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
 import { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -9,8 +7,7 @@ import 'twin.macro'
 import { useSorobanReact, SorobanContextType } from "@soroban-react/core"
 import * as SorobanClient from 'soroban-client';
 import { useContractValue } from '@soroban-react/contracts'
-import { contractTransaction, useSendTransaction } from '@soroban-react/contracts'
-
+import { contractTransaction, useSendTransaction, contractInvoke } from '@soroban-react/contracts'
 
 import contract_ids from '../../../../src/contract_ids.json'
 import { useGreeting } from './useGreeting'
@@ -24,7 +21,6 @@ function stringToScVal(title: string) {
 }
 
 export const GreeterContractInteractions: FC = () => {
-  // const { api, activeAccount, activeSigner } = useInkathon()
   const sorobanContext = useSorobanReact()
   
   // const [greeterMessage, setGreeterMessage] = useState<string>()
@@ -34,7 +30,7 @@ export const GreeterContractInteractions: FC = () => {
 
   const {isWrongConnection, fetchedGreeting} = useGreeting({ sorobanContext })
 
-  // Fetch Greeting
+  // // Fetch Greeting
   // const fetchGreeting = async () => {
   //   if (!contract || !sorobanContext.server) return
 
@@ -57,31 +53,7 @@ export const GreeterContractInteractions: FC = () => {
   //   fetchGreeting()
   // }, [contract])
 
-  // // Update Greeting
-  // const updateGreeting = async ({ newMessage }: UpdateGreetingValues) => {
-  //   if (!activeAccount || !contract || !activeSigner || !api) {
-  //     toast.error('Wallet not connected. Try again…')
-  //     return
-  //   }
 
-  //   // Send transaction
-  //   setUpdateIsLoading(true)
-  //   try {
-  //     // await contractTxWithToast(api, activeAccount.address, contract, 'setMessage', {}, [
-  //     //   newMessage,
-  //     // ])
-  //     reset()
-  //   } catch (e) {
-  //     console.error(e)
-  //   } finally {
-  //     setUpdateIsLoading(false)
-  //     fetchGreeting()
-  //   }
-  // }
-
-  // if (!api) return null
-
-  const { sendTransaction } = useSendTransaction()
   const { activeChain, server, address } = sorobanContext
 
   const updateGreeting = async ({ newMessage }: UpdateGreetingValues ) => {
@@ -98,24 +70,27 @@ export const GreeterContractInteractions: FC = () => {
         return
       }
       else {
-        let contractId = (contract_ids as { [char: string]: { title_id: string } })[currentChain]?.title_id;
-        const source = await server.getAccount(address)
-
-        let transaction = contractTransaction({
-          networkPassphrase: activeChain.networkPassphrase,
-          source: source,
-          contractAddress: contractId,
-          method: 'set_title',
-          args: [stringToScVal(newMessage)]
-        })
+        let contractAddress = (contract_ids as { [char: string]: { title_id: string } })[currentChain]?.title_id;
 
         setUpdateIsLoading(true)
 
-        let result = await sendTransaction(transaction, { sorobanContext })
+        let result = await contractInvoke({
+          contractAddress,
+          method: 'set_title',
+          args: [stringToScVal(newMessage)],
+          sorobanContext,
+          signAndSend: true
+        })
         
+        if (result) {
+          toast.success("New greeting successfully published!")
+        }
+        else {
+          toast.error("Greeting unsuccessful...")
+        }
+
         setUpdateIsLoading(false)
 
-        console.log("handleSetNewGreeting: result: ", result)
         sorobanContext.connect();
       }
     }
@@ -159,9 +134,9 @@ export const GreeterContractInteractions: FC = () => {
         </Card>
 
         {/* Contract Address */}
-        <p tw="text-center font-mono text-xs text-gray-600">
-          {/* {contract ? contractAddress : 'Loading…'} */}
-        </p>
+        {/* <p tw="text-center font-mono text-xs text-gray-600">
+          {contractAddress}
+        </p> */}
       </div>
     </>
   )

@@ -3,7 +3,6 @@ import {SorobanReactProvider} from '@soroban-react/core';
 import {futurenet, sandbox, standalone,testnet} from '@soroban-react/chains';
 import {freighter} from '@soroban-react/freighter';
 import {ChainMetadata, Connector} from "@soroban-react/types";
-import { Server } from 'soroban-client';
       
 const chains: ChainMetadata[] = [sandbox, standalone, futurenet,testnet];
 const connectors: Connector[] = [freighter()]
@@ -14,8 +13,7 @@ export default function MySorobanReactProvider({children}:{children: React.React
       <SorobanReactProvider
         chains={chains}
         appName={"Example Stellar App"}
-        // activeChain={standalone}
-        // server={new Server('http://localhost:8000/soroban/rpc',{allowHttp:true})}
+        activeChain={testnet}
         connectors={connectors}>
           {children}
       </SorobanReactProvider>
