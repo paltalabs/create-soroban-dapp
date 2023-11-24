@@ -1,18 +1,21 @@
-import { Card, Spinner } from '@chakra-ui/react'
-// import { useInkathon } from '@scio-labs/use-inkathon'
+import { Card } from '@chakra-ui/react'
 import { useSorobanReact } from '@soroban-react/core'
-import Link from 'next/link'
-import { FC, useEffect, useState } from 'react'
-import { HiOutlineExternalLink } from 'react-icons/hi'
+import { type FC, useEffect, useState } from 'react'
 import 'twin.macro'
 
+interface ChainInfo {
+  Chain: string | undefined,
+  PassPhrase: string,
+  NetworkUrl: string,
+  sorobanUrl: string | undefined
+} 
 export const ChainInfo: FC = () => {
   const sorobanContext = useSorobanReact();
   // const { api, activeChain } = 
   const [chainInfo, setChainInfo] = useState<{ [_: string]: any }>()
 
   // Fetch Chain Info
-  const fetchChainInfo = async () => {
+  const fetchChainInfo = () => {
     // if (!api) {
     //   setChainInfo(undefined)
     //   return

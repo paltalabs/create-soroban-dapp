@@ -1,7 +1,7 @@
 import { extractCritical } from '@emotion/server'
 import Document, {
-  DocumentContext,
-  DocumentInitialProps,
+  type DocumentContext,
+  type DocumentInitialProps,
   Head,
   Html,
   Main,

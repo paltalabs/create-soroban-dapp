@@ -1,18 +1,16 @@
 import { Button, Card, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
-import { FC, useEffect, useState } from 'react'
+import { type FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'twin.macro'
 
 import { useSorobanReact, SorobanContextType } from "@soroban-react/core"
 import * as SorobanClient from 'soroban-client';
-import { useContractValue } from '@soroban-react/contracts'
-import { contractTransaction, useSendTransaction, contractInvoke } from '@soroban-react/contracts'
+import { contractInvoke } from '@soroban-react/contracts'
 
 import contract_ids from 'contract/contract_ids.json'
 import { useGreeting } from './useGreeting'
 import React from 'react'
-import { title } from 'process'
 
 type UpdateGreetingValues = { newMessage: string }
 
@@ -26,7 +24,7 @@ export const GreeterContractInteractions: FC = () => {
   // const [greeterMessage, setGreeterMessage] = useState<string>()
   // const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>()
-  const { register, reset, handleSubmit } = useForm<UpdateGreetingValues>()
+  const { register, handleSubmit } = useForm<UpdateGreetingValues>()
 
   const {isWrongConnection, fetchedGreeting} = useGreeting({ sorobanContext })
 
@@ -63,18 +61,18 @@ export const GreeterContractInteractions: FC = () => {
       return
     }
     else {
-      let currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
+      const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
       if (!currentChain) {
         console.log("No active chain")
         toast.error('Wallet not connected. Try again…')
         return
       }
       else {
-        let contractAddress = (contract_ids as { [char: string]: { title_id: string } })[currentChain]?.title_id;
+        const contractAddress = (contract_ids as { [char: string]: { title_id: string } })[currentChain]?.title_id;
 
         setUpdateIsLoading(true)
 
-        let result = await contractInvoke({
+        const result = await contractInvoke({
           contractAddress,
           method: 'set_title',
           args: [stringToScVal(newMessage)],
@@ -118,13 +116,13 @@ export const GreeterContractInteractions: FC = () => {
             <Stack direction="row" spacing={2} align="end">
               <FormControl>
                 <FormLabel>Update Greeting</FormLabel>
-                <Input disabled={updateIsLoading || isWrongConnection} {...register('newMessage')} />
+                <Input disabled={!updateIsLoading && !isWrongConnection} {...register('newMessage')} />
               </FormControl>
               <Button
                 type="submit"
                 mt={4}
                 colorScheme="purple"
-                isDisabled={updateIsLoading || isWrongConnection}
+                isDisabled={!updateIsLoading && !isWrongConnection}
                 isLoading={updateIsLoading}
               >
                 Submit

@@ -1,10 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import inkathonLogo from 'public/brand/inkathon-logo.png'
 import githubIcon from 'public/icons/github-button.svg'
-import sponsorIcon from 'public/icons/sponsor-button.svg'
-import telegramIcon from 'public/icons/telegram-button.svg'
-import vercelIcon from 'public/icons/vercel-button.svg'
 import { FC } from 'react'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
@@ -17,9 +13,6 @@ export const HomePageTitle: FC = () => {
   const title = 'Soroban React Dapp'
   const desc = 'Full-Stack DApp Boilerplate for Soroban smart contracts'
   const githubHref = 'https://github.com/paltalabs/create-soroban-dapp/'
-  const deployHref = ''
-  const sponsorHref = ''
-  const telegramHref = ''
 
   return (
     <>

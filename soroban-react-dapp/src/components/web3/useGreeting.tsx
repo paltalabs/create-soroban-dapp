@@ -15,12 +15,11 @@ interface useGreetingProps {
 
 
 export function useGreeting({sorobanContext}: useGreetingProps){
-      let fetchedGreeting_scval
       let fetchedGreeting 
       let isWrongConnection
-      let currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
+      const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
       
-      fetchedGreeting_scval = useContractValue({ 
+      const fetchedGreeting_scval = useContractValue({ 
         contractAddress: (contract_ids as { [char: string]: {title_id:string} })[currentChain? currentChain: "standalone"]?.title_id,
         method: 'read_title',
         sorobanContext: sorobanContext
