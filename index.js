@@ -11,7 +11,6 @@ const main = async () => {
     console.log("--------------------------------------- Welcome soroban dev! -------------------------------------");
     console.log("\nYou are creating a new soroban dapp. We wish you best of luck!\n");
     console.log("\nThe script will be setting the initial boilerplate for you.\n");
-    console.log("\nWARNING: This next.js project uses `pnpm`as package manager, please make sure it is installed\n");
     console.log("--------------------------------------------------------------------------------------------------\n\n");
     inquirer.prompt([
         {
@@ -20,19 +19,31 @@ const main = async () => {
             default: 'my-soroban-dapp'
         },
         {
+            type: 'list',
+            name: 'packageManager',
+            message: 'Please select your favourite package manager',
+            choices: [
+                'yarn',
+                'npm',
+                'pnpm'
+            ]
+        },
+        {
+            type: 'confirm',
             name: 'install',
             message: 'Do you want us to install dependencies for you?',
             default: 'y'
         },
         {
+            type: 'confirm',
             name: 'continue',
             message: 'Should we continue and set up the dapp?',
             default: 'y'
-        },
+        }
       ])
       .then(async answers => {
             const projectDir = answers.name;
-          if (answers.continue == 'y' || answers.continue == 'Y' || answers.continue == 'yes') {
+          if (answers.continue) {
               console.log("")
               console.log(`\nCreation of the ${projectDir} folder and initialization of the project\n`);
               try {
@@ -43,22 +54,64 @@ const main = async () => {
                 process.exit(1);
             }
             fs.copySync(srcDir, projectDir);
+
+            switch(answers.packageManager){
+                case 'pnpm': {
+                    install_string = "pnpm install"
+                    dev_string = "pnpm run dev"
+                    break;
+                }
+                case 'yarn': {
+                    install_string = "yarn"
+                    dev_string = "yarn dev"
+                    break;
+                }
+                case 'npm': {
+                    install_string = "npm install"
+                    dev_string = "npm run dev"
+                    break;
+                }
+            }
+
+            var install_string
+            var dev_string
             
-            if (answers.install == 'y' || answers.install == 'Y' || answers.install == 'yes') {
+            if (answers.install) {
                 console.log("")
-                console.log("Installing packages with 'pnpm'");
-                const subprocess = execa("pnpm", ["install"], {
-                    cwd: projectDir
-                });
-                subprocess.stdout.pipe(process.stdout)
-                subprocess.stderr.pipe(process.stderr)
+                console.log(`Installing packages with '${answers.packageManager}'`);
+                var subprocess
+                switch(answers.packageManager) {
+                    case 'pnpm': {
+                        subprocess = execa("pnpm", ["install"], {
+                            cwd: projectDir
+                        });
+                        subprocess.stdout.pipe(process.stdout)
+                        subprocess.stderr.pipe(process.stderr)
+                        break;
+                    }
+                    case 'yarn': {
+                        subprocess = execa("yarn", {
+                            cwd: projectDir
+                        });
+                        subprocess.stdout.pipe(process.stdout)
+                        subprocess.stderr.pipe(process.stderr)
+                        break;
+                    }
+                    case 'npm': {
+                        subprocess = execa("npm", ["install"], {
+                            cwd: projectDir,
+                            stderr: 'inherit'
+                        });
+                        break;
+                    }
+                }
                 await subprocess
-                console.log(`\n\nYou can now cd in ${projectDir} and run 'pnpm run dev' to start the app\n`);
+                console.log(`\n\nYou can now cd in '${projectDir}' and run '${dev_string}' to start the app\n`);
                 console.log(`\n------------------------------------ ENJOY -----------------------------------\n`);
             }
             else {
                 console.log(`\nPerfect then, we are all set!`);
-                console.log(`\n\nYou can now cd in ${projectDir} and run 'pnpm install' to install dependencies and then 'pnpm run dev' to start the app\n`);
+                console.log(`\n\nYou can now cd in '${projectDir}' and run '${install_string}' to install dependencies and then '${dev_string}' to start the app\n`);
                 console.log(`\n------------------------------------ ENJOY -----------------------------------\n`);
             }
         }
