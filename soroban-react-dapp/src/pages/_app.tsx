@@ -21,22 +21,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       {/* TODO SEO */}
       <DefaultSeo
-        dangerouslySetAllPagesToNoFollow={!env.isProduction}
-        dangerouslySetAllPagesToNoIndex={!env.isProduction}
+        // dangerouslySetAllPagesToNoFollow={!env.isProduction}
+        // dangerouslySetAllPagesToNoIndex={!env.isProduction}
         defaultTitle="Soroban React Dapp Boilerplate" // TODO
         titleTemplate="" // TODO
         description="Soroaban-based Smart Contract & DApp Development Boilerplate" // TODO
         openGraph={{
           type: 'website',
           locale: 'en',
-          url: env.url,
+          // url: env.url,
           site_name: 'soroban-react-dapp', // TODO
           images: [
-            {
-              url: `${env.url}/images/cover.jpg`, // TODO
-              width: 1200,
-              height: 675,
-            },
+            // {
+            //   url: `${env.url}/images/cover.jpg`, // TODO
+            //   width: 1200,
+            //   height: 675,
+            // },
           ],
         }}
         twitter={{
