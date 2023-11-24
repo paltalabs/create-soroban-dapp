@@ -9,7 +9,7 @@ import * as SorobanClient from 'soroban-client';
 import { useContractValue } from '@soroban-react/contracts'
 import { contractTransaction, useSendTransaction, contractInvoke } from '@soroban-react/contracts'
 
-import contract_ids from '../../../../src/contract_ids.json'
+import contract_ids from 'contract/contract_ids.json'
 import { useGreeting } from './useGreeting'
 import React from 'react'
 import { title } from 'process'
