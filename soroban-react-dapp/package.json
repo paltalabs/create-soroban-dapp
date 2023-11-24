@@ -1,7 +1,7 @@
 {
   "name": "soroban-dapp-boilerplate",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.0.1",
   "babelMacros": {
     "twin": {
       "preset": "emotion"
