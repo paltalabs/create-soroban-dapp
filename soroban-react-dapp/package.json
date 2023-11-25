@@ -8,7 +8,6 @@
     }
   },
   "scripts": {
-    "postinstall": "bash postinstall.sh",
     "dev": "NODE_ENV=development next dev",
     "node": "pnpm run -F contracts node",
     "dev-and-node": "concurrently \"pnpm dev\" \"pnpm node\" --names \"Next,Node\" --kill-others",
