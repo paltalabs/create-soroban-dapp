@@ -20,7 +20,7 @@ export function useGreeting({sorobanContext}: useGreetingProps){
       const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
       
       const fetchedGreeting_scval = useContractValue({ 
-        contractAddress: (contract_ids as { [char: string]: {title_id:string} })[currentChain? currentChain: "standalone"]?.title_id,
+        contractAddress: (contract_ids as Record<string,Record<string,string>>)[currentChain? currentChain: "standalone"]?.title_id,
         method: 'read_title',
         sorobanContext: sorobanContext
       })

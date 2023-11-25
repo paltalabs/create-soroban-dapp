@@ -68,7 +68,7 @@ export const GreeterContractInteractions: FC = () => {
         return
       }
       else {
-        const contractAddress = (contract_ids as { [char: string]: { title_id: string } })[currentChain]?.title_id;
+        const contractAddress = (contract_ids as Record<string,Record<string,string>>)[currentChain]?.title_id;
 
         setUpdateIsLoading(true)
 
@@ -89,7 +89,7 @@ export const GreeterContractInteractions: FC = () => {
 
         setUpdateIsLoading(false)
 
-        sorobanContext.connect();
+        await sorobanContext.connect();
       }
     }
   }

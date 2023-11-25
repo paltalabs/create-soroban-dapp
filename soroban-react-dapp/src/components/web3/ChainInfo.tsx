@@ -6,13 +6,13 @@ import 'twin.macro'
 interface ChainInfo {
   Chain: string | undefined,
   PassPhrase: string,
-  NetworkUrl: string,
-  sorobanUrl: string | undefined
+  NetworkURL: string,
+  sorobanURL: string | undefined
 } 
 export const ChainInfo: FC = () => {
   const sorobanContext = useSorobanReact();
   // const { api, activeChain } = 
-  const [chainInfo, setChainInfo] = useState<{ [_: string]: any }>()
+  const [chainInfo, setChainInfo] = useState<ChainInfo>()
 
   // Fetch Chain Info
   const fetchChainInfo = () => {
@@ -57,7 +57,7 @@ export const ChainInfo: FC = () => {
 
         <Card variant="outline" p={4} bgColor="whiteAlpha.100">
           {/* Metadata */}
-          {Object.entries(chainInfo || {}).map(([key, value]) => (
+          {Object.entries(chainInfo ?? {}).map(([key, value]:[string, string]) => (
             <div key={key} tw="text-sm leading-7">
               {key}:
               <strong tw="float-right ml-6 truncate max-w-[15rem]" title={value}>
