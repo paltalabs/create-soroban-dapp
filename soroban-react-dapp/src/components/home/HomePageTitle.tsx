@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import githubIcon from 'public/icons/github-button.svg'
-import { FC } from 'react'
+import type { FC } from 'react'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 

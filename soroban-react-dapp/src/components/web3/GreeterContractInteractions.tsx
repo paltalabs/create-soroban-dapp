@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'twin.macro'
 
-import { useSorobanReact, SorobanContextType } from "@soroban-react/core"
+import { useSorobanReact } from "@soroban-react/core"
 import * as SorobanClient from 'soroban-client';
 import { contractInvoke } from '@soroban-react/contracts'
 

@@ -35,9 +35,7 @@ export const ChainInfo: FC = () => {
     }
     setChainInfo(chainInfo)
   }
-  useEffect(() => {
-    fetchChainInfo()
-  }, [sorobanContext])
+  useEffect(fetchChainInfo, [sorobanContext])
 
   // Connection Loading Indicator
   // if (!api)
