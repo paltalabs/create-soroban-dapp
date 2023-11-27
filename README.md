@@ -24,7 +24,7 @@ or
 
 `npm create soroban-dapp@latest`
 
-Then, cd inside the new project repository called `soroban-dapp`
+Then, cd inside the new project repository.
 
 # Troubleshooting
 
