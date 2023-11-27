@@ -40,6 +40,24 @@ export const HomePageTitle: FC = () => {
           </a>{' '}
            project.
         </p>
+        <p tw="mt-2 text-gray-600 text-sm">
+          Adapted by {' '}
+          <a
+            href="https://github.com/benjaminsalon"
+            target="_blank"
+            tw="font-semibold text-gray-500 hover:text-gray-100"
+          >
+            Benjamin Salon
+          </a>{' '}
+          in collaboration with {' '}
+          <a
+            href="https://paltalabs.io"
+            target="_blank"
+            tw="font-semibold text-gray-500 hover:text-gray-100"
+          >
+            PaltaLabs &#129361;
+          </a>{' '}
+        </p>
         <p tw="mt-4 mb-6 text-gray-400">{desc}</p>
 
         {/* Github & Vercel Buttons */}
