@@ -5,6 +5,10 @@ import { useContractValue } from '@soroban-react/contracts'
 import contract_ids from 'contract/contract_ids.json'
 
 
+/// This file is not currently used but here to show how we could use a hook 
+/// instead of triggering the fetch of data on chain.
+
+
 export function scvalToString(value: SorobanClient.xdr.ScVal): string | undefined {
   return value.value()?.toString();
 }
