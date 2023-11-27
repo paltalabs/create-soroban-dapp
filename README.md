@@ -25,3 +25,23 @@ or
 `npm create soroban-dapp@latest`
 
 Then, cd inside the new project repository called `soroban-dapp`
+
+# Troubleshooting
+
+## If npm create script malfunctions
+
+The script in its early stage is likely to not function perfectly on every different os and configuration. If the script happens to not function properly 'please report to @benjaminsalon' on the stellar developer discord channel.
+
+## Manual cloning
+
+It is also possible to use the dapp boilerplate via manually cloning the repo:
+
+`git clone git@github.com:paltalabs/create-soroban-dapp.git`
+
+The dapp will then not be in the root folder, this folder is occupied by the npx script. You will find the dapp in the sub folder 'soroban-react-dapp':
+
+`cd soroban-react-dapp`
+
+From there, it is a normal nextjs app:
+
+`yarn` or `npm install` or `pnpm install`
