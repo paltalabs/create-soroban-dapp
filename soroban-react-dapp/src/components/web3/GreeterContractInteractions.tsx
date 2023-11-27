@@ -62,6 +62,8 @@ export const GreeterContractInteractions: FC = () => {
         })
         if (!result) throw new Error("Error while fetching. Try Again")
 
+        // Value needs to be cast into a string as we fetch a ScVal which is not readable as is.
+        // You can check out the scValConversion.tsx file to see how it's done
         const result_string = scvalToString(result as SorobanClient.xdr.ScVal)
         setGreeterMessage(result_string)
       } catch (e) {
