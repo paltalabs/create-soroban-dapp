@@ -12,6 +12,7 @@ import contract_ids from 'contract/contract_ids.json'
 // import { useGreeting } from './useGreeting'
 import { scvalToString } from '@/utils/scValConversions'
 import React from 'react'
+import Link from 'next/link'
 
 type UpdateGreetingValues = { newMessage: string }
 
@@ -38,6 +39,7 @@ export const GreeterContractInteractions: FC = () => {
   
   const [fetchedGreeting, setGreeterMessage] = useState<string>()
   const [updateFrontend, toggleUpdate] = useState<boolean>(true)
+  const [contractAddressStored, setContractAddressStored] = useState<string>()
 
   // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
@@ -51,7 +53,7 @@ export const GreeterContractInteractions: FC = () => {
     }
     else {
       const contractAddress = (contract_ids as Record<string,Record<string,string>>)[currentChain]?.title_id;
-  
+      setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
       try {
         const result = await contractInvoke({
@@ -171,9 +173,10 @@ export const GreeterContractInteractions: FC = () => {
         </Card>
 
         {/* Contract Address */}
-        {/* <p tw="text-center font-mono text-xs text-gray-600">
-          {contractAddress}
-        </p> */}
+        <p tw="text-center font-mono text-xs text-gray-600">
+          
+          {contractAddressStored ? <Link href={"https://stellar.expert/explorer/testnet/contract/" + contractAddressStored} target="_blank">{contractAddressStored}</Link> : "Loading address.."}
+        </p>
       </div>
     </>
   )

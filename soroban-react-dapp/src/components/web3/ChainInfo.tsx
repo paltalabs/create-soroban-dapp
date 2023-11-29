@@ -1,6 +1,7 @@
-import { Card } from '@chakra-ui/react'
+import { Card, Link } from '@chakra-ui/react'
 import { useSorobanReact } from '@soroban-react/core'
 import { type FC, useEffect, useState } from 'react'
+import { HiOutlineExternalLink } from 'react-icons/hi'
 import 'twin.macro'
 
 interface ChainInfo {
@@ -66,15 +67,15 @@ export const ChainInfo: FC = () => {
 
           {/* <div tw="mt-3 flex items-center justify-center space-x-3"> */}
             {/* Explorer Link */}
-            {/* {!!activeChain?.explorerUrls && !!Object.keys(activeChain.explorerUrls)?.length && (
+            {
               <Link
-                href={Object.values(activeChain.explorerUrls)[0]}
+                href={"https://stellar.expert/explorer/testnet/"}
                 target="_blank"
                 tw="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
               >
-                Explorer <HiOutlineExternalLink />
+                TestNet Explorer <HiOutlineExternalLink />
               </Link>
-            )} */}
+            }
             {/* Faucet Link */}
             {/* {!!activeChain?.faucetUrls?.length && (
               <Link
