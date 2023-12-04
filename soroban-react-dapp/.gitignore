@@ -47,4 +47,5 @@ dist
 # *contract_ids.json
 contract/target
 greeting_contract/target
+contracts/**/target
 .soroban
