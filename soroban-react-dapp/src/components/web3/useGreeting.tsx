@@ -2,7 +2,7 @@ import type * as SorobanClient from 'soroban-client';
 import type { SorobanContextType } from '@soroban-react/core';
 import { useContractValue } from '@soroban-react/contracts'
 
-import contract_ids from 'contract/contract_ids.json'
+import contracts_ids from 'contracts/contracts_ids.json'
 
 
 /// This file is not currently used but here to show how we could use a hook 
@@ -24,7 +24,7 @@ export function useGreeting({sorobanContext}: useGreetingProps){
       const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
       
       const fetchedGreeting_scval = useContractValue({ 
-        contractAddress: (contract_ids as Record<string,Record<string,string>>)[currentChain? currentChain: "standalone"]?.title_id,
+        contractAddress: (contracts_ids as Record<string,Record<string,string>>)[currentChain? currentChain: "standalone"]?.greeting,
         method: 'read_title',
         sorobanContext: sorobanContext
       })
