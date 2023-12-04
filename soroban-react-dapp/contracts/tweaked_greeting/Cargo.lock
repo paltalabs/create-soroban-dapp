@@ -1177,7 +1177,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "title-contract"
+name = "tweaked_greeting"
 version = "0.0.1"
 dependencies = [
  "soroban-sdk",
