@@ -4,7 +4,7 @@ echo "Using Makefile to build contracts wasm blobs"
 
 echo -e "\n\n"
 
-make
+make > /dev/null
 
 echo -e "\n\n"
 
@@ -23,24 +23,27 @@ echo "Deployer address is $(soroban config identity address deployer)"
 echo -e "\n\n"
 
 echo "Funding deployer address with friendbot"
-curl "https://friendbot.stellar.org/?addr=$(soroban config identity address deployer)"
+curl "https://friendbot.stellar.org/?addr=$(soroban config identity address deployer)" > /dev/null
 
 echo -e "\n\n"
 
-echo "Deploying on testnet"
-CONTRACT_ID="$(soroban contract deploy \
-  --wasm "./$1/target/wasm32-unknown-unknown/release/$1.wasm" \
-  --source deployer \
-  --network testnet)"
-echo "Contract successfully deployed on testnet with contract id $CONTRACT_ID"
+for contract_name in $@
+do
+    echo "Deploying $contract_name on testnet"
+    CONTRACT_ID="$(soroban contract deploy \
+    --wasm "./$contract_name/target/wasm32-unknown-unknown/release/$contract_name.wasm" \
+    --source deployer \
+    --network testnet)"
+    echo "Contract successfully deployed on testnet with contract id $CONTRACT_ID"
 
-echo -e "\n\n"
+    echo -e "\n\n"
 
-tmp=$(mktemp) 
-if [[ $(jq ".testnet.$1" contracts_ids.json) ]]; then
-    jq ".testnet.$1 = \"$CONTRACT_ID\"" contracts_ids.json > "$tmp" && mv "$tmp" contracts_ids.json
-else
-    jq ".testnet += [{\"$1\":\"$CONTRACT_ID\"}]" contracts_ids.json > "$tmp" && mv "$tmp" contracts_ids.json
-fi
+    tmp=$(mktemp) 
+    if [[ $(jq ".testnet.$contract_name" contracts_ids.json) ]]; then
+        jq ".testnet.$contract_name = \"$CONTRACT_ID\"" contracts_ids.json > "$tmp" && mv "$tmp" contracts_ids.json
+    else
+        jq ".testnet += [{\"$contract_name\":\"$CONTRACT_ID\"}]" contracts_ids.json > "$tmp" && mv "$tmp" contracts_ids.json
+    fi
+done
 
 echo -e "Check the address of the deployed contracts in contracts_ids.json:\n`cat contracts_ids.json`"
