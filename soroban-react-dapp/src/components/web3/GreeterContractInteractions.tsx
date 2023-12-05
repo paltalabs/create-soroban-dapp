@@ -8,7 +8,7 @@ import { useSorobanReact } from "@soroban-react/core"
 import * as SorobanClient from 'soroban-client';
 import { contractInvoke } from '@soroban-react/contracts'
 
-import contract_ids from 'contract/contract_ids.json'
+import contracts_ids from 'contracts/contracts_ids.json'
 // import { useGreeting } from './useGreeting'
 import { scvalToString } from '@/utils/scValConversions'
 import React from 'react'
@@ -52,7 +52,7 @@ export const GreeterContractInteractions: FC = () => {
       return
     }
     else {
-      const contractAddress = (contract_ids as Record<string,Record<string,string>>)[currentChain]?.title_id;
+      const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
       setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
       try {
@@ -102,7 +102,7 @@ export const GreeterContractInteractions: FC = () => {
         return
       }
       else {
-        const contractAddress = (contract_ids as Record<string,Record<string,string>>)[currentChain]?.title_id;
+        const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
 
         setUpdateIsLoading(true)
 

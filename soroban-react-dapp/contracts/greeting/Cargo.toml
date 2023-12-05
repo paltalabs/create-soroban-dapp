@@ -1,5 +1,5 @@
 [package]
-name = "title-contract"
+name = "greeting"
 version = "0.0.1"
 authors = ["esteblock"]
 license = "Apache-2.0"
