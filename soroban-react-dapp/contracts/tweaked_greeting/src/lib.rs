@@ -9,7 +9,10 @@ pub struct TitleContract;
 #[contractimpl]
 impl TitleContract {
     pub fn set_title(env: Env, title: String) {
-        env.storage().instance().set(&TITLE, &"Blabla Default")
+        env.storage().instance().set(
+            &TITLE,
+            &"You will never be able to change this title anymmore",
+        )
     }
 
     pub fn read_title(env: Env) -> String {
