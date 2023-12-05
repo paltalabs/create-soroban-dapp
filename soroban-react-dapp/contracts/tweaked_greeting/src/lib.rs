@@ -8,7 +8,7 @@ pub struct TitleContract;
 
 #[contractimpl]
 impl TitleContract {
-    pub fn set_title(env: Env, title: String) {
+    pub fn set_title(env: Env, _title: String) {
         env.storage().instance().set(
             &TITLE,
             &"You will never be able to change this title anymmore",
