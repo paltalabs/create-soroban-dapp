@@ -41,7 +41,7 @@ You can start by modifying the TODOs with your own data (None of them is mandato
 
 The contracts workflow happens in the `contracts/` folder. Here you can see that the greeting contract is present already.
 
-Every new contract should be in its own folder, and the folder should be named the same name as the name of the contract in its `cargo.toml` file.
+Every new contract should be in its own folder, and the folder should be named the same name as the name of the contract in its `cargo.toml` file. You can check how the `tweaked_greeting` contract is changed from the `greeting` contract and you can also start from this to build your own contract.
 
 To build the contracts you can simply invoke the `make` command which will recursively build all contracts by propagating the `make` command to subfolders. Each contract needs to have its own `Makefile` for this to work. The `Makefile` from the greeting contract is a generic one and can be copied and paste to use with any of your new contract.
 
@@ -65,20 +65,26 @@ To do so you can use the script provided in the `contracts` folder: `deploy_on_t
 ./deploy_on_testnet.sh name_of_your_contract
 ```
 
+The script also takes a list of contracts as arguments for deploying several contracts at once with the same identity. Simply use 
+```bash
+# Deploy several contracts like this
+./deploy_on_testnet.sh contract_1 ontract_2 contract_3
+```
+
 The script will 
 - Run `make` anyway to ensure that the contracts are up to date from your last modification
 - Add the testnet network configuration to soroban-cli
 - Create a random identity for the deployer of your contracts (BE AWARE THAT THIS WILL CHANGE EVERY TIME YOU REDEPLOY)
 - Fund the deployer identity using Friendbot
-- Deploy the contract on testnet
-- Add the contract address in `contracts_ids.json` under `testnet.name_of_your_contract`
+- Deploy the contracts on testnet
+- Add the contracts addresses in `contracts_ids.json` under `testnet.name_of_your_contract`
 
 ### Change the contract you are interacting with in the frontend code.
 
-In the file [GreeterContractInteraction.tsx](src/components/web3/GreeterContractInteractions.tsx), change the two references to `greeting` in `updateGreeting` at line 105 and in `fetchGreeting` at line 55.
+In the file [GreeterContractInteraction.tsx](src/components/web3/GreeterContractInteractions.tsx), change the two references to `"greeting"` in `updateGreeting` at line 105 and in `fetchGreeting` at line 55.
 
-You then need to adapt the calls (`contractInvoke()`) in these functions to match the structure of your contract, by setting the right `method` name and the right `args` list.
+You then need to adapt the `contractInvoke()` calls in these functions to match the structure of your contract, by setting the right `method` name and the right `args` list.
 
-Finally feel of course free to change the front-end how you wish to match your desired functionalities.
+Finally feel, of course, free to change the front-end how you wish, to match your desired functionalities.
 
-And good luck building!
+*Good luck building!*
