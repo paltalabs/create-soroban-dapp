@@ -37,5 +37,48 @@ You can start by modifying the TODOs with your own data (None of them is mandato
 - All the dapp info in [_app.tsx](src/pages/_app.tsx).
 - Manifest and favicon in [_document.tsx](src/pages/_document.tsx).
 
-### Create your own contracts
+### Create and build your own contracts
 
+The contracts workflow happens in the `contracts/` folder. Here you can see that the greeting contract is present already.
+
+Every new contract should be in its own folder, and the folder should be named the same name as the name of the contract in its `cargo.toml` file.
+
+To build the contracts you can simply invoke the `make` command which will recursively build all contracts by propagating the `make` command to subfolders. Each contract needs to have its own `Makefile` for this to work. The `Makefile` from the greeting contract is a generic one and can be copied and paste to use with any of your new contract.
+
+If you are not familiar or comfortable with Makefiles you can simply go in the directory of the contract you want to compile and run 
+
+```bash
+# This will create the target wasm blob under target/wasm32-unknown-unknown/release/contract_name.wasm
+cargo build --target wasm32-unknown-unknown --release
+```
+
+> If it's your first time manipulating soroban contracts you might need to add the `wasm32-unknown-unknown` target to rust. For this run `rustup target add wasm32-unknown-unknown`. Follow instructions online if not working ("add target wasm32-unknown-unknown to rust").
+
+### Deploy your contracts on tesnet
+
+Now that you have added your contract to the project, you can deploy the contract to the soroban testnet.
+
+To do so you can use the script provided in the `contracts` folder: `deploy_on_testnet.sh`. You simply have to add your contract name as argument like this
+
+```bash
+# From the contracts folder run
+./deploy_on_testnet.sh name_of_your_contract
+```
+
+The script will 
+- Run `make` anyway to ensure that the contracts are up to date from your last modification
+- Add the testnet network configuration to soroban-cli
+- Create a random identity for the deployer of your contracts (BE AWARE THAT THIS WILL CHANGE EVERY TIME YOU REDEPLOY)
+- Fund the deployer identity using Friendbot
+- Deploy the contract on testnet
+- Add the contract address in `contracts_ids.json` under `testnet.name_of_your_contract`
+
+### Change the contract you are interacting with in the frontend code.
+
+In the file [GreeterContractInteraction.tsx](src/components/web3/GreeterContractInteractions.tsx), change the two references to `greeting` in `updateGreeting` at line 105 and in `fetchGreeting` at line 55.
+
+You then need to adapt the calls (`contractInvoke()`) in these functions to match the structure of your contract, by setting the right `method` name and the right `args` list.
+
+Finally feel of course free to change the front-end how you wish to match your desired functionalities.
+
+And good luck building!
