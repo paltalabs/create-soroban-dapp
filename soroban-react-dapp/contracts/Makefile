@@ -1,6 +1,4 @@
-# $MAKEFILES = $(shell find . -maxdepth 3 -type f -name Makefile)
-# SUBDIRS   = $(filter-out ./,$(dir $($MAKEFILES)))
-SUBDIRS = greeting tweaked_greeting
+SUBDIRS = $(shell find . -maxdepth 1 -mindepth 1 -type d | xargs echo)
 default: build
 
 all: test
