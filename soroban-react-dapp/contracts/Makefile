@@ -1,4 +1,4 @@
-SUBDIRS = $(shell find . -maxdepth 1 -mindepth 1 -type d | xargs echo)
+SUBDIRS = $(shell find . -maxdepth 1 -mindepth 1 -type d | grep -v .soroban | xargs echo)
 default: build
 
 all: test
