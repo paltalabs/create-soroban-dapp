@@ -1,5 +1,5 @@
 [package]
-name = "title-contract"
+name = "greeting"
 version = "0.0.1"
 authors = ["esteblock"]
 license = "Apache-2.0"
@@ -11,11 +11,11 @@ crate-type = ["cdylib"]
 doctest = false
  
 [dependencies] 
-soroban-sdk = { version = "20.0.0-rc2"} 
+soroban-sdk = { version = "20.0.3"} 
 
 
 [dev_dependencies]
-soroban-sdk = { version = "20.0.0-rc2",features = ["testutils"] }
+soroban-sdk = { version = "20.0.3",features = ["testutils"] }
 
 [profile.release]
 opt-level = "z"

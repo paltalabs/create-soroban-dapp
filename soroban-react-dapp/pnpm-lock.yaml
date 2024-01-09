@@ -24,26 +24,26 @@ importers:
         specifier: ^11.11.0
         version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.38)(react@18.2.0)
       '@soroban-react/chains':
-        specifier: ^7.3.7
-        version: 7.3.7
+        specifier: 8.0.1
+        version: 8.0.1
       '@soroban-react/contracts':
-        specifier: ^7.3.6
-        version: 7.3.6(react@18.2.0)
+        specifier: 8.0.2
+        version: 8.0.2(react@18.2.0)
       '@soroban-react/core':
-        specifier: ^7.3.6
-        version: 7.3.6(react@18.2.0)
+        specifier: 8.0.0
+        version: 8.0.0(react@18.2.0)
       '@soroban-react/freighter':
-        specifier: ^7.3.6
-        version: 7.3.6
+        specifier: 8.0.0
+        version: 8.0.0
       '@soroban-react/types':
-        specifier: ^7.3.6
-        version: 7.3.6
+        specifier: 8.0.0
+        version: 8.0.0
       '@soroban-react/utils':
-        specifier: ^7.3.0
-        version: 7.3.0
+        specifier: ^8.0.0
+        version: 8.0.0
       '@soroban-react/wallet-data':
-        specifier: ^7.3.6
-        version: 7.3.6(react@18.2.0)
+        specifier: 8.0.0
+        version: 8.0.0(react@18.2.0)
       framer-motion:
         specifier: ^10.16.4
         version: 10.16.5(react-dom@18.2.0)(react@18.2.0)
@@ -72,11 +72,14 @@ importers:
         specifier: ^0.32.6
         version: 0.32.6
       soroban-client:
-        specifier: 1.0.0-beta.4
-        version: 1.0.0-beta.4
+        specifier: 1.0.0
+        version: 1.0.0
       spinners-react:
         specifier: ^1.0.7
         version: 1.0.7(@types/react-dom@18.2.17)(@types/react@18.2.38)(react-dom@18.2.0)(react@18.2.0)
+      stellar-sdk:
+        specifier: 11.1.0
+        version: 11.1.0
       use-async-effect:
         specifier: ^2.2.7
         version: 2.2.7(react@18.2.0)
@@ -1976,87 +1979,104 @@ packages:
     resolution: {integrity: sha512-2/U3GXA6YiPYQDLGwtGlnNgKYBSwCFIHf8Y9LUY5VATHdtbLlU0Y1R3QoBnT0aB4qv/BEiVVsj7LJXoQCgJ2vA==}
     dev: true
 
-  /@soroban-react/chains@7.3.7:
-    resolution: {integrity: sha512-Byr/ZvN8qEvzfFLgYjMa2bR6BuCLOD5LD+r2zQ/EPae1um3VrPObOBijAHGy6tHxxtbLSE4jVnwt2hiV4+FuYg==}
+  /@soroban-react/chains@8.0.1:
+    resolution: {integrity: sha512-SsM1dQSqB7J8O7xyVZw7DIEtf7WITa1DkfWUiyhxjlkQz8Dk8ZgbUxXdoGodSLDT4/ZhdPmss1Mv4NjXMjnSDg==}
     dependencies:
-      '@soroban-react/types': 7.3.6
-      soroban-client: 1.0.0-beta.4
+      '@soroban-react/types': 8.0.0
+      stellar-sdk: 11.1.0
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@soroban-react/connect-button@7.3.6(react@18.2.0):
-    resolution: {integrity: sha512-/iT/xSaVnx+8PPmMbMkB10IbbV3SCbNIi+dwXj+eQlYLhlnTMJT2/G0Rqu2UklJuQDYmatLxl99CfCYfWfZH+w==}
+  /@soroban-react/connect-button@8.0.0(react@18.2.0):
+    resolution: {integrity: sha512-pMAVRscqIYGhoUq/ACyQnY4F0CcuNX0iuuw4z1d+ZM7GW+4kTOqxW86UKW0Mc07lXBP3rk3OXrkyEHLYyIlWNg==}
     peerDependencies:
       react: '>=16.8'
     dependencies:
-      '@soroban-react/core': 7.3.6(react@18.2.0)
+      '@soroban-react/core': 8.0.0(react@18.2.0)
       react: 18.2.0
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@soroban-react/contracts@7.3.6(react@18.2.0):
-    resolution: {integrity: sha512-Xw7VqUI8A0xN8wRZVXthwNklz04c3i4QpNKyMmuEn9Sybo264XsDt28pJ92qGuFd/L566BJaNHPpYXZ3Z2nClA==}
+  /@soroban-react/contracts@8.0.2(react@18.2.0):
+    resolution: {integrity: sha512-i9HCTGo0hgEwhAhPr5p0YNfIlRAESkTaDECSQEuQYdd7doTL1bN7iMcdkej1ATea8nZcw/7MJMDoDekq0Hs9Lw==}
     peerDependencies:
       react: '>=16.8'
     dependencies:
-      '@soroban-react/core': 7.3.6(react@18.2.0)
+      '@soroban-react/core': 8.0.0(react@18.2.0)
       react: 18.2.0
-      soroban-client: 1.0.0-beta.4
+      stellar-sdk: 11.1.0
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@soroban-react/core@7.3.6(react@18.2.0):
-    resolution: {integrity: sha512-6x/KMKnn6liH11urTBWuTPaEidZXOZHv3Gpb3MqXgTipJWhduEeg8h+q+B/gqwKDOQ+7h2I04ovkPpQSdASE6g==}
+  /@soroban-react/core@8.0.0(react@18.2.0):
+    resolution: {integrity: sha512-xJ/1CaBEwQMS9r3heOKeQH0ch1EuG0De0wY8J1EAO3rKpigUAC1B3hhySp6bJzB+4YG22FhoM+3vesiYiTCPdA==}
     peerDependencies:
       react: '>=16.8'
     dependencies:
-      '@soroban-react/freighter': 7.3.6
-      '@soroban-react/types': 7.3.6
+      '@soroban-react/freighter': 8.0.0
+      '@soroban-react/types': 8.0.0
       react: 18.2.0
-      soroban-client: 1.0.0-beta.4
+      stellar-sdk: 11.1.0
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@soroban-react/freighter@7.3.6:
-    resolution: {integrity: sha512-z0oitqHVj3B3oRRE0iLcJcOgOqyPufSG1fYxHtwDMo3tKNyjDbJTkI1hUiW9668HTtt8x+B+INFI7PrN63UNlQ==}
+  /@soroban-react/freighter@8.0.0:
+    resolution: {integrity: sha512-eJXz1Uh7C59XuUU6XiKh/0BSHKrNze/ib7eFhLtjiZ8FQWK5joVNZkhvyNo76+IwQ+VDtVg2KG8qdvcQPtYorw==}
     dependencies:
-      '@soroban-react/types': 7.3.6
+      '@soroban-react/types': 8.0.0
       '@stellar/freighter-api': 1.7.1
     dev: false
 
-  /@soroban-react/types@7.3.6:
-    resolution: {integrity: sha512-ywWzFAWi2oAdXAZguzvzKPK/5yoHwNllCfkjJPIC6Hwq1GgoSnWHV5K6h4l5y0twSWh2FyYAJBKHNPg0z0tVew==}
+  /@soroban-react/types@8.0.0:
+    resolution: {integrity: sha512-t8eohOlmb4LAD1e3bfI01KKK7oCcm468QKsKrD0fL67fnZYcx9K61tSCqwWEbFCWGMGPkwaOwI3sE/bYKKDMIQ==}
     dev: false
 
-  /@soroban-react/utils@7.3.0:
-    resolution: {integrity: sha512-u8X+MKpgCwXcTyk8UqzGheUPTLM/IUSGfv+np5dMUG4jYlw0SaJAEZWVf7joXP/4ieMg4Km42KmeKvgft83TKA==}
+  /@soroban-react/utils@8.0.0:
+    resolution: {integrity: sha512-Ob648ow9pSlXrPsH/aIILVmeS5d4/3DCVyeqBzcmij5syJ4FwL5w98O5cFHDaJEWmw5HQJ4krPTR8TmrhQs9CQ==}
     dependencies:
       bignumber.js: 9.1.2
-      soroban-client: 1.0.0-beta.4
+      stellar-sdk: 11.1.0
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@soroban-react/wallet-data@7.3.6(react@18.2.0):
-    resolution: {integrity: sha512-jD0TRybQwc/UaHsch+EHu/v1D6wRG0OHKAlluMhmatNlqtabS/UVspFfAUbH8R0mCqPOZzsugLUkCCOaO+7jwA==}
+  /@soroban-react/wallet-data@8.0.0(react@18.2.0):
+    resolution: {integrity: sha512-0DHtCoQrHmldWsAfsszgoDMD57ub75OYnfSuRs5cuG1GwXd3E5Be9HubS9OwjfhJ4QQW52zdfgY54ChqiY/30Q==}
     peerDependencies:
       react: '>=16.8'
     dependencies:
-      '@soroban-react/connect-button': 7.3.6(react@18.2.0)
-      '@soroban-react/core': 7.3.6(react@18.2.0)
-      '@soroban-react/types': 7.3.6
+      '@soroban-react/connect-button': 8.0.0(react@18.2.0)
+      '@soroban-react/core': 8.0.0(react@18.2.0)
+      '@soroban-react/types': 8.0.0
       react: 18.2.0
-      soroban-client: 1.0.0-beta.4
+      stellar-sdk: 11.1.0
     transitivePeerDependencies:
       - debug
     dev: false
 
   /@stellar/freighter-api@1.7.1:
     resolution: {integrity: sha512-XvPO+XgEbkeP0VhP0U1edOkds+rGS28+y8GRGbCVXeZ9ZslbWqRFQoETAdX8IXGuykk2ib/aPokiLc5ZaWYP7w==}
+    dev: false
+
+  /@stellar/js-xdr@3.0.1:
+    resolution: {integrity: sha512-dp5Eh7Nr1YjiIeqpdkj2cQYxfoPudDAH3ck8MWggp48Htw66Z/hUssNYUQG/OftLjEmHT90Z/dtey2Y77DOxIw==}
+    dev: false
+
+  /@stellar/stellar-base@10.0.1:
+    resolution: {integrity: sha512-BDbx7VHOEQh+4J3Q+gStNXgPaNckVFmD4aOlBBGwxlF6vPFmVnW8IoJdkX7T58zpX55eWI6DXvEhDBlrqTlhAQ==}
+    dependencies:
+      '@stellar/js-xdr': 3.0.1
+      base32.js: 0.1.0
+      bignumber.js: 9.1.2
+      buffer: 6.0.3
+      sha.js: 2.4.11
+      tweetnacl: 1.0.3
+    optionalDependencies:
+      sodium-native: 4.0.4
     dev: false
 
   /@swc/helpers@0.5.2:
@@ -3588,6 +3608,11 @@ packages:
     engines: {node: '>=0.8.x'}
     dev: true
 
+  /eventsource@2.0.2:
+    resolution: {integrity: sha512-IzUmBGPR3+oUG9dUeXynyNmf91/3zUSJg1lCktzKw47OXuhco54U3r9B7O4XX+Rb1Itm9OZ2b0RkTs10bICOxA==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /expand-template@2.0.3:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
     engines: {node: '>=6'}
@@ -4242,10 +4267,6 @@ packages:
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-
-  /js-xdr@3.0.1:
-    resolution: {integrity: sha512-U+myFf2xdgeXsCE4iKwt/j14BLvU0F/YZv9LJwJrQgqtKKwyetYP7LwJKbc9qUYYAsa6ixy57CrDMtg2x+01cA==}
-    dev: false
 
   /js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
@@ -4908,7 +4929,6 @@ packages:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
       safe-buffer: 5.2.1
-    dev: true
 
   /rc@1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
@@ -5346,13 +5366,13 @@ packages:
     dev: false
     optional: true
 
-  /soroban-client@1.0.0-beta.4:
-    resolution: {integrity: sha512-M1jLCwQtWZkQIJ6U72nYpvj+giYnB2/Vw4E1DBaiCgg5iWIWatDto+QTI/aUR9m7fNGTt/AhFtQzhjksK1rFkQ==}
+  /soroban-client@1.0.0:
+    resolution: {integrity: sha512-dflXkSBpgmke9ATSaXdka4mvHOz9EyUFioho7ffLj0FwzwOMapSjFnE2TpQTrDKnV9C3HuAO44c8Fhl6IewebQ==}
     dependencies:
       axios: 1.6.2
       bignumber.js: 9.1.2
       buffer: 6.0.3
-      stellar-base: 10.0.0-beta.4
+      stellar-base: 10.0.0
       urijs: 1.19.11
     transitivePeerDependencies:
       - debug
@@ -5396,17 +5416,31 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /stellar-base@10.0.0-beta.4:
-    resolution: {integrity: sha512-3EXDFHSahVDMTHrHiFOO8kFf5KN+AL4x5kd5rxjElElPG+385cyWDbO83GrNmDGU/u9/XiVL+riJjz5gQTv6RQ==}
+  /stellar-base@10.0.0:
+    resolution: {integrity: sha512-WQhxGXQLSwwmIxWbZqv0HcJtlSOiaUgv7yKCCEwP+OoYDHKBjPjQiZWyAkuEY+mRFX9L+hnejLaBorc3P2rk0g==}
     dependencies:
+      '@stellar/js-xdr': 3.0.1
       base32.js: 0.1.0
       bignumber.js: 9.1.2
       buffer: 6.0.3
-      js-xdr: 3.0.1
       sha.js: 2.4.11
       tweetnacl: 1.0.3
     optionalDependencies:
       sodium-native: 4.0.4
+    dev: false
+
+  /stellar-sdk@11.1.0:
+    resolution: {integrity: sha512-fIdo77ogpU+ecHgs59pk9velpXd4F/ch0DzOI4QZw8zVZApc3oeNWP3+X6ui7BWpeRHAGsP2CHQzBLxm0JTIgg==}
+    dependencies:
+      '@stellar/stellar-base': 10.0.1
+      axios: 1.6.2
+      bignumber.js: 9.1.2
+      eventsource: 2.0.2
+      randombytes: 2.1.0
+      toml: 3.0.0
+      urijs: 1.19.11
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /stop-iteration-iterator@1.0.0:
@@ -5726,6 +5760,10 @@ packages:
 
   /toggle-selection@1.0.6:
     resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
+    dev: false
+
+  /toml@3.0.0:
+    resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
     dev: false
 
   /tree-kill@1.2.2:

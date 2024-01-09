@@ -5,10 +5,11 @@ import toast from 'react-hot-toast'
 import 'twin.macro'
 
 import { useSorobanReact } from "@soroban-react/core"
-import * as SorobanClient from 'soroban-client';
+// import * as SorobanClient from 'soroban-client';
+import * as StellarSdk from 'stellar-sdk';
 import { contractInvoke } from '@soroban-react/contracts'
 
-import contract_ids from 'contract/contract_ids.json'
+import contracts_ids from 'contracts/contracts_ids.json'
 // import { useGreeting } from './useGreeting'
 import { scvalToString } from '@/utils/scValConversions'
 import React from 'react'
@@ -17,7 +18,7 @@ import Link from 'next/link'
 type UpdateGreetingValues = { newMessage: string }
 
 function stringToScVal(title: string) {
-  return SorobanClient.xdr.ScVal.scvString(title)
+  return StellarSdk.xdr.ScVal.scvString(title)
 }
 
 export const GreeterContractInteractions: FC = () => {
@@ -52,7 +53,7 @@ export const GreeterContractInteractions: FC = () => {
       return
     }
     else {
-      const contractAddress = (contract_ids as Record<string,Record<string,string>>)[currentChain]?.title_id;
+      const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
       setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
       try {
@@ -66,7 +67,7 @@ export const GreeterContractInteractions: FC = () => {
 
         // Value needs to be cast into a string as we fetch a ScVal which is not readable as is.
         // You can check out the scValConversion.tsx file to see how it's done
-        const result_string = scvalToString(result as SorobanClient.xdr.ScVal)
+        const result_string = scvalToString(result as StellarSdk.xdr.ScVal)
         setGreeterMessage(result_string)
       } catch (e) {
         console.error(e)
@@ -102,7 +103,7 @@ export const GreeterContractInteractions: FC = () => {
         return
       }
       else {
-        const contractAddress = (contract_ids as Record<string,Record<string,string>>)[currentChain]?.title_id;
+        const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
 
         setUpdateIsLoading(true)
 
