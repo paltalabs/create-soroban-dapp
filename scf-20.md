@@ -14,7 +14,7 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 
 - [Check issue](https://github.com/paltalabs/create-soroban-dapp/issues/5)
 
-**Result:** 
+**Result:** Boilerplate is a nextjs app, with a setup script that can be ran with `npx create-soroban-dapp` or `npm create soroban-dapp`. [npm package](https://www.npmjs.com/package/create-soroban-dapp)
 
 ### Sub-Deliverable 1.2: Frontend Integration and Simplification
 **Description:** Integrate the frontend into the boilerplate, allowing for easy customization.
@@ -25,7 +25,7 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 
 - [Check issue](https://github.com/paltalabs/create-soroban-dapp/issues/3)
 
-**Result:** 
+**Result:** Check live version here [LIVE VERSION](https://create-soroban-dapp.vercel.app/)
 
 ### Sub-Deliverable 1.3: Smart Contract Deployment Streamlining
 **Description:** Implement simplified smart contract deployment processes.
@@ -37,7 +37,7 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 - [Check issue](https://github.com/paltalabs/create-soroban-dapp/issues/2)
 - [Check issue](https://github.com/paltalabs/create-soroban-dapp/issues/4)
 
-**Result:**
+**Result:** Check this [PR](https://github.com/paltalabs/create-soroban-dapp/pull/12). The repo contains a [deploy script](https://github.com/paltalabs/create-soroban-dapp/blob/main/soroban-react-dapp/contracts/deploy_on_testnet.sh) combines with a use of [makefiles](https://github.com/paltalabs/create-soroban-dapp/blob/main/soroban-react-dapp/contracts/Makefile) for building contracts.
 
 ### Sub-Deliverable 1.4: Boilerplate Testing and Bug Fixing
 **Description:** Conduct thorough testing of the boilerplate and address any bugs or issues.
@@ -46,7 +46,7 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 
 **How to measure:** Stable and reliable boilerplate published on GitHub. Procedure to test will be updated soon.
 
-**Result:** 
+**Result:** heck live version [LIVE VERSION](https://create-soroban-dapp.vercel.app/)
 
 ### Sub-Deliverable 1.5: Documentation and User Guide
 **Description:** Create detailed documentation and user guides for the boilerplate.
@@ -115,4 +115,4 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 
 **Estimated completion date:** December 15, 2023
 
-**How to measure:** Check tutorials on dev.to, Discord and Youtube
+**How to measure:** Check tutorials on dev.to, Discord and Youtube: First tutorial on Dev.to [here](https://dev.to/benjaminsalon/sorochat-how-to-build-a-simple-chat-dapp-using-create-soroban-dapp-295l)
