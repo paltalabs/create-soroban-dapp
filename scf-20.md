@@ -120,4 +120,7 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 
 **Estimated completion date:** December 15, 2023
 
-**How to measure:** Check tutorials on dev.to, Discord and Youtube: First tutorial on Dev.to [here](https://dev.to/benjaminsalon/sorochat-how-to-build-a-simple-chat-dapp-using-create-soroban-dapp-295l)
+**How to measure:** Check tutorials on dev.to, Discord and Youtube: 
+- ✅ First tutorial on Dev.to [here](https://dev.to/benjaminsalon/sorochat-how-to-build-a-simple-chat-dapp-using-create-soroban-dapp-295l)
+- ✅ [Sorochat Video Walkthrough](https://www.youtube.com/watch?v=3ZgvG21otLI)
+
