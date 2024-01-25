@@ -1,5 +1,5 @@
 import { Card, Link } from '@chakra-ui/react'
-import { useSorobanReact } from '@soroban-react/core'
+import { useSorobanReact } from '@/soroban-react/packages/core/src'
 import { type FC, useEffect, useState } from 'react'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 import 'twin.macro'

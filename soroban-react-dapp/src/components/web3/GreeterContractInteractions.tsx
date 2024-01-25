@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'twin.macro'
 
-import { useSorobanReact } from "@soroban-react/core"
+import { useSorobanReact } from "@/soroban-react/packages/core/src"
 // import * as SorobanClient from 'soroban-client';
 import * as StellarSdk from 'stellar-sdk';
-import { contractInvoke } from '@soroban-react/contracts'
+import { contractInvoke } from '@/soroban-react/packages/contracts/src'
 
 import contracts_ids from 'contracts/contracts_ids.json'
 // import { useGreeting } from './useGreeting'
@@ -45,6 +45,7 @@ export const GreeterContractInteractions: FC = () => {
   // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
     if (!sorobanContext.server) return
+    console.log("fetchGreeting: serverUrl ", sorobanContext.server.serverURL); 
 
     const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
     if (!currentChain) {
@@ -131,7 +132,7 @@ export const GreeterContractInteractions: FC = () => {
           toggleUpdate(!updateFrontend)
         } 
 
-        await sorobanContext.connect();
+        // await sorobanContext.connect();
       }
     }
   }

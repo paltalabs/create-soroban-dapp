@@ -21,13 +21,13 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.1",
+    "@creit.tech/stellar-wallets-kit": "^0.5.0",
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@soroban-react/chains": "8.0.1",
     "@soroban-react/contracts": "8.0.2",
-    "@soroban-react/core": "8.0.0",
     "@soroban-react/freighter": "8.0.0",
     "@soroban-react/types": "8.0.0",
     "@soroban-react/utils": "^8.0.0",
@@ -42,8 +42,8 @@
     "react-icons": "^4.11.0",
     "sharp": "^0.32.6",
     "soroban-client": "1.0.0",
-    "stellar-sdk": "11.1.0",
     "spinners-react": "^1.0.7",
+    "stellar-sdk": "11.1.0",
     "use-async-effect": "^2.2.7"
   },
   "devDependencies": {
