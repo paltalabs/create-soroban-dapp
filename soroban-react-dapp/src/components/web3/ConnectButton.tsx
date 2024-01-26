@@ -1,6 +1,6 @@
 import 'twin.macro'
 
-import {useSorobanReact} from "@/soroban-react/packages/core/src"
+import {useSorobanReact} from "../../soroban-react/packages/core/src"
 
 import {
   Button,

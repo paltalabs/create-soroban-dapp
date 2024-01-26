@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'twin.macro'
 
-import { useSorobanReact } from "@/soroban-react/packages/core/src"
+import { useSorobanReact } from "../../soroban-react/packages/core/src"
 // import * as SorobanClient from 'soroban-client';
 import * as StellarSdk from 'stellar-sdk';
-import { contractInvoke } from '@/soroban-react/packages/contracts/src'
+import { contractInvoke } from '../../soroban-react/packages/contracts/src'
 
 import contracts_ids from 'contracts/contracts_ids.json'
 // import { useGreeting } from './useGreeting'
