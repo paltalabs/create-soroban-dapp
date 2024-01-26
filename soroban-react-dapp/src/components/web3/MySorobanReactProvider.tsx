@@ -9,7 +9,7 @@ const chains: ChainMetadata[] = [sandbox, standalone, futurenet,testnet];
 const connectors: Connector[] = [freighter(), xbull()]
 
 
-export default function MySorobanReactProvider({children}:{children: React.ReactNode}) {
+export default function MySorobanReactProvider({children}:{children: any}) {
 
     return (
       <SorobanReactProvider
