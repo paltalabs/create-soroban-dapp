@@ -1,0 +1,3 @@
+[submodule "soroban-react-dapp/src/soroban-react"]
+	path = soroban-react-dapp/src/soroban-react
+	url = git@github.com:paltalabs/soroban-react.git
