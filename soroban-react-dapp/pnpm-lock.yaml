@@ -11,6 +11,9 @@ importers:
       '@chakra-ui/react':
         specifier: ^2.8.1
         version: 2.8.2(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.38)(framer-motion@10.16.5)(react-dom@18.2.0)(react@18.2.0)
+      '@creit-tech/xbull-wallet-connect':
+        specifier: github:Creit-Tech/xBull-Wallet-Connect
+        version: github.com/Creit-Tech/xBull-Wallet-Connect/a93e2e0d97c61bbd83fedcca0c71feef9f28b2d3
       '@creit.tech/stellar-wallets-kit':
         specifier: ^0.5.0
         version: 0.5.0
@@ -32,6 +35,9 @@ importers:
       '@soroban-react/contracts':
         specifier: 8.0.2
         version: 8.0.2(react@18.2.0)
+      '@soroban-react/core':
+        specifier: 8.0.0
+        version: 8.0.0(react@18.2.0)
       '@soroban-react/freighter':
         specifier: 8.0.0
         version: 8.0.0
@@ -44,6 +50,9 @@ importers:
       '@soroban-react/wallet-data':
         specifier: 8.0.0
         version: 8.0.0(react@18.2.0)
+      '@stellar/freighter-api':
+        specifier: 1.7.1
+        version: 1.7.1
       framer-motion:
         specifier: ^10.16.4
         version: 10.16.5(react-dom@18.2.0)(react@18.2.0)
