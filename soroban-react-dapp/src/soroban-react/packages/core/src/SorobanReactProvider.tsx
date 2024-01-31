@@ -61,7 +61,7 @@ export function SorobanReactProvider({
   // server = defaultSorobanContext.server, // Non mandatory fields default to default Context fields value
   // serverHorizon = defaultSorobanContext.serverHorizon,
 }: SorobanReactProviderProps) {
-  const activeConnector = connectors.length >= 1 ? connectors[0] : undefined
+  const activeConnector = connectors.length && connectors.length > 1 ? connectors[1] : connectors[0]
   // const activeConnector = undefined
   const isConnectedRef = useRef(false)
   console.log("SorobanReactProvider is RELOADED")
@@ -86,7 +86,7 @@ export function SorobanReactProvider({
       server,
       serverHorizon,
       connect: async () => {
-        console.log(mySorobanContext)
+        console.log("ENTERING CONNECT with context: ",mySorobanContext)
         if (mySorobanContext.activeConnector) {
           // Now we will check if the wallet is freighter so that we keep the old way of choosing the network from the wallet for backward compatibility
           if (mySorobanContext.activeConnector.id === "freighter") {
@@ -126,7 +126,7 @@ export function SorobanReactProvider({
                 allowHttp: networkDetails.networkUrl.startsWith('http://'),
               })
           
-            console.log("SorobanReactProvider: Connecting with ", mySorobanContext.activeConnector.name)
+            console.log("SorobanReactProvider: Connecting with FREIGHTER : ", mySorobanContext.activeConnector.name)
             let address = await mySorobanContext.activeConnector.getPublicKey()
         
   
