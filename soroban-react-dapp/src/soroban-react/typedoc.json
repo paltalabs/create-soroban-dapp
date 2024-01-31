@@ -1,0 +1,15 @@
+{
+    "entryPoints": ["./packages/**/src/**/*.tsx"],
+    "out": "docs/Technical-docs",
+    "exclude": [
+        "**/node_modules/**",
+        "**/*.spec.ts",
+        "**/dist/**"
+      ],
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "readme": "none",
+    "plugin": ["typedoc-plugin-markdown"],
+    "theme": "markdown"
+  }
+  

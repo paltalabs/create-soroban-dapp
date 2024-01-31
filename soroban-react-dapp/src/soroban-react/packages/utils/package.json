@@ -1,0 +1,28 @@
+{
+  "name": "@soroban-react/utils",
+  "keywords": [
+    "soroban-react",
+    "utils"
+  ],
+  "license": "Apache-2.0",
+  "repository": "github:esteblock/soroban-react",
+  "version": "8.0.0",
+  "scripts": {
+    "prebuild-windows": "del /s /q dist",
+    "prebuild": "rm -rf dist",
+    "build-windows": "yarn prebuild && tsc",
+    "build": "yarn prebuild && tsc",
+    "start": "tsc --watch"
+  },
+  "main": "dist/index.js",
+  "exports": "./dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "dependencies": {
+    "bignumber.js": "^9.1.1",
+    "stellar-sdk": "11.1.0"
+  },
+  "gitHead": "cdd0a733fe45e3f7fa0e46a46de269b20ebb5cfe"
+}
