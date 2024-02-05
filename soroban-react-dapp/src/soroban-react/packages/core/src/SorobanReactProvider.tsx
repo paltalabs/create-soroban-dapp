@@ -191,13 +191,17 @@ export function SorobanReactProvider({
         }))
       },
 
-      setActiveConnector: (connector: Connector) => {
+      setActiveConnectorAndConnect: async (connector: Connector) => {
         console.log("Changing connector to ", connector.name)
         let activeConnector = connector
         console.log("SorobanReactProvider: Changing connector")
+        // We better connect here otherwise in the frontend the context is not updated fast enough, and the user connects to the old connector first.
+        let address = await activeConnector.getPublicKey()
+        isConnectedRef.current = true
         setSorobanContext((c: any) => ({
           ...c,
-          activeConnector
+          activeConnector,
+          address
         }))
       }
     })

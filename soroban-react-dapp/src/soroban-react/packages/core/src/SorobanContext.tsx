@@ -27,7 +27,7 @@ export interface SorobanContextType {
   connect: () => Promise<void>
   disconnect: () => Promise<void>
   setActiveChain?: (chain: WalletChain) => void
-  setActiveConnector?: (connector: Connector) => void
+  setActiveConnectorAndConnect?: (connector: Connector) => void
 }
 
 export const SorobanContext = createContext<SorobanContextType | undefined>(
