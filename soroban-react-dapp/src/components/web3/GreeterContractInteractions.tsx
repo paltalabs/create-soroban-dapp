@@ -1,4 +1,4 @@
-import { Button, Card, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
+import { Button, Card, Container, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
 import { type FC, useState, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -14,6 +14,7 @@ import contracts_ids from 'contracts/contracts_ids.json'
 import { scvalToString } from '@/utils/scValConversions'
 import React from 'react'
 import Link from 'next/link'
+import { useRegisteredContract } from '@/soroban-react/packages/contracts/src/useRegisteredContract'
 
 type UpdateGreetingValues = { newMessage: string }
 
@@ -42,6 +43,7 @@ export const GreeterContractInteractions: FC = () => {
   const [updateFrontend, toggleUpdate] = useState<boolean>(true)
   const [contractAddressStored, setContractAddressStored] = useState<string>()
 
+  const contract = useRegisteredContract("greeting")
   // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
     if (!sorobanContext.server) return
@@ -55,16 +57,24 @@ export const GreeterContractInteractions: FC = () => {
     }
     else {
       const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
+      // const contractAddress = contract?.deploymentInfo.contractAddress
       setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
       try {
-        const result = await contractInvoke({
-          contractAddress,
+        // const result = await contractInvoke({
+        //   contractAddress,
+        //   method: 'read_title',
+        //   args: [],
+        //   sorobanContext
+        // })
+
+        console.log("contract is ", contract)
+        const result = await contract?.invoke({
           method: 'read_title',
-          args: [],
-          sorobanContext
+          args: []
         })
-        if (!result) throw new Error("Error while fetching. Try Again")
+
+        if (!result) return
 
         // Value needs to be cast into a string as we fetch a ScVal which is not readable as is.
         // You can check out the scValConversion.tsx file to see how it's done
@@ -78,7 +88,7 @@ export const GreeterContractInteractions: FC = () => {
         setFetchIsLoading(false)
       }
     }
-  },[sorobanContext])
+  },[sorobanContext,contract])
 
   useEffect(() => {void fetchGreeting()}, [updateFrontend,fetchGreeting])
 
@@ -104,16 +114,14 @@ export const GreeterContractInteractions: FC = () => {
         return
       }
       else {
-        const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
+        // const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
 
         setUpdateIsLoading(true)
 
         try {
-          const result = await contractInvoke({
-            contractAddress,
+          const result = await contract?.invoke({
             method: 'set_title',
             args: [stringToScVal(newMessage)],
-            sorobanContext,
             signAndSend: true
           })
           

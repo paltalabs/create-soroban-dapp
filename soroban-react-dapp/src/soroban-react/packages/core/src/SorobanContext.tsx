@@ -1,4 +1,4 @@
-import { Connector, WalletChain } from '@soroban-react/types'
+import { Connector, WalletChain, ContractDeploymentInfo } from '../../types/src'
 import { createContext } from 'react'
 
 import * as StellarSdk from 'stellar-sdk'
@@ -28,6 +28,8 @@ export interface SorobanContextType {
   disconnect: () => Promise<void>
   setActiveChain?: (chain: WalletChain) => void
   setActiveConnectorAndConnect?: (connector: Connector) => void
+  // Used for contract registry
+  deployments?: ContractDeploymentInfo[]
 }
 
 export const SorobanContext = createContext<SorobanContextType | undefined>(

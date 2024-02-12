@@ -33,6 +33,7 @@
     "@soroban-react/freighter": "8.0.0",
     "@soroban-react/types": "8.0.0",
     "@soroban-react/utils": "^8.0.0",
+    "@soroban-react/xbull": "^1.0.0",
     "@soroban-react/wallet-data": "8.0.0",
     "@stellar/freighter-api": "1.7.1",
     "framer-motion": "^10.16.4",

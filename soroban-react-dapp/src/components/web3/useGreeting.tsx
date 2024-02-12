@@ -1,6 +1,6 @@
 import type * as SorobanClient from 'soroban-client';
 import type { SorobanContextType } from '@/soroban-react/packages/core/src';
-import { useContractValue } from '@soroban-react/contracts'
+import { useContractValue } from '@/soroban-react/packages/contracts/src'
 
 import contracts_ids from 'contracts/contracts_ids.json'
 

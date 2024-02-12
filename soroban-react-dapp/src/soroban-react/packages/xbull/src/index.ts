@@ -2,9 +2,6 @@
 import { xBullWalletConnect } from '@creit-tech/xbull-wallet-connect'
 import { NetworkDetails, Connector } from '@soroban-react/types'
 
-import freighterApi from '@stellar/freighter-api'
-import { Inter_Tight } from 'next/font/google'
-
 interface ISignParams {
   xdr: string, network?: string, publicKey?: string
 }

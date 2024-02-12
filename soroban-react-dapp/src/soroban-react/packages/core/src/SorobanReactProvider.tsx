@@ -4,6 +4,7 @@ import React, { useRef } from 'react'
 import * as StellarSdk from 'stellar-sdk'
 
 import { SorobanContext, SorobanContextType, defaultSorobanContext } from '.'
+import { ContractDeploymentInfo } from '../../types/src'
 
 /**
  * @param children - A React subtree that needs access to the context.
@@ -17,7 +18,8 @@ export interface SorobanReactProviderProps {
   children: React.ReactNode
   connectors: Connector[]
   server?: StellarSdk.SorobanRpc.Server // To set on frontend to define the default server url for read-only. Example 'new Server('http://localhost:8000/soroban/rpc',{allowHttp:true})'
-  serverHorizon?: StellarSdk.Horizon.Server
+  serverHorizon?: StellarSdk.Horizon.Server,
+  deployments?: ContractDeploymentInfo[]
 }
 
 function networkToActiveChain(networkDetails: any, chains: any) {
@@ -58,6 +60,7 @@ export function SorobanReactProvider({
   activeChain = defaultSorobanContext.activeChain, // Non mandatory fields default to default Context fields value
   children,
   connectors,
+  deployments = []
   // server = defaultSorobanContext.server, // Non mandatory fields default to default Context fields value
   // serverHorizon = defaultSorobanContext.serverHorizon,
 }: SorobanReactProviderProps) {
@@ -77,6 +80,7 @@ export function SorobanReactProvider({
   const [mySorobanContext, setSorobanContext] =
     React.useState<SorobanContextType>({
       ...defaultSorobanContext,
+      deployments,
       appName,
       autoconnect,
       chains,
