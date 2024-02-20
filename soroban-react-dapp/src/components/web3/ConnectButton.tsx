@@ -20,7 +20,7 @@ import toast from 'react-hot-toast'
 export const ConnectButton = () => {
     // Connect Button
     const sorobanContext = useSorobanReact()
-    const {activeChain, address, connect, disconnect} = sorobanContext
+    const {activeChain, address, disconnect, activeConnector, setActiveConnectorAndConnect, setActiveChain} = sorobanContext
     const activeAccount = address
     const browserWallets = sorobanContext.connectors
     const supportedChains = sorobanContext.chains
@@ -46,8 +46,10 @@ export const ConnectButton = () => {
               browserWallets.map((w) => 
                   <MenuItem
                     key={w.name}
-                    onClick={async () => {
-                      await connect()
+                    onClick={() => {
+                      setActiveConnectorAndConnect && setActiveConnectorAndConnect(w)
+                      console.log("After setActiveConnector, connector is", activeConnector)
+                      console.log("Address connected is ", address) 
                     }}
                     tw="bg-transparent hocus:bg-gray-800"
                   >
@@ -95,7 +97,9 @@ export const ConnectButton = () => {
               key={chain.name}
               // isDisabled={chain.network === activeChain?.network}
               onClick={() => {
-                toast.error(`Not implemented yet. Please switch chain via the wallet extension.`)
+                // toast.error(`Not implemented yet. Please switch chain via the wallet extension.`)
+                setActiveChain && setActiveChain(chain)
+                setActiveChain && toast.success(`Active chain changed to ${chain.name}`)
               }}
               tw="bg-transparent hocus:bg-gray-800"
             >
@@ -111,7 +115,7 @@ export const ConnectButton = () => {
           {/* Disconnect Button */}
           <MenuDivider />
           <MenuItem
-            onClick={async () => {console.log(disconnect); await disconnect()}}
+            onClick={async () => {console.log("Disconnecting"); await disconnect()}}
             icon={<AiOutlineDisconnect size={18} />}
             tw="bg-transparent hocus:bg-gray-800"
           >

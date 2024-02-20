@@ -45,6 +45,7 @@ export const GreeterContractInteractions: FC = () => {
   // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
     if (!sorobanContext.server) return
+    console.log("fetchGreeting: serverUrl ", sorobanContext.server.serverURL); 
 
     const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
     if (!currentChain) {
@@ -131,7 +132,7 @@ export const GreeterContractInteractions: FC = () => {
           toggleUpdate(!updateFrontend)
         } 
 
-        await sorobanContext.connect();
+        // await sorobanContext.connect();
       }
     }
   }
