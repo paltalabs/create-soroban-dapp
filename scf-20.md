@@ -91,13 +91,17 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 **How to measure:** Check implementation on Github.
 - [Check issue](https://github.com/paltalabs/soroban-react/issues/60)
 
-### Sub-Deliverable 2.4: Additional Wallet Support
+### ✅ Sub-Deliverable 2.4: Additional Wallet Support
 **Description:** Add support for another wallet, enhancing compatibility.
 
 **Estimated completion date:** December 10, 2023
 
 **How to measure:** Install the library and connect xbull wallet
 - [Check issue](https://github.com/paltalabs/soroban-react/issues/36)
+
+**Result:** 
+- ✅ Check merged PR [here](https://github.com/paltalabs/soroban-react/pull/76)
+- ✅ Check the integration of xbull in the boilerplate [here](https://create-soroban-dapp.vercel.app/))
 
 ### Sub-Deliverable 2.5: Code Quality Enhancement
 **Description:** Implement code quality improvements, including code formatting (prettier) and linting.
