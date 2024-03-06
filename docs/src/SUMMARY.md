@@ -16,6 +16,7 @@
     - [Create and build your own contracts](soroban-dapp/contracts/create_and_build_contracts.md)
     - [Deploy your contracts using the provided script](soroban-dapp/contracts/deploy_contracts.md)
     - [Retrieve the contract object in the frontend](soroban-dapp/contracts/frontend_contract_object.md)
+- [Fly with your own wings](./soroban-dapp/fly_alone.md)
 
 # Other Resources
 - [SOROCHAT dapp tutorial](./other_resources/sorochat.md)
