@@ -6,6 +6,8 @@ Largely inspired by the [ink!athon](https://github.com/scio-labs/inkathon) proje
 
 Check the [`LIVE VERSION`](https://create-soroban-dapp.vercel.app/) of the dapp utilizing already deployed testnet contract!
 
+***Read the docs [here](https://create-soroban-dapp-docs.vercel.app/)***  📚📚
+
 # Introduction
 
 `@create-soroban-dapp` is composed of two things:
