@@ -1,0 +1,6 @@
+[book]
+authors = ["benjaminsalon"]
+language = "en"
+multilingual = false
+src = "src"
+title = "create-soroban-dapp Userguide"
