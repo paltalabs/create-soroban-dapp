@@ -1,20 +1,17 @@
-import { Button, Card, Container, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
+import { Button, Card, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
 import { type FC, useState, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import 'twin.macro'
 
-import { useSorobanReact } from "@/soroban-react/packages/core/src"
-// import * as SorobanClient from 'soroban-client';
+import { useSorobanReact } from "@soroban-react/core"
 import * as StellarSdk from 'stellar-sdk';
-import { contractInvoke } from '@/soroban-react/packages/contracts/src'
 
-import contracts_ids from 'contracts/contracts_ids.json'
-// import { useGreeting } from './useGreeting'
 import { scvalToString } from '@/utils/scValConversions'
 import React from 'react'
 import Link from 'next/link'
-import { useRegisteredContract } from '@/soroban-react/packages/contracts/src/useRegisteredContract'
+
+import { useRegisteredContract } from '@soroban-react/contracts'
 
 type UpdateGreetingValues = { newMessage: string }
 
@@ -56,17 +53,10 @@ export const GreeterContractInteractions: FC = () => {
       return
     }
     else {
-      const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
-      // const contractAddress = contract?.deploymentInfo.contractAddress
+      const contractAddress = contract?.deploymentInfo.contractAddress
       setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
       try {
-        // const result = await contractInvoke({
-        //   contractAddress,
-        //   method: 'read_title',
-        //   args: [],
-        //   sorobanContext
-        // })
 
         console.log("contract is ", contract)
         const result = await contract?.invoke({
@@ -114,7 +104,6 @@ export const GreeterContractInteractions: FC = () => {
         return
       }
       else {
-        // const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
 
         setUpdateIsLoading(true)
 

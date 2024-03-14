@@ -1,6 +1,6 @@
 import 'twin.macro'
 
-import {useSorobanReact} from "@/soroban-react/packages/core/src"
+import {useSorobanReact} from "@soroban-react/core"
 
 import {
   Button,
@@ -20,7 +20,7 @@ import toast from 'react-hot-toast'
 export const ConnectButton = () => {
     // Connect Button
     const sorobanContext = useSorobanReact()
-    const {activeChain, address, connect, disconnect, activeConnector, setActiveConnectorAndConnect, setActiveChain} = sorobanContext
+    const {activeChain, address, disconnect, activeConnector, setActiveConnectorAndConnect, setActiveChain} = sorobanContext
     const activeAccount = address
     const browserWallets = sorobanContext.connectors
     const supportedChains = sorobanContext.chains
@@ -46,7 +46,7 @@ export const ConnectButton = () => {
               browserWallets.map((w) => 
                   <MenuItem
                     key={w.name}
-                    onClick={async () => {
+                    onClick={() => {
                       console.log("setactiveConnector is ", setActiveConnectorAndConnect)
                       setActiveConnectorAndConnect && setActiveConnectorAndConnect(w)
                       console.log("After setActiveConnector, connector is", activeConnector)
