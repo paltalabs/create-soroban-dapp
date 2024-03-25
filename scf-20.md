@@ -67,7 +67,7 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 
 ## Deliverable 2: @soroban-react Library Enhancement
 
-### Sub-Deliverable 2.1: Documentation Update
+### ✅ Sub-Deliverable 2.1: Documentation Update
 **Description:** Update the documentation for the @soroban-react library to ensure clarity.
 
 **Estimated completion date:** November 25, 2023
@@ -75,7 +75,10 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 **How to measure:** Improved documentation on the library Github
 - [Check issue](https://github.com/paltalabs/soroban-react/issues/44)
 
-### Sub-Deliverable 2.2: Top Context Contract Setup
+**Result:** 
+- ✅ Check docs [here](https://soroban-react.paltalabs.io/)
+
+### ✅ Sub-Deliverable 2.2: Top Context Contract Setup
 **Description:** Allow developers to set up contracts in the top context for easier access.
 
 **Estimated completion date:** November 30, 2023
@@ -83,13 +86,20 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 **How to measure:** Check integration on Github
 - [Check issue](https://github.com/paltalabs/soroban-react/issues/60)
 
-### Sub-Deliverable 2.3: Contract Registry Implementation
+**Result:** 
+- ✅ Check merged PR [here](https://github.com/paltalabs/soroban-react/pull/77)
+
+### ✅ Sub-Deliverable 2.3: Contract Registry Implementation
 **Description:** Implement the Contract Registry Concept, allowing metadata to be defined once and creating ContractPromises with a single identifier.
 
 **Estimated completion date:** December 5, 2023
 
 **How to measure:** Check implementation on Github.
 - [Check issue](https://github.com/paltalabs/soroban-react/issues/60)
+
+**Result:** 
+- ✅ Check merged PR [here](https://github.com/paltalabs/soroban-react/pull/77)
+- ✅ Check Closed Issue [here](https://github.com/paltalabs/soroban-react/issues/60)
 
 ### ✅ Sub-Deliverable 2.4: Additional Wallet Support
 **Description:** Add support for another wallet, enhancing compatibility.
@@ -109,6 +119,9 @@ Follow our Github Project [here](https://github.com/orgs/paltalabs/projects/1)
 **Estimated completion date:** December 15, 2023
 
 **How to measure:** Measure completion by having cleaner and more standardized code.
+
+**Result:** 
+- ✅ Overall code improved along commits and refactors
 
 ## Deliverable 3: @soroban-react Library Tutorials and Documentation
 
