@@ -16,7 +16,7 @@ impl TitleContract {
 
     pub fn read_title(env: Env) -> String {
         env.storage().instance().get(&TITLE)
-            .unwrap_or(String::from_slice(&env, "Default Title"))
+            .unwrap_or(String::from_str(&env, "Default Title"))
     }
     
 } 
