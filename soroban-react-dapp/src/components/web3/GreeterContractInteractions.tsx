@@ -5,15 +5,13 @@ import toast from 'react-hot-toast'
 import 'twin.macro'
 
 import { useSorobanReact } from "@soroban-react/core"
-// import * as SorobanClient from 'soroban-client';
-import * as StellarSdk from 'stellar-sdk';
-import { contractInvoke } from '@soroban-react/contracts'
+import * as StellarSdk from '@stellar/stellar-sdk';
 
-import contracts_ids from 'contracts/contracts_ids.json'
-// import { useGreeting } from './useGreeting'
 import { scvalToString } from '@/utils/scValConversions'
 import React from 'react'
 import Link from 'next/link'
+
+import { useRegisteredContract } from '@soroban-react/contracts'
 
 type UpdateGreetingValues = { newMessage: string }
 
@@ -42,10 +40,11 @@ export const GreeterContractInteractions: FC = () => {
   const [updateFrontend, toggleUpdate] = useState<boolean>(true)
   const [contractAddressStored, setContractAddressStored] = useState<string>()
 
+  // Retrieve the deployed contract object from contract Registry
+  const contract = useRegisteredContract("greeting")
   // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
     if (!sorobanContext.server) return
-    console.log("fetchGreeting: serverUrl ", sorobanContext.server.serverURL); 
 
     const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
     if (!currentChain) {
@@ -54,17 +53,16 @@ export const GreeterContractInteractions: FC = () => {
       return
     }
     else {
-      const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
+      const contractAddress = contract?.deploymentInfo.contractAddress
       setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
       try {
-        const result = await contractInvoke({
-          contractAddress,
+        const result = await contract?.invoke({
           method: 'read_title',
-          args: [],
-          sorobanContext
+          args: []
         })
-        if (!result) throw new Error("Error while fetching. Try Again")
+
+        if (!result) return
 
         // Value needs to be cast into a string as we fetch a ScVal which is not readable as is.
         // You can check out the scValConversion.tsx file to see how it's done
@@ -78,7 +76,7 @@ export const GreeterContractInteractions: FC = () => {
         setFetchIsLoading(false)
       }
     }
-  },[sorobanContext])
+  },[sorobanContext,contract])
 
   useEffect(() => {void fetchGreeting()}, [updateFrontend,fetchGreeting])
 
@@ -104,16 +102,13 @@ export const GreeterContractInteractions: FC = () => {
         return
       }
       else {
-        const contractAddress = (contracts_ids as Record<string,Record<string,string>>)[currentChain]?.greeting;
 
         setUpdateIsLoading(true)
 
         try {
-          const result = await contractInvoke({
-            contractAddress,
+          const result = await contract?.invoke({
             method: 'set_title',
             args: [stringToScVal(newMessage)],
-            sorobanContext,
             signAndSend: true
           })
           
