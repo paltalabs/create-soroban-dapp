@@ -181,7 +181,7 @@
 </code></pre>
 <p>The script also takes a list of contracts as arguments for deploying several contracts at once with the same identity. Simply use</p>
 <pre><code class="language-bash"># Deploy several contracts like this
-./deploy_on_testnet.sh contract_1 ontract_2 contract_3
+./deploy_on_testnet.sh contract_1 contract_2 contract_3
 </code></pre>
 <blockquote>
 <p>Under the hood the script will</p>
@@ -191,7 +191,7 @@
 <li>Create a random identity for the deployer of your contracts (<em>be aware that this will change every time you redeploy</em>)</li>
 <li>Fund the deployer identity using Friendbot</li>
 <li>Deploy the contracts on testnet</li>
-<li>Add the contracts addresses in <code>contracts_ids.json</code> under <code>testnet.name_of_your_contract</code></li>
+<li>Add the contracts deployment infos in <code>deployments.json</code></li>
 </ul>
 </blockquote>
 
@@ -224,22 +224,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

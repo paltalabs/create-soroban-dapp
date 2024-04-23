@@ -174,9 +174,39 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="retrieve-the-contract-object-in-the-frontend"><a class="header" href="#retrieve-the-contract-object-in-the-frontend">Retrieve the contract object in the frontend</a></h1>
-<p>In the file <a href="https://github.com/paltalabs/create-soroban-dapp/edit/main/soroban-react-dapp/src/components/web3/GreeterContractInteractions.tsx">GreeterContractInteraction.tsx</a>, change the two references to <code>"greeting"</code> in <code>updateGreeting</code> at line 105 and in <code>fetchGreeting</code> at line 55.</p>
-<p>You then need to adapt the <code>contractInvoke()</code> calls in these functions to match the structure of your contract, by setting the right <code>method</code> name and the right <code>args</code> list.</p>
-<p>Finally feel, of course, free to change the front-end how you wish, to match your desired functionalities.</p>
+<h2 id="get-the-contract-wrapper-object-using-the-useregisteredcontract-hook"><a class="header" href="#get-the-contract-wrapper-object-using-the-useregisteredcontract-hook">Get the contract wrapper object using the useRegisteredContract hook:</a></h2>
+<p>In the file [GreeterContractInteraction.tsx], you can see an <a href="https://github.com/paltalabs/create-soroban-dapp/blob/4fe846b382b204e9f40d1fb276e3b9f48424e3d8/soroban-react-dapp/src/components/web3/GreeterContractInteractions.tsx#L44">example</a> of how to retreive the contract object in the front end:</p>
+<p>You first need to import the <code>useRegisteredContract</code> hook in your page <a href="https://github.com/paltalabs/create-soroban-dapp/blob/4fe846b382b204e9f40d1fb276e3b9f48424e3d8/soroban-react-dapp/src/components/web3/GreeterContractInteractions.tsx#L14">here</a>:</p>
+<p><code>import { useRegisteredContract } from '@soroban-react/contracts'</code></p>
+<p>Then you have to call the hook with the name of the contract you want to fetch as a parameter:</p>
+<p><code>const contract = useRegisteredContract("greeting")</code></p>
+<p>The hook will fetch the contract directly in the deployments object passed to the context <a href="https://github.com/paltalabs/create-soroban-dapp/blob/4fe846b382b204e9f40d1fb276e3b9f48424e3d8/soroban-react-dapp/src/components/web3/MySorobanReactProvider.tsx#L22">here</a> and the values will correspond to the values in the <code>deployments.json</code> file updated automatically when the deploy scripts are called.</p>
+<h2 id="contract-wrapper-object"><a class="header" href="#contract-wrapper-object">Contract wrapper object</a></h2>
+<p>The contract object has two fields, the deploymentInfo object and the invoke method:</p>
+<pre><code>contract
+    .deploymentInfo (Object)
+        .name
+        .networkPassphrase
+        .contractAddress
+    .invoke (Method)
+</code></pre>
+<h3 id="the-deploymentinfo-object"><a class="header" href="#the-deploymentinfo-object">The deploymentInfo object</a></h3>
+<p><code>deploymentInfo</code> is directly corresponding to the object you can see in the <code>deployments.json</code>, looking like the following:</p>
+<pre><code class="language-JSON">{
+    "contractId": "greeting",
+    "networkPassphrase": "Test SDF Network ; September 2015",
+    "contractAddress": "CDKU2ZVK2RV3JFPPNAVYHGHMSXD7RENEVMEPURNKEECM7FDVH7WHI7ZO"
+}
+</code></pre>
+<h3 id="the-invoke-method"><a class="header" href="#the-invoke-method">The invoke method</a></h3>
+<p>The <code>invoke</code> method is a wrapper around the <code>contractInvoke</code> method from @soroban-react. It basically use the latter with some parameters computed from the <code>deploymentInfo</code> of the contract and the current context to simplify its calling.</p>
+<p>The syntax to call a method of the contract object is as following:</p>
+<pre><code class="language-ts">const result = await contract?.invoke({
+    method: 'set_title',
+    args: [stringToScVal(newMessage)],
+})
+</code></pre>
+<p>Where <code>method</code> is the name of the smart contract method you want to call and <code>args</code> the arguments the method expects converted into ScVal.</p>
 
                     </main>
 
@@ -207,22 +237,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

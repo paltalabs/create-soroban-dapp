@@ -12,7 +12,7 @@ To do so you can use the script provided in the `contracts` folder: `deploy_on_t
 The script also takes a list of contracts as arguments for deploying several contracts at once with the same identity. Simply use 
 ```bash
 # Deploy several contracts like this
-./deploy_on_testnet.sh contract_1 ontract_2 contract_3
+./deploy_on_testnet.sh contract_1 contract_2 contract_3
 ```
 
 > Under the hood the script will 
@@ -21,4 +21,4 @@ The script also takes a list of contracts as arguments for deploying several con
 >- Create a random identity for the deployer of your contracts (*be aware that this will change every time you redeploy*)
 >- Fund the deployer identity using Friendbot
 >- Deploy the contracts on testnet
->- Add the contracts addresses in `contracts_ids.json` under `testnet.name_of_your_contract`
+>- Add the contracts deployment infos in `deployments.json`
