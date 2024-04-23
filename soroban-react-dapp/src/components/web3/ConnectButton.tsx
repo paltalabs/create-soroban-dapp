@@ -20,7 +20,7 @@ import toast from 'react-hot-toast'
 export const ConnectButton = () => {
     // Connect Button
     const sorobanContext = useSorobanReact()
-    const {activeChain, address, disconnect, activeConnector, setActiveConnectorAndConnect, setActiveChain} = sorobanContext
+    const {activeChain, address, disconnect, setActiveConnectorAndConnect, setActiveChain} = sorobanContext
     const activeAccount = address
     const browserWallets = sorobanContext.connectors
     const supportedChains = sorobanContext.chains
@@ -48,8 +48,6 @@ export const ConnectButton = () => {
                     key={w.name}
                     onClick={() => {
                       setActiveConnectorAndConnect && setActiveConnectorAndConnect(w)
-                      console.log("After setActiveConnector, connector is", activeConnector)
-                      console.log("Address connected is ", address) 
                     }}
                     tw="bg-transparent hocus:bg-gray-800"
                   >
