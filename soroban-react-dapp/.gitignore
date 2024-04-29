@@ -48,4 +48,3 @@ dist
 contract/target
 greeting_contract/target
 contracts/**/target
-.soroban

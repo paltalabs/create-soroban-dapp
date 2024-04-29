@@ -1,0 +1,52 @@
+{
+    "previewHash": "20.2.0@sha256:7315e09645c1a4f5460790e90a72c99752d879e286581e1f46191229c735d6e7",
+    "quickstartHash": "soroban-dev@sha256:64b2d14b8a531c534560e287768846f538b2f063fc776aa9ca016c788e86c782",
+    "networkConfig": [
+        {
+            "network": "mainnet",
+            "horizon_rpc_url": "https://horizon.stellar.org",
+            "soroban_network_passphrase": "Public Global Stellar Network ; September 2015"
+        },
+        {
+            "network": "standalone",
+            "friendbot_url": "http://stellar:8000/friendbot",
+            "horizon_rpc_url": "http://stellar:8000",
+            "soroban_rpc_url": "http://stellar:8000/soroban/rpc",
+            "soroban_network_passphrase": "Standalone Network ; February 2017"
+        },    {
+            "network": "futurenet",
+            "friendbot_url": "https://friendbot-futurenet.stellar.org/",
+            "horizon_rpc_url": "https://horizon-futurenet.stellar.org",
+            "soroban_rpc_url": "https://rpc-futurenet.stellar.org/",
+            "soroban_network_passphrase": "Test SDF Future Network ; October 2022"
+        },    {
+            "network": "testnet",
+            "friendbot_url": "https://friendbot.stellar.org/",
+            "horizon_rpc_url": "https://horizon-testnet.stellar.org",
+            "soroban_rpc_url": "https://soroban-testnet.stellar.org/",
+            "soroban_network_passphrase": "Test SDF Network ; September 2015"
+        },    {
+            "network": "testnet-public",
+            "friendbot_url": "https://friendbot.stellar.org/",
+            "horizon_rpc_url": "https://horizon-testnet.stellar.org",
+            "soroban_rpc_url": "https://soroban-testnet.stellar.org/",
+            "soroban_network_passphrase": "Test SDF Network ; September 2015"
+        },
+        {
+            "mode": "local",
+            "tokens_file": "/workspace/.soroban/tokens.json",
+            "router_file": "/workspace/.soroban/router.json",
+            "soroban_tokens_folder" :"/workspace/.soroban/soroban_tokens/",
+            "pairs_file": "/workspace/.soroban/pairs.json",
+            "admin_keys_file": "/workspace/.soroban/token_admin_keys.json"
+        },
+        {
+            "mode": "public",
+            "tokens_file": "/workspace/public/tokens.json",
+            "router_file": "/workspace/public/router.json",
+            "soroban_tokens_folder": "/workspace/public/soroban_tokens/",
+            "pairs_file": "/workspace/public/pairs.json",
+            "admin_keys_file": "/workspace/public/token_admin_keys.json"
+        }
+    ]
+}

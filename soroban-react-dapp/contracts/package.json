@@ -1,0 +1,35 @@
+{
+  "name": "contract_management",
+  "version": "1.0.0",
+  "description": "Contract Management for Soroban Dapp Boilerplate",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node scripts/api/server.js",
+    "test": "yarn build && node dist/scripts/manual_testing/all.js",
+    "deploy": "yarn build && node dist/scripts/deploy.js",
+    "upload": "node dist/scripts/upload_addresses.js",
+    "trustline": "yarn build && node dist/scripts/set_trustlines.js",
+    "seeTrustline": "yarn build && node dist/scripts/see_trustlines.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@stellar/tsconfig": "^1.0.2",
+    "@types/node": "^20.11.20",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "stellar-sdk": "^11.2.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "vercel": "^31.0.1"
+  }
+}
