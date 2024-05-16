@@ -12,8 +12,12 @@ contracts/
         Makefile
     contract2/
     ...
-    deploy_on_{network}.js
+    scripts/
+        deploy.ts
+    utils/
     Makefile
 ```
 
 You will also find some makefiles which are used in the deploy scripts to automatically recompile the contracts if they have been updated.
+
+The contract folder is a typescript package in itself and its dependencies need to be installed in order to build the scripts.

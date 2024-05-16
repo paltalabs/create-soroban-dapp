@@ -274,10 +274,13 @@ You can fund your wallet address with the testnet friendbot at<br/>
         Makefile
     contract2/
     ...
-    deploy_on_{network}.js
+    scripts/
+        deploy.ts
+    utils/
     Makefile
 </code></pre>
 <p>You will also find some makefiles which are used in the deploy scripts to automatically recompile the contracts if they have been updated.</p>
+<p>The contract folder is a typescript package in itself and its dependencies need to be installed in order to build the scripts.</p>
 <div style="break-before: page; page-break-before: always;"></div><h3 id="create-and-build-your-own-contracts"><a class="header" href="#create-and-build-your-own-contracts">Create and build your own contracts</a></h3>
 <p>The contracts workflow happens in the <code>contracts/</code> folder. Here you can see that the greeting contract is present already.</p>
 <p>Every new contract should be in its own folder, and the folder should be named the same name as the name of the contract in its <code>cargo.toml</code> file. You can check how the <code>tweaked_greeting</code> contract is changed from the <code>greeting</code> contract and you can also start from this to build your own contract.</p>
