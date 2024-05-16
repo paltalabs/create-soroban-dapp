@@ -290,21 +290,30 @@ cargo build --target wasm32-unknown-unknown --release
 <p>If it's your first time manipulating soroban contracts you might need to add the <code>wasm32-unknown-unknown</code> target to rust. For this run <code>rustup target add wasm32-unknown-unknown</code>. <br/>Follow instructions you find online if not working ( search for "add target wasm32-unknown-unknown to rust" ).</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="deploy-your-contracts-using-the-provided-script"><a class="header" href="#deploy-your-contracts-using-the-provided-script">Deploy your contracts using the provided script</a></h1>
-<p>Now that you have added your contract to the project, you can deploy the contract to the soroban testnet.</p>
-<p>To do so you can use the script provided in the <code>contracts</code> folder: <code>deploy_on_testnet.sh</code>. You simply have to add your contract name as argument like this</p>
+<p>Now that you have added your contract to the project, you can deploy the contract to any network of your choice.</p>
+<h2 id="add-a-deployer-secret-key-in-the-env-file"><a class="header" href="#add-a-deployer-secret-key-in-the-env-file">Add a deployer secret key in the .env file</a></h2>
+<p>First thing you need to do is to copy paste the <code>.env.example</code> file to create a <code>.env</code> file which will be used to retrieve the deployer secret key by the script. Just add any valid secret key to the <code>.env</code> file under the field <code>ADMIN_SECRET_KEY</code>.</p>
+<h2 id="run-the-contract"><a class="header" href="#run-the-contract">Run the contract</a></h2>
+<p>Then we can use the script provided in the <code>contracts</code> folder: <code>scripts/deploy.ts</code>. The script is using <a href="https://stellar.github.io/js-stellar-sdk/">stellar-js</a> under the hood.</p>
+<p>The contracts folder is a typescript package itself which needs to have its dependencies installed:</p>
 <pre><code class="language-bash"># From the contracts folder run
-./deploy_on_testnet.sh name_of_your_contract
+yarn
+#
+npm -i
+#
+pnpm -i
 </code></pre>
-<p>The script also takes a list of contracts as arguments for deploying several contracts at once with the same identity. Simply use</p>
-<pre><code class="language-bash"># Deploy several contracts like this
-./deploy_on_testnet.sh contract_1 contract_2 contract_3
+<p>The script can then be called using yarn (or any package manager)</p>
+<pre><code class="language-bash">yarn deploy network_name contract_name_1 contract_name_2 ...
+</code></pre>
+<p>Replacing <code>network_name</code> by one of <code>testnet|futurenet|standalone|mainnet</code> and adding all the contracts name you want to deploy as next arguments.</p>
+<p>For instance if I want to deploy the greeting contract on testnet I will run:</p>
+<pre><code class="language-bash">yarn deploy testnet greeting
 </code></pre>
 <blockquote>
 <p>Under the hood the script will</p>
 <ul>
-<li>Run <code>make</code> anyway to ensure that the contracts are up to date from your last modification</li>
-<li>Add the testnet network configuration to soroban-cli</li>
-<li>Create a random identity for the deployer of your contracts (<em>be aware that this will change every time you redeploy</em>)</li>
+<li>Load the pair provided in the .env for the deployer identity</li>
 <li>Fund the deployer identity using Friendbot</li>
 <li>Deploy the contracts on testnet</li>
 <li>Add the contracts deployment infos in <code>deployments.json</code></li>
