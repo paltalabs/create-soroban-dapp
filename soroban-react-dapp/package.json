@@ -33,7 +33,8 @@
     "@soroban-react/utils": "^9.1.3",
     "@soroban-react/wallet-data": "9.0.4",
     "@soroban-react/xbull": "^9.1.3",
-    "@stellar/stellar-sdk": "11.3.0",
+    "@stellar/stellar-sdk": "^12.1.0",
+    "csstype": "^3.0.10",
     "framer-motion": "^10.16.4",
     "next": "^13.5.6",
     "next-seo": "^6.1.0",
@@ -45,8 +46,7 @@
     "sharp": "^0.32.6",
     "soroban-client": "1.0.0",
     "spinners-react": "^1.0.7",
-    "use-async-effect": "^2.2.7",
-    "csstype": "^3.0.10"
+    "use-async-effect": "^2.2.7"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
