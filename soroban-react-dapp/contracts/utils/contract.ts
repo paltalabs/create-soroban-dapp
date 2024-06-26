@@ -218,7 +218,7 @@ export async function bumpContractCode(wasmKey: string, addressBook: AddressBook
 export async function airdropAccount(user: Keypair, network?: string) {
   // Define configuration for the network
   var networkConfig;
-  if (network !== undefined) {
+  if (network !== undefined && (network === 'standalone' || network === 'futurenet')) {
     networkConfig = config(network);
   } else {
     networkConfig = config('testnet');
