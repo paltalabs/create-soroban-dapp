@@ -5,7 +5,7 @@ type txResponse = SorobanRpc.Api.SendTransactionResponse | SorobanRpc.Api.GetTra
 type txStatus = SorobanRpc.Api.SendTransactionStatus | SorobanRpc.Api.GetTransactionStatus;
 
 const network = process.argv[2];
-const loadedConfig = config(network);
+const loadedConfig = await config(network);
 
 export async function signWithKeypair(
   txXdr: string,

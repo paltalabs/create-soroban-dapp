@@ -25,7 +25,7 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
 
 const network = process.argv[2];
 const contracts_to_deploy = process.argv.slice(3)
-const loadedConfig = config(network);
+const loadedConfig = await config(network);
 const addressBook = AddressBook.loadFromFile(network,loadedConfig);
 
 try {

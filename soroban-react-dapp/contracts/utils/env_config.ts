@@ -28,6 +28,7 @@ class EnvConfig {
   passphrase: string;
   friendbot: string | undefined;
   admin: Keypair;
+  childAccounts: Keypair[] | null
 
   constructor(
     rpc: SorobanRpc.Server,
@@ -35,19 +36,21 @@ class EnvConfig {
     passphrase: string,
     friendbot: string | undefined,
     admin: Keypair,
+    childAccounts: Keypair[] | null
   ) {
     this.rpc = rpc;
     this.horizonRpc = horizonRpc;
     this.passphrase = passphrase;
     this.friendbot = friendbot;
     this.admin = admin;
+    this.childAccounts = childAccounts;
   }
 
   /**
    * Load the environment config from the .env file
    * @returns Environment config
    */
-  static loadFromFile(network: string): EnvConfig {
+  static async loadFromFile(network: string): Promise<EnvConfig> {
     const fileContents = fs.readFileSync(
       path.join(__dirname, "../../configs.json"),
       "utf8",
@@ -73,6 +76,25 @@ class EnvConfig {
       passphrase = networkConfig.soroban_network_passphrase;
     }
 
+    let childAccounts = [];
+    if (network === 'standalone') {
+      for (var i = 0; i < 10; i++) {
+        const pair = Keypair.random();
+        try {
+          const response = await fetch(
+            `https://friendbot.stellar.org?addr=${encodeURIComponent(
+              pair.publicKey(),
+            )}`,
+          );
+          const responseJSON = await response.json();
+          childAccounts.push(pair);
+          console.log("SUCCESS! You have funded account ${i + 1} :)\n", responseJSON);
+        } catch (e) {
+          console.error("Error setting up funded account!", e);
+        }
+      }
+    }
+
     const admin = process.env.ADMIN_SECRET_KEY;
     if (
       rpc_url === undefined ||
@@ -92,6 +114,7 @@ class EnvConfig {
       passphrase,
       friendbot_url,
       Keypair.fromSecret(admin),
+      childAccounts,
     );
   }
 
@@ -108,8 +131,55 @@ class EnvConfig {
       throw new Error(`${userKey} secret key not found in .env`);
     }
   }
+
+  /**
+   * Get the funded accounts keypair
+   * @returns Accounts public key  
+   */
+  getFundedAccounts(): string[] {
+    let publicKeys: string[] = [];
+    this.childAccounts?.forEach( function (keypair) {
+      publicKeys.push(keypair.publicKey());
+    })
+    return publicKeys;
+  }
+
+  /**
+   * Get the funded accounts public key and balance
+   * @returns Funded account public keys and their corresponding balances
+   */
+  async getFundedAccountsInfo() {
+    const accountsInfo: Record<string, AccountData> = {};
+    const AccountsPublicKey = this.getFundedAccounts();
+    for (var i = 0; i < 10; i++) {
+      // the JS SDK uses promises for most actions, such as retrieving an account
+      const account = await this.horizonRpc.loadAccount(AccountsPublicKey[i]);
+      const accountNo = `account${i + 1}`;
+      const balances = account.balances.map((balance: Balance) => ({
+        asset_type: balance.asset_type,
+        balance: balance.balance
+      }));
+
+      accountsInfo[accountNo] = {
+        publicKey: AccountsPublicKey[i],
+        balances: balances
+      };
+    }
+    return accountsInfo;
+  }
 }
 
 export const config = (network: string) => {
   return EnvConfig.loadFromFile(network);
 };
+
+
+interface Balance {
+  asset_type: string;
+  balance: string;
+}
+
+interface AccountData {
+  publicKey: string;
+  balances: Balance[];
+}
