@@ -9,7 +9,7 @@ import { config } from './env_config.js';
 import { createTxBuilder, invoke, invokeTransaction } from './tx.js';
 
 const network = process.argv[2];
-const loadedConfig = await config(network);
+const loadedConfig = config(network);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

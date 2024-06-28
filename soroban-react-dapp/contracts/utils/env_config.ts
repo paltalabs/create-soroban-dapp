@@ -50,7 +50,7 @@ class EnvConfig {
    * Load the environment config from the .env file
    * @returns Environment config
    */
-  static async loadFromFile(network: string): Promise<EnvConfig> {
+  static loadFromFile(network: string): EnvConfig {
     const fileContents = fs.readFileSync(
       path.join(__dirname, "../../configs.json"),
       "utf8",
@@ -76,25 +76,6 @@ class EnvConfig {
       passphrase = networkConfig.soroban_network_passphrase;
     }
 
-    let childAccounts = [];
-    if (network === 'standalone') {
-      for (var i = 0; i < 10; i++) {
-        const pair = Keypair.random();
-        try {
-          const response = await fetch(
-            `https://friendbot.stellar.org?addr=${encodeURIComponent(
-              pair.publicKey(),
-            )}`,
-          );
-          const responseJSON = await response.json();
-          childAccounts.push(pair);
-          console.log("SUCCESS! You have funded account ${i + 1} :)\n", responseJSON);
-        } catch (e) {
-          console.error("Error setting up funded account!", e);
-        }
-      }
-    }
-
     const admin = process.env.ADMIN_SECRET_KEY;
     if (
       rpc_url === undefined ||
@@ -114,7 +95,7 @@ class EnvConfig {
       passphrase,
       friendbot_url,
       Keypair.fromSecret(admin),
-      childAccounts,
+      null,
     );
   }
 
@@ -129,6 +110,32 @@ class EnvConfig {
       return Keypair.fromSecret(userSecretKey);
     } else {
       throw new Error(`${userKey} secret key not found in .env`);
+    }
+  }
+
+  /**
+   * Creates new accounts
+   * @param count - Number of funded accounts to create
+   */
+  async initializeChildAccounts(count: number = 10): Promise<void> {
+    if (this.childAccounts && this.childAccounts.length > 0) {
+      console.log("Child accounts already exist.");
+      return;
+    }
+
+    this.childAccounts = [];
+    for (let i = 0; i < count; i++) {
+      const pair = Keypair.random();
+      try {
+        const response = await fetch(
+          `https://friendbot.stellar.org?addr=${encodeURIComponent(pair.publicKey())}`,
+        );
+        const responseJSON = await response.json();
+        this.childAccounts.push(pair);
+          console.log(`SUCCESS! Created funded account ${i + 1} :)\n`, responseJSON);
+      } catch (e) {
+        console.error("Error setting up funded account!", e);
+      }
     }
   }
 

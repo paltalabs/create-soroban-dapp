@@ -5,6 +5,7 @@ import { config } from '../utils/env_config.js';
 export async function deployContracts(addressBook: AddressBook, contracts_to_deploy: Array<string>) {
 
   if (network != "mainnet") await airdropAccount(loadedConfig.admin);
+  if (network === "standalone") await loadedConfig.initializeChildAccounts();
   let account = await loadedConfig.horizonRpc.loadAccount(loadedConfig.admin.publicKey())
   let balance = account.balances[0].balance
   console.log('Current Admin account balance:', balance);
@@ -25,7 +26,7 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
 
 const network = process.argv[2];
 const contracts_to_deploy = process.argv.slice(3)
-const loadedConfig = await config(network);
+const loadedConfig = config(network);
 const addressBook = AddressBook.loadFromFile(network,loadedConfig);
 
 try {
