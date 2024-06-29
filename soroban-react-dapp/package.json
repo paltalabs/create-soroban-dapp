@@ -8,11 +8,11 @@
     }
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development next dev",
+    "dev": "NODE_ENV=development next dev",
     "node": "pnpm run -F contracts node",
     "dev-and-node": "concurrently \"pnpm dev\" \"pnpm node\" --names \"Next,Node\" --kill-others",
-    "build": "cross-env NODE_ENV=production next build",
-    "start": "cross-env NODE_ENV=production next start",
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
     "type-check": "tsc --pretty --noEmit",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint --fix",
