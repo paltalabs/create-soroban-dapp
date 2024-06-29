@@ -8,11 +8,11 @@
     }
   },
   "scripts": {
-    "dev": "NODE_ENV=development next dev",
+    "dev": "cross-env NODE_ENV=development next dev",
     "node": "pnpm run -F contracts node",
     "dev-and-node": "concurrently \"pnpm dev\" \"pnpm node\" --names \"Next,Node\" --kill-others",
-    "build": "NODE_ENV=production next build",
-    "start": "NODE_ENV=production next start",
+    "build": "cross-env NODE_ENV=production next build",
+    "start": "cross-env NODE_ENV=production next start",
     "type-check": "tsc --pretty --noEmit",
     "lint": "prettier . --check && eslint",
     "lint:fix": "prettier . --write && eslint --fix",
@@ -25,6 +25,8 @@
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@polkadot/api": "^11.3.1",
+    "@scio-labs/use-inkathon": "^0.10.0",
     "@soroban-react/chains": "^9.1.3",
     "@soroban-react/contracts": "^9.1.3",
     "@soroban-react/core": "^9.1.3",
@@ -34,6 +36,7 @@
     "@soroban-react/wallet-data": "9.0.4",
     "@soroban-react/xbull": "^9.1.3",
     "@stellar/stellar-sdk": "11.3.0",
+    "csstype": "^3.0.10",
     "framer-motion": "^10.16.4",
     "next": "^13.5.6",
     "next-seo": "^6.1.0",
@@ -45,8 +48,7 @@
     "sharp": "^0.32.6",
     "soroban-client": "1.0.0",
     "spinners-react": "^1.0.7",
-    "use-async-effect": "^2.2.7",
-    "csstype": "^3.0.10"
+    "use-async-effect": "^2.2.7"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
@@ -63,6 +65,7 @@
     "babel-loader": "^9.1.3",
     "babel-plugin-macros": "^3.1.0",
     "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "eslint": "^8.52.0",
     "eslint-config-next": "^13.5.6",
     "eslint-config-prettier": "^9.0.0",
