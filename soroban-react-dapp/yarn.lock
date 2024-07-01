@@ -1468,60 +1468,60 @@
   integrity sha512-UY+FGM/2jjMkzQLn8pxcHGMaVLh9aEitG3zY2CiY7XHdLiz3bZOwa6oDxNqEMv7zZkV+cj5DOdz0cQ1BP5Hjgw==
 
 "@soroban-react/chains@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.npmjs.org/@soroban-react/chains/-/chains-9.1.3.tgz"
-  integrity sha512-iQtFKB7ETBf8OKnOodXxDcIVfdZsConU9RWqnOIQGLpWsojKNY93lF3PDqPcOek8xu2SpFmjNhwETQF79umpqw==
+  version "9.1.8"
+  resolved "https://registry.npmjs.org/@soroban-react/chains/-/chains-9.1.8.tgz"
+  integrity sha512-CU8rVrQI/xdhIwlTvOp3FvipgOBnnNhFIpV+rARgmO6gXlf2GwdRGosSzA2HtJV3iq74Sj6HfuJlVMOme9ra8A==
   dependencies:
-    "@soroban-react/types" "^9.1.3"
+    "@soroban-react/types" "^9.1.8"
     "@stellar/stellar-sdk" "11.3.0"
 
 "@soroban-react/connect-button@^9.0.4":
-  version "9.1.4"
-  resolved "https://registry.npmjs.org/@soroban-react/connect-button/-/connect-button-9.1.4.tgz"
-  integrity sha512-q6HuaA9NinMMqH6bNY15G2bfY8D0Z9nxSaFVSiPe6/iD4rXKE7htvOjqUEzo+jp3ynxjozNKdAXcQ451CSW4FA==
+  version "9.1.9"
+  resolved "https://registry.npmjs.org/@soroban-react/connect-button/-/connect-button-9.1.9.tgz"
+  integrity sha512-4V407/8aVgmNETNPw/a4k+pOIGUroBOBuzgHWUpYgo37ij7v2uIuGA15UobKwbQ2rVQKZGsIVSl0ms2Qi+OTGw==
   dependencies:
-    "@soroban-react/core" "^9.1.4"
+    "@soroban-react/core" "^9.1.9"
 
 "@soroban-react/contracts@^9.1.3":
-  version "9.1.4"
-  resolved "https://registry.npmjs.org/@soroban-react/contracts/-/contracts-9.1.4.tgz"
-  integrity sha512-UdiBTkpfpv7tLv20DNwcZCwGdNg0tUPadAUPbOfkrgrFD4mSmLpE89+WESCnRSaj4ppcHoxhiHI2xIddtKYIyw==
+  version "9.1.9"
+  resolved "https://registry.npmjs.org/@soroban-react/contracts/-/contracts-9.1.9.tgz"
+  integrity sha512-WOhqEHApSUJZVsvW6eOEM7gqECZKxYsdir27b+GtDId6XhsfihbR2V7LFEDELAlkkFUErOTGtyMBVzyARqzdBA==
   dependencies:
-    "@soroban-react/core" "^9.1.4"
+    "@soroban-react/core" "^9.1.9"
     "@stellar/stellar-sdk" "11.3.0"
 
-"@soroban-react/core@^9.0.4", "@soroban-react/core@^9.1.3", "@soroban-react/core@^9.1.4":
-  version "9.1.4"
-  resolved "https://registry.npmjs.org/@soroban-react/core/-/core-9.1.4.tgz"
-  integrity sha512-H/DjEB3pO5jgYVh4IvuRwm5ho704wuMxNy/KoVxmE4lk6ZV1b4lSEd32yGIIMOtXjr81hcbdenPrvd0SyVIlVw==
+"@soroban-react/core@^9.0.4", "@soroban-react/core@^9.1.3", "@soroban-react/core@^9.1.9":
+  version "9.1.9"
+  resolved "https://registry.npmjs.org/@soroban-react/core/-/core-9.1.9.tgz"
+  integrity sha512-tmuDozBgwp6v3Itj8qvMIXLfs4ObefpmlpzTJf50XH9hFOUWDSuIKqiAdaNlvajdBns6VGjS7ouI77fkkhNT3g==
   dependencies:
-    "@soroban-react/freighter" "^9.1.3"
-    "@soroban-react/lobstr" "^9.1.3"
-    "@soroban-react/types" "^9.1.3"
+    "@soroban-react/freighter" "^9.1.8"
+    "@soroban-react/lobstr" "^9.1.8"
+    "@soroban-react/types" "^9.1.8"
     "@soroban-react/xbull" "^1.0.1"
     "@stellar/stellar-sdk" "11.3.0"
 
-"@soroban-react/freighter@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.npmjs.org/@soroban-react/freighter/-/freighter-9.1.3.tgz"
-  integrity sha512-Q5CKKVNrNG9fE3Ehe7PFjaCOPUTZKaE2U+hI7MsiL0rSzNTeF6x1Nb4PCCa3Cqc5+7WeutTczpl+kQ25TnXOkg==
+"@soroban-react/freighter@^9.1.3", "@soroban-react/freighter@^9.1.8":
+  version "9.1.8"
+  resolved "https://registry.npmjs.org/@soroban-react/freighter/-/freighter-9.1.8.tgz"
+  integrity sha512-UBJqglA2asJ/g4dFda7/2cbFxE7lYspp51iv34VsjfSPMMwW6+kiwMhKREEXpuxoYI9VEO3aAOxS/ZfCwjmGxg==
   dependencies:
-    "@soroban-react/types" "^9.1.3"
+    "@soroban-react/types" "^9.1.8"
     "@stellar/freighter-api" "1.7.1"
 
-"@soroban-react/lobstr@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.npmjs.org/@soroban-react/lobstr/-/lobstr-9.1.3.tgz"
-  integrity sha512-7MrNcWzFOeG2+/uyxQHfTYOsXjGw2liIgjz77EWKv4GBBYgD4LyN0Yvdcl/o4QcSNs6MjKwrIXAgOKDS6ZtHiA==
+"@soroban-react/lobstr@^9.1.8":
+  version "9.1.8"
+  resolved "https://registry.npmjs.org/@soroban-react/lobstr/-/lobstr-9.1.8.tgz"
+  integrity sha512-OTZt1dmXJDGZAkcZlQkGmM9+SOc1g0qVfI/nwkZviEKhtyz2/L4IbYcKtdACmbh/aN9jIGGB0zeJAkNeVl9XWw==
   dependencies:
     "@lobstrco/signer-extension-api" "^1.0.0-beta.0"
-    "@soroban-react/types" "^9.1.3"
+    "@soroban-react/types" "^9.1.8"
     "@stellar/stellar-sdk" "11.3.0"
 
-"@soroban-react/types@^9.0.4", "@soroban-react/types@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.npmjs.org/@soroban-react/types/-/types-9.1.3.tgz"
-  integrity sha512-frdYcnP9xihrvdU2HCyPJwRp2J1N4A0eqgP2lQFcm7Ww9O2U9piQ+S//U9lQxevKud0qvrBegK+fomIq/nqKwQ==
+"@soroban-react/types@^9.0.4", "@soroban-react/types@^9.1.3", "@soroban-react/types@^9.1.8":
+  version "9.1.8"
+  resolved "https://registry.npmjs.org/@soroban-react/types/-/types-9.1.8.tgz"
+  integrity sha512-rjDqY2vgS7sr3EETwYMkvsDIIry3WgxKcmBCqTHFjDnTv5N/4B5vx/S4NJ/hDfnOLZrAk+p05Jt3hf6Wdl0Xvw==
   dependencies:
     "@stellar/stellar-sdk" "11.3.0"
 
@@ -1531,9 +1531,9 @@
   integrity sha512-t8eohOlmb4LAD1e3bfI01KKK7oCcm468QKsKrD0fL67fnZYcx9K61tSCqwWEbFCWGMGPkwaOwI3sE/bYKKDMIQ==
 
 "@soroban-react/utils@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.npmjs.org/@soroban-react/utils/-/utils-9.1.3.tgz"
-  integrity sha512-5UWghe59zX2swQzbY1MeTLfGn7SCayBHcoplEY0kf8Oswsuvw1IkgQqKC9pGvKFkXrHHGNEUyGpSyPuuKa+rLw==
+  version "9.1.8"
+  resolved "https://registry.npmjs.org/@soroban-react/utils/-/utils-9.1.8.tgz"
+  integrity sha512-49T5Hw2oLkmqPRkY3rS9fyLuUXcGkddP6U43afrjRL99tL7g8zZG9F4ZR94vw31KvUPdt23f3EGDZW6SqJfsng==
   dependencies:
     "@stellar/stellar-sdk" "11.3.0"
     bignumber.js "^9.1.1"
@@ -1558,12 +1558,12 @@
     stellar-sdk "11.1.0"
 
 "@soroban-react/xbull@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.npmjs.org/@soroban-react/xbull/-/xbull-9.1.3.tgz"
-  integrity sha512-rCI9XFxERXj7WLjzjnoQexvYTudg916kuxLjBcNldnLOY04rrCzVSpUKf6DAE2sHzWYfzqyxOr+u0aB/BsPmcw==
+  version "9.1.8"
+  resolved "https://registry.npmjs.org/@soroban-react/xbull/-/xbull-9.1.8.tgz"
+  integrity sha512-EbHynD2donOFSn5iYIUtTKg2ReOHzv2gc6iyrUU18V/5NY3Zx8NGyPeF4JQ5xFh1g08zpWGYhoMU91lyGLKKDQ==
   dependencies:
     "@creit-tech/xbull-wallet-connect" "github:Creit-Tech/xBull-Wallet-Connect"
-    "@soroban-react/types" "^9.1.3"
+    "@soroban-react/types" "^9.1.8"
     "@stellar/stellar-sdk" "11.3.0"
 
 "@stellar/freighter-api@1.7.1":
@@ -2345,14 +2345,14 @@ braces@^3.0.2, braces@~3.0.2:
     fill-range "^7.0.1"
 
 browserslist@^4.14.5, browserslist@^4.22.2, "browserslist@>= 4.21.0":
-  version "4.23.1"
-  resolved "https://registry.npmjs.org/browserslist/-/browserslist-4.23.1.tgz"
-  integrity sha512-TUfofFo/KsK/bWZ9TWQ5O26tsWW4Uhmt8IYklbnUa70udB6P2wA7w7o4PY4muaEPBQaAX+CEnmmIA41NVHtPVw==
+  version "4.22.2"
+  resolved "https://registry.npmjs.org/browserslist/-/browserslist-4.22.2.tgz"
+  integrity sha512-0UgcrvQmBDvZHFGdYUehrCNIazki7/lUP3kkoi/r3YB2amZbFM9J43ZRkJTXBUZK4gmx56+Sqk9+Vs9mwZx9+A==
   dependencies:
-    caniuse-lite "^1.0.30001629"
-    electron-to-chromium "^1.4.796"
+    caniuse-lite "^1.0.30001565"
+    electron-to-chromium "^1.4.601"
     node-releases "^2.0.14"
-    update-browserslist-db "^1.0.16"
+    update-browserslist-db "^1.0.13"
 
 buffer-from@^1.0.0:
   version "1.1.2"
@@ -2406,10 +2406,10 @@ camelcase-css@^2.0.1:
   resolved "https://registry.npmjs.org/camelcase-css/-/camelcase-css-2.0.1.tgz"
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
-caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001629:
-  version "1.0.30001636"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001636.tgz"
-  integrity sha512-bMg2vmr8XBsbL6Lr0UHXy/21m84FTxDLWn2FSqMd5PrlbMxwJlQnC2YWYxVgp66PZE+BBNF2jYQUBKCo1FDeZg==
+caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001565:
+  version "1.0.30001577"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001577.tgz"
+  integrity sha512-rs2ZygrG1PNXMfmncM0B5H1hndY5ZCC9b5TkFaVNfZ+AUlyqcMyVIQtc3fsezi0NUCk5XZfDf9WS6WxMxnfdrg==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2802,10 +2802,10 @@ eastasianwidth@^0.2.0:
   resolved "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz"
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
-electron-to-chromium@^1.4.796:
-  version "1.4.806"
-  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.806.tgz"
-  integrity sha512-nkoEX2QIB8kwCOtvtgwhXWy2IHVcOLQZu9Qo36uaGB835mdX/h8uLRlosL6QIhLVUnAiicXRW00PwaPZC74Nrg==
+electron-to-chromium@^1.4.601:
+  version "1.4.632"
+  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.632.tgz"
+  integrity sha512-JGmudTwg7yxMYvR/gWbalqqQiyu7WTFv2Xu3vw4cJHXPFxNgAk0oy8UHaer8nLF4lZJa+rNoj6GsrKIVJTV6Tw==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -2949,10 +2949,10 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-escalade@^3.1.1, escalade@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.npmjs.org/escalade/-/escalade-3.1.2.tgz"
-  integrity sha512-ErCHMCae19vR8vQGe50xIsVomy19rg6gFu3+r3jkEO46suLMWBksvVyoGgQV+jOfl84ZSOSlmv6Gxa89PmTGmA==
+escalade@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/escalade/-/escalade-3.1.1.tgz"
+  integrity sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==
 
 escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -4437,10 +4437,10 @@ path-type@^4.0.0:
   resolved "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-picocolors@^1.0.0, picocolors@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.1.tgz"
-  integrity sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==
+picocolors@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.0.tgz"
+  integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.3.1:
   version "2.3.1"
@@ -5613,13 +5613,13 @@ undici-types@~5.26.4:
   resolved "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
-update-browserslist-db@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.npmjs.org/update-browserslist-db/-/update-browserslist-db-1.0.16.tgz"
-  integrity sha512-KVbTxlBYlckhF5wgfyZXTWnMn7MMZjMu9XG8bPlliUOP9ThaF4QnhP8qrjrH7DRzHfSk0oQv1wToW+iA5GajEQ==
+update-browserslist-db@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.npmjs.org/update-browserslist-db/-/update-browserslist-db-1.0.13.tgz"
+  integrity sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==
   dependencies:
-    escalade "^3.1.2"
-    picocolors "^1.0.1"
+    escalade "^3.1.1"
+    picocolors "^1.0.0"
 
 uri-js@^4.2.2:
   version "4.4.1"

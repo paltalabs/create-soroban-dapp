@@ -15,6 +15,7 @@ import {
 import { FiChevronDown } from 'react-icons/fi'
 import { AiOutlineCheckCircle, AiOutlineDisconnect } from 'react-icons/ai'
 import toast from 'react-hot-toast'
+import type { WalletChain } from '@soroban-react/types'
 
 export const ConnectButton = () => {
     // Connect Button
@@ -26,15 +27,8 @@ export const ConnectButton = () => {
     const browserWallets = sorobanContext.connectors;
     const supportedChains = sorobanContext.chains;
 
-      // Function to handle chain switch and toast notification
-  // const handleChainSwitch = (chain: any) => {
-  //   setActiveChain && setActiveChain(chain);
-  //   toast.success(`Active chain changed to ${chain.name}`);
-  // };
-
-  // Function to handle contract interaction and toast notification
-  const handleContractInteraction = (chain: any) => {
-    if (chain.name.toLowerCase() === 'standalone') {
+  const handleContractInteraction = (chain: WalletChain) => {
+    if (!chain.name || chain.name.toLowerCase() === 'standalone') {
       toast.error('Please deploy the contract before proceeding when using the standalone chain..');
     } else {
       setActiveChain && setActiveChain(chain);
