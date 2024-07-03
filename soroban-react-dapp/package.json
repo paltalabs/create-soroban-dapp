@@ -7,18 +7,18 @@
       "preset": "emotion"
     }
   },
-  "scripts": {
-    "dev": "cross-env NODE_ENV=development next dev",
-    "node": "pnpm run -F contracts node",
-    "dev-and-node": "concurrently \"pnpm dev\" \"pnpm node\" --names \"Next,Node\" --kill-others",
-    "build": "cross-env NODE_ENV=production next build",
-    "start": "cross-env NODE_ENV=production next start",
-    "type-check": "tsc --pretty --noEmit",
-    "lint": "prettier . --check && eslint",
-    "lint:fix": "prettier . --write && eslint --fix",
-    "lint:format": "prettier . --write",
-    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
-  },
+"scripts": {
+  "dev": "next dev",
+  "node": "pnpm run -F contracts node",
+  "dev-and-node": "concurrently \"pnpm dev\" \"pnpm node\" --names \"Next,Node\" --kill-others",
+  "build": "next build",
+  "start": "next start",
+  "type-check": "tsc --pretty --noEmit",
+  "lint": "prettier . --check && eslint",
+  "lint:fix": "prettier . --write && eslint --fix",
+  "lint:format": "prettier . --write",
+  "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
+},
   "dependencies": {
     "@chakra-ui/react": "^2.8.1",
     "@emotion/css": "^11.11.2",
@@ -63,7 +63,6 @@
     "babel-loader": "^9.1.3",
     "babel-plugin-macros": "^3.1.0",
     "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
     "eslint": "^8.52.0",
     "eslint-config-next": "^13.5.6",
     "eslint-config-prettier": "^9.0.0",
