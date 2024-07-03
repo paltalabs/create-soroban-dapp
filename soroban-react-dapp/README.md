@@ -30,11 +30,12 @@ yarn
 ```
 Then, deploy contracts (in this example we will deploy the greeting contract):
 ```bash
-yarn deploy standalone greeting
+yarn deploy testnet greeting
 ```
 
 and run the dapp locally in development mode
 ```bash
+cd .. # Move to the parent folder
 yarn dev
 ```
 
