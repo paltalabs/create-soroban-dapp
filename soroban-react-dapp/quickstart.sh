@@ -50,6 +50,8 @@ docker run -dti \
   --volume ${currentDir}:/workspace \
   --name soroban-preview-${previewVersion} \
   --ipc=host \
+  --publish 3000:3000 \
+  --env-file contracts/.env \
   --network soroban-network \
   esteblock/soroban-preview:${previewVersion}
 

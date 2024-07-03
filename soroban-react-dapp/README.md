@@ -2,6 +2,44 @@
 
 This dapp largely inspired by the [ink!athon](https://github.com/scio-labs/inkathon) project will help you kickstart your soroban dapp creator journey.
 
+## Using quickstart!
+This will launch a Stellar node, when using standalone it will create a Stellar blockchain locally. Also, it will run a container with all the necessary dependancies to deploy and interact with the contracts. Along with the dapp container that will run the front-end of the dapp.
+
+First configure the `ADMIN_SECRET_KEY` and `MAINNET_RPC_URL` in the `contracts/.env` file. You can use the `contracts/.env.example` file as a template. 
+
+Then, run the following command to start the dapp and the soroban node:
+```bash
+bash quickstart.sh <network>
+```
+you will typically use this with standalone:
+```bash
+bash quickstart.sh standalone
+```
+then open a new terminal, and run the following command to start the dapp:
+```bash
+bash run.sh
+```
+Then, compile contracts:
+```bash
+cd contracts
+make
+```
+Then, install packages
+```bash
+yarn
+```
+Then, deploy contracts (in this example we will deploy the greeting contract):
+```bash
+yarn deploy testnet greeting
+```
+
+and run the dapp locally in development mode
+```bash
+cd .. # Move to the parent folder
+yarn dev
+```
+
+
 ## Verify installation
 
 To verify that everything is in order you can run
