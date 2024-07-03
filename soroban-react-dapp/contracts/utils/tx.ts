@@ -1,4 +1,4 @@
-import { Account, Keypair, SorobanRpc, Transaction, TransactionBuilder, xdr } from 'stellar-sdk';
+import { Account, Keypair, SorobanRpc, Transaction, TransactionBuilder, xdr } from '@stellar/stellar-sdk';
 import { config } from './env_config.js';
 
 type txResponse = SorobanRpc.Api.SendTransactionResponse | SorobanRpc.Api.GetTransactionResponse;
