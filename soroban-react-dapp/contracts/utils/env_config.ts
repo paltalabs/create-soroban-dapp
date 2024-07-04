@@ -128,7 +128,7 @@ class EnvConfig {
       const pair = Keypair.random();
       try {
         const response = await fetch(
-          `https://friendbot.stellar.org?addr=${encodeURIComponent(pair.publicKey())}`,
+          `${this.friendbot}?addr=${encodeURIComponent(pair.publicKey())}`,
         );
         const responseJSON = await response.json();
         this.childAccounts.push(pair);
