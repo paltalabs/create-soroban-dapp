@@ -28,6 +28,7 @@ class EnvConfig {
   passphrase: string;
   friendbot: string | undefined;
   admin: Keypair;
+  childAccounts: Keypair[] | null
 
   constructor(
     rpc: SorobanRpc.Server,
@@ -35,12 +36,14 @@ class EnvConfig {
     passphrase: string,
     friendbot: string | undefined,
     admin: Keypair,
+    childAccounts: Keypair[] | null
   ) {
     this.rpc = rpc;
     this.horizonRpc = horizonRpc;
     this.passphrase = passphrase;
     this.friendbot = friendbot;
     this.admin = admin;
+    this.childAccounts = childAccounts;
   }
 
   /**
@@ -92,6 +95,7 @@ class EnvConfig {
       passphrase,
       friendbot_url,
       Keypair.fromSecret(admin),
+      null,
     );
   }
 
@@ -108,8 +112,81 @@ class EnvConfig {
       throw new Error(`${userKey} secret key not found in .env`);
     }
   }
+
+  /**
+   * Creates new accounts
+   * @param count - Number of funded accounts to create
+   */
+  async initializeChildAccounts(count: number = 10): Promise<void> {
+    if (this.childAccounts && this.childAccounts.length > 0) {
+      console.log("Child accounts already exist.");
+      return;
+    }
+
+    this.childAccounts = [];
+    for (let i = 0; i < count; i++) {
+      const pair = Keypair.random();
+      try {
+        const response = await fetch(
+          `${this.friendbot}?addr=${encodeURIComponent(pair.publicKey())}`,
+        );
+        const responseJSON = await response.json();
+        this.childAccounts.push(pair);
+          console.log(`SUCCESS! Created funded account ${i + 1} :)\n`, responseJSON);
+      } catch (e) {
+        console.error("Error setting up funded account!", e);
+      }
+    }
+  }
+
+  /**
+   * Get the funded accounts keypair
+   * @returns Accounts public key  
+   */
+  getFundedAccounts(): string[] {
+    let publicKeys: string[] = [];
+    this.childAccounts?.forEach( function (keypair) {
+      publicKeys.push(keypair.publicKey());
+    })
+    return publicKeys;
+  }
+
+  /**
+   * Get the funded accounts public key and balance
+   * @returns Funded account public keys and their corresponding balances
+   */
+  async getFundedAccountsInfo() {
+    const accountsInfo: Record<string, AccountData> = {};
+    const AccountsPublicKey = this.getFundedAccounts();
+    for (var i = 0; i < 10; i++) {
+      // the JS SDK uses promises for most actions, such as retrieving an account
+      const account = await this.horizonRpc.loadAccount(AccountsPublicKey[i]);
+      const accountNo = `account${i + 1}`;
+      const balances = account.balances.map((balance: Balance) => ({
+        asset_type: balance.asset_type,
+        balance: balance.balance
+      }));
+
+      accountsInfo[accountNo] = {
+        publicKey: AccountsPublicKey[i],
+        balances: balances
+      };
+    }
+    return accountsInfo;
+  }
 }
 
 export const config = (network: string) => {
   return EnvConfig.loadFromFile(network);
 };
+
+
+interface Balance {
+  asset_type: string;
+  balance: string;
+}
+
+interface AccountData {
+  publicKey: string;
+  balances: Balance[];
+}
