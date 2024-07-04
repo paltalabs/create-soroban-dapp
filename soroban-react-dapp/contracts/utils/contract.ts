@@ -215,10 +215,18 @@ export async function bumpContractCode(wasmKey: string, addressBook: AddressBook
   console.log(result.status, '\n');
 }
 
-export async function airdropAccount(user: Keypair) {
+export async function airdropAccount(user: Keypair, network?: string) {
+  // Define configuration for the network
+  var networkConfig;
+  if (network !== undefined && (network === 'standalone' || network === 'futurenet')) {
+    networkConfig = config(network);
+  } else {
+    networkConfig = config('testnet');
+  }
+
   try {
     console.log('Start funding');
-    await loadedConfig.rpc.requestAirdrop(user.publicKey(), loadedConfig.friendbot);
+    await networkConfig.rpc.requestAirdrop(user.publicKey(), networkConfig.friendbot);
     console.log('Funded: ', user.publicKey());
   } catch (e) {
     console.log(user.publicKey(), ' already funded');
