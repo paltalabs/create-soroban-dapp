@@ -12,6 +12,6 @@
     "resolveJsonModule": true,
   },
   "include": [
-    "scripts",
+    "scripts", "greeting/greeting.test.ts",
   ],
 }

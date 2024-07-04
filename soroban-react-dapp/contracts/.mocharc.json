@@ -1,0 +1,6 @@
+{
+    "recursive": true,
+    "reporter": "spec",
+    "timeout": 15000,
+    "_comment": "timeout can be adjusted, should be delayed until confirmation of the testnet "
+}
