@@ -1,5 +1,4 @@
 import 'twin.macro'
-
 import {useSorobanReact} from "@soroban-react/core"
 
 import {
@@ -16,14 +15,27 @@ import {
 import { FiChevronDown } from 'react-icons/fi'
 import { AiOutlineCheckCircle, AiOutlineDisconnect } from 'react-icons/ai'
 import toast from 'react-hot-toast'
+import type { WalletChain } from '@soroban-react/types'
 
 export const ConnectButton = () => {
     // Connect Button
     const sorobanContext = useSorobanReact()
-    const {activeChain, address, disconnect, setActiveConnectorAndConnect, setActiveChain} = sorobanContext
-    const activeAccount = address
-    const browserWallets = sorobanContext.connectors
-    const supportedChains = sorobanContext.chains
+
+    const {activeChain, address, disconnect, setActiveConnectorAndConnect, setActiveChain} = sorobanContext;
+    const activeAccount = address;
+
+    const browserWallets = sorobanContext.connectors;
+    const supportedChains = sorobanContext.chains;
+
+  const handleContractInteraction = (chain: WalletChain) => {
+    if (!chain.name || chain.name.toLowerCase() === 'standalone') {
+      toast.error('Please deploy the contract before proceeding when using the standalone chain..');
+    } else {
+      setActiveChain && setActiveChain(chain);
+      toast.success(`Active chain changed to ${chain.name}`);
+    }
+  };
+
     if (!activeAccount)
       return (
         <Menu>
@@ -57,6 +69,7 @@ export const ConnectButton = () => {
           </MenuList>
         </Menu>
       )
+      
 
     // Account Menu & Disconnect Button
     return (
@@ -96,8 +109,7 @@ export const ConnectButton = () => {
               // isDisabled={chain.network === activeChain?.network}
               onClick={() => {
                 // toast.error(`Not implemented yet. Please switch chain via the wallet extension.`)
-                setActiveChain && setActiveChain(chain)
-                setActiveChain && toast.success(`Active chain changed to ${chain.name}`)
+                handleContractInteraction(chain)
               }}
               tw="bg-transparent hocus:bg-gray-800"
             >
