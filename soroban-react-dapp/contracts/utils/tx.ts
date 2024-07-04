@@ -4,7 +4,7 @@ import { config } from './env_config.js';
 type txResponse = SorobanRpc.Api.SendTransactionResponse | SorobanRpc.Api.GetTransactionResponse;
 type txStatus = SorobanRpc.Api.SendTransactionStatus | SorobanRpc.Api.GetTransactionStatus;
 
-const network = process.argv[2];
+const network = "testnet";
 const loadedConfig = config(network);
 
 export async function signWithKeypair(

@@ -79,6 +79,15 @@ The script will
 - Deploy the contracts on testnet
 - Add the contracts addresses in `contracts_ids.json` under `testnet.name_of_your_contract`
 
+
+### Run typescript tests
+
+You can run the typescript tests by running the following command:
+
+```bash
+yarn mocha dist/greeting/greeting.test.js
+```
+
 ### Change the contract you are interacting with in the frontend code.
 
 In the file [GreeterContractInteraction.tsx](src/components/web3/GreeterContractInteractions.tsx), change the two references to `"greeting"` in `updateGreeting` at line 105 and in `fetchGreeting` at line 55.

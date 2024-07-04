@@ -7,18 +7,18 @@
       "preset": "emotion"
     }
   },
-  "scripts": {
-    "dev": "NODE_ENV=development next dev",
-    "node": "pnpm run -F contracts node",
-    "dev-and-node": "concurrently \"pnpm dev\" \"pnpm node\" --names \"Next,Node\" --kill-others",
-    "build": "NODE_ENV=production next build",
-    "start": "NODE_ENV=production next start",
-    "type-check": "tsc --pretty --noEmit",
-    "lint": "prettier . --check && eslint",
-    "lint:fix": "prettier . --write && eslint --fix",
-    "lint:format": "prettier . --write",
-    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
-  },
+"scripts": {
+  "dev": "next dev",
+  "node": "pnpm run -F contracts node",
+  "dev-and-node": "concurrently \"pnpm dev\" \"pnpm node\" --names \"Next,Node\" --kill-others",
+  "build": "next build",
+  "start": "next start",
+  "type-check": "tsc --pretty --noEmit",
+  "lint": "prettier . --check && eslint",
+  "lint:fix": "prettier . --write && eslint --fix",
+  "lint:format": "prettier . --write",
+  "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
+},
   "dependencies": {
     "@chakra-ui/react": "^2.8.1",
     "@emotion/css": "^11.11.2",
