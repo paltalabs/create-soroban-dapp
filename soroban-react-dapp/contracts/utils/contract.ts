@@ -8,7 +8,7 @@ import { AddressBook } from './address_book.js';
 import { config } from './env_config.js';
 import { createTxBuilder, invoke, invokeTransaction } from './tx.js';
 
-const network = process.argv[2];
+const network = "testnet";
 const loadedConfig = config(network);
 
 const __filename = fileURLToPath(import.meta.url);
@@ -56,7 +56,7 @@ export async function deployContract(
   console.log('Deploying WASM', wasmKey, 'for', contractKey);
   const contractId = StrKey.encodeContract(hash(hashIdPreimage.toXDR()));
   addressBook.setContractId(contractKey, contractId);
-  const wasmHash = Buffer.from(addressBook.getWasmHash(wasmKey), 'hex');
+  const wasmHash = Buffer.from(addressBook.getWasmHash("greeting"), 'hex');//@param contractKey - The name of the contract
 
   const deployFunction = xdr.HostFunction.hostFunctionTypeCreateContract(
     new xdr.CreateContractArgs({
