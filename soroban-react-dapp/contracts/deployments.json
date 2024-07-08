@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "contractId": "greeting",
+    "networkPassphrase": "Standalone Network ; February 2017",
+    "contractAddress": "CDG4IVP3GA2SUHONGJVVNUXITQOAVM4ARGQ3KDC36SX3B7HNTOZRGOHF"
+  }
+]

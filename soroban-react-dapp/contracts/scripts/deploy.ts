@@ -16,12 +16,11 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
   console.log('Deploying Contracts');
   console.log('-------------------------------------------------------');
   for (var contract_name of contracts_to_deploy) {
-    // console.log(`Deploying ${contract_name}: `)
-    // await installContract(contract_name, addressBook, loadedConfig.admin);
-    // let contractId = await deployContract(contract_name,contract_name, addressBook, loadedConfig.admin)
+    console.log(`Deploying ${contract_name}: `)
+    await installContract(contract_name, addressBook, loadedConfig.admin);
+    let contractId = await deployContract(contract_name,contract_name, addressBook, loadedConfig.admin)
     
-    // console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
-    addressBook.updateDeployments(contract_name)
+    console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
   }
 
   
