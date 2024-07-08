@@ -13,7 +13,7 @@ doctest = false
 [dependencies] 
 soroban-sdk = { version = "21.0.1-preview.3"} 
 
-[dev_dependencies]
+[dev-dependencies]
 soroban-sdk = { version = "21.0.1-preview.3",features = ["testutils"] }
 
 [profile.release]
