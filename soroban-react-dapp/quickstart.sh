@@ -66,10 +66,8 @@ docker run --rm -ti \
   stellar/quickstart:$quickstartHash \
   $ARGS \
   --enable-soroban-rpc \
-  --protocol-version 20 \
+  --enable-soroban-diagnostic-events \
   "$@" # Pass through args from the CLI
-
-
 
   #--platform linux/amd64 \
 
