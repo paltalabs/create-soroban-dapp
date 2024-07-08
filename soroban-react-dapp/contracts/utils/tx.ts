@@ -1,4 +1,11 @@
-import { Account, Keypair, SorobanRpc, Transaction, TransactionBuilder, xdr } from 'stellar-sdk';
+import {
+  type Account,
+  type Keypair,
+  SorobanRpc,
+  Transaction,
+  TransactionBuilder,
+  xdr
+} from '@stellar/stellar-sdk';
 import { config } from './env_config.js';
 
 type txResponse = SorobanRpc.Api.SendTransactionResponse | SorobanRpc.Api.GetTransactionResponse;
@@ -7,11 +14,11 @@ type txStatus = SorobanRpc.Api.SendTransactionStatus | SorobanRpc.Api.GetTransac
 const network = "testnet";
 const loadedConfig = config(network);
 
-export async function signWithKeypair(
+export function signWithKeypair(
   txXdr: string,
   passphrase: string,
   source: Keypair
-): Promise<string> {
+): string {
   const tx = new Transaction(txXdr, passphrase);
   tx.sign(source);
   return tx.toXDR();
@@ -66,7 +73,7 @@ export async function invokeTransaction(tx: Transaction, source: Keypair, sim: b
   let status: txStatus = response.status;
   console.log(`Hash: ${tx_hash}`);
   // Poll this until the status is not "NOT_FOUND"
-  while (status === 'PENDING' || status === 'NOT_FOUND') {
+  while (status === 'PENDING' || status === SorobanRpc.Api.GetTransactionStatus.NOT_FOUND) {
     // See if the transaction is complete
     await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log('checking tx...');

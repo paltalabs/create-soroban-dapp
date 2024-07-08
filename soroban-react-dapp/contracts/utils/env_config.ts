@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import * as fs from "fs";
 import path from "path";
-import { Horizon, Keypair, SorobanRpc } from "stellar-sdk";
+import { Horizon, Keypair, SorobanRpc } from "@stellar/stellar-sdk";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -127,12 +127,11 @@ class EnvConfig {
     for (let i = 0; i < count; i++) {
       const pair = Keypair.random();
       try {
-        const response = await fetch(
+        await fetch(
           `${this.friendbot}?addr=${encodeURIComponent(pair.publicKey())}`,
         );
-        const responseJSON = await response.json();
         this.childAccounts.push(pair);
-          console.log(`SUCCESS! Created funded account ${i + 1} :)\n`, responseJSON);
+          console.log(`SUCCESS! Created and funded account ${i + 1} :)\n`);
       } catch (e) {
         console.error("Error setting up funded account!", e);
       }

@@ -1,12 +1,1 @@
-[
-  {
-    "contractId": "greeting",
-    "networkPassphrase": "Test SDF Future Network ; October 2022",
-    "contractAddress": "CDO622QDJPU3BIKKSAGXBAYKIYIBQFQOOQ4P2LZ62I3O7SK2WR5UKQKC"
-  },
-  {
-    "contractId": "greeting",
-    "networkPassphrase": "Test SDF Network ; September 2015",
-    "contractAddress": "CCYR4763GWC6VOXKD4KUXNKWESBIHL5PXD7TSY32QNNYPU5ZL2AP4Z2R"
-  }
-]
+[]

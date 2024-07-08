@@ -7,7 +7,6 @@ import 'twin.macro'
 import { useSorobanReact } from "@soroban-react/core"
 import * as StellarSdk from '@stellar/stellar-sdk';
 
-import { scvalToString } from '@/utils/scValConversions'
 import React from 'react'
 import Link from 'next/link'
 
@@ -66,7 +65,7 @@ export const GreeterContractInteractions: FC = () => {
 
         // Value needs to be cast into a string as we fetch a ScVal which is not readable as is.
         // You can check out the scValConversion.tsx file to see how it's done
-        const result_string = scvalToString(result as StellarSdk.xdr.ScVal)
+        const result_string = StellarSdk.scValToNative(result as StellarSdk.xdr.ScVal) as string
         setGreeterMessage(result_string)
       } catch (e) {
         console.error(e)

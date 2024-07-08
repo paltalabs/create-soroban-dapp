@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { config } from "../utils/env_config.js";
 import { AddressBook } from "../utils/address_book.js";
 import { deployContract,invokeContract } from "../utils/contract.js";
-import { Keypair } from "stellar-sdk";
+import { Keypair } from "@stellar/stellar-sdk";
 const network = "testnet"; //https://horizon-testnet.stellar.org;
 const loadFromFile = config(network);
 const Mykeys = Keypair.fromSecret(loadFromFile.admin.secret());//Contains accourding keys with. env file

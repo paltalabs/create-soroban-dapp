@@ -2,13 +2,13 @@
 import { randomBytes } from 'crypto';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
-import { Address, Asset, Contract, Keypair, Operation, StrKey, hash, scValToNative, xdr } from 'stellar-sdk';
+import { Address, Asset, Contract, Keypair, Operation, StrKey, hash, scValToNative, xdr } from '@stellar/stellar-sdk';
 import { fileURLToPath } from 'url';
 import { AddressBook } from './address_book.js';
 import { config } from './env_config.js';
 import { createTxBuilder, invoke, invokeTransaction } from './tx.js';
 
-const network = "testnet";
+const network = process.argv[2];
 const loadedConfig = config(network);
 
 const __filename = fileURLToPath(import.meta.url);
@@ -211,22 +211,13 @@ export async function bumpContractCode(wasmKey: string, addressBook: AddressBook
   txBuilder.setSorobanData(bumpTransactionData);
   const result = await invokeTransaction(txBuilder.build(), source, false);
   console.log("Result = ", result)
-  // @ts-ignore
+  // @ts-expect-error ignore
   console.log(result.status, '\n');
 }
 
 export async function airdropAccount(user: Keypair, network?: string) {
-  // Define configuration for the network
-  var networkConfig;
-  if (network !== undefined && (network === 'standalone' || network === 'futurenet')) {
-    networkConfig = config(network);
-  } else {
-    networkConfig = config('testnet');
-  }
-
   try {
-    console.log('Start funding');
-    await networkConfig.rpc.requestAirdrop(user.publicKey(), networkConfig.friendbot);
+    await loadedConfig.rpc.requestAirdrop(user.publicKey(), loadedConfig.friendbot);
     console.log('Funded: ', user.publicKey());
   } catch (e) {
     console.log(user.publicKey(), ' already funded');

@@ -1,3 +1,4 @@
+import { Horizon } from '@stellar/stellar-sdk';
 import { AddressBook } from '../utils/address_book.js';
 import { airdropAccount, deployContract, installContract} from '../utils/contract.js';
 import { config } from '../utils/env_config.js';
@@ -5,22 +6,24 @@ import { config } from '../utils/env_config.js';
 export async function deployContracts(addressBook: AddressBook, contracts_to_deploy: Array<string>) {
 
   if (network != "mainnet") await airdropAccount(loadedConfig.admin);
-  if (network === "standalone") await loadedConfig.initializeChildAccounts();
+  // if (network === "standalone") await loadedConfig.initializeChildAccounts();
+
   let account = await loadedConfig.horizonRpc.loadAccount(loadedConfig.admin.publicKey())
-  let balance = account.balances[0].balance
+  let balance = account.balances.filter((asset) => asset.asset_type === 'native')[0].balance
   console.log('Current Admin account balance:', balance);
   
   console.log('-------------------------------------------------------');
   console.log('Deploying Contracts');
   console.log('-------------------------------------------------------');
   for (var contract_name of contracts_to_deploy) {
-    console.log(`Deploying ${contract_name}: `)
-    await installContract(contract_name, addressBook, loadedConfig.admin);
-    // await bumpContractCode(contract_name, addressBook, loadedConfig.admin);
-    let contractId = await deployContract(contract_name,contract_name, addressBook, loadedConfig.admin)
-    // await bumpContractInstance(contract_name, addressBook, loadedConfig.admin);
-    console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
+    // console.log(`Deploying ${contract_name}: `)
+    // await installContract(contract_name, addressBook, loadedConfig.admin);
+    // let contractId = await deployContract(contract_name,contract_name, addressBook, loadedConfig.admin)
+    
+    // console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
+    addressBook.updateDeployments(contract_name)
   }
+
   
 }
 

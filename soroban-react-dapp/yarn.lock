@@ -1652,6 +1652,20 @@
   optionalDependencies:
     sodium-native "^4.1.1"
 
+"@stellar/stellar-base@^12.0.1":
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/@stellar/stellar-base/-/stellar-base-12.0.1.tgz#3fae34e8f787eb47cc7f58a0dea014e7b70724a7"
+  integrity sha512-g6c27MNsDgEdUmoNQJn7zCWoCY50WHt0OIIOq3PhWaJRtUaT++qs1Jpb8+1bny2GmhtfRGOfPUFSyQBuHT9Mvg==
+  dependencies:
+    "@stellar/js-xdr" "^3.1.1"
+    base32.js "^0.1.0"
+    bignumber.js "^9.1.2"
+    buffer "^6.0.3"
+    sha.js "^2.3.6"
+    tweetnacl "^1.0.3"
+  optionalDependencies:
+    sodium-native "^4.1.1"
+
 "@stellar/stellar-sdk@11.3.0":
   version "11.3.0"
   resolved "https://registry.yarnpkg.com/@stellar/stellar-sdk/-/stellar-sdk-11.3.0.tgz#7cb010651846a07e1853e0fe30e430ece4da340b"
@@ -1659,6 +1673,19 @@
   dependencies:
     "@stellar/stellar-base" "^11.0.1"
     axios "^1.6.8"
+    bignumber.js "^9.1.2"
+    eventsource "^2.0.2"
+    randombytes "^2.1.0"
+    toml "^3.0.0"
+    urijs "^1.19.1"
+
+"@stellar/stellar-sdk@^12.1.0":
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/@stellar/stellar-sdk/-/stellar-sdk-12.1.0.tgz#eafe064d36696ada5b7bd7e871f7199b6ed39222"
+  integrity sha512-Va0hu9SaPezmMbO5eMwL5D15Wrx1AGWRtxayUDRWV2Fr3ynY58mvCZS1vsgNQ4kE8MZe3nBVKv6T9Kzqwgx1PQ==
+  dependencies:
+    "@stellar/stellar-base" "^12.0.1"
+    axios "^1.7.2"
     bignumber.js "^9.1.2"
     eventsource "^2.0.2"
     randombytes "^2.1.0"
@@ -2282,7 +2309,7 @@ axe-core@^4.9.1:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.9.1.tgz#fcd0f4496dad09e0c899b44f6c4bb7848da912ae"
   integrity sha512-QbUdXJVTpvUTHU7871ppZkdOLBeGUKBQWHkHrvN2V9IQWGMt61zf3B45BtzjxEJzYuj0JBjBZP/hmYS/R9pmAw==
 
-axios@^1.6.0, axios@^1.6.8:
+axios@^1.6.0, axios@^1.6.8, axios@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.2.tgz#b625db8a7051fbea61c35a3cbb3a1daa7b9c7621"
   integrity sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==
@@ -5148,17 +5175,6 @@ sodium-native@^4.0.1, sodium-native@^4.1.1:
   dependencies:
     node-gyp-build "^4.8.0"
 
-soroban-client@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/soroban-client/-/soroban-client-1.0.0.tgz#2ac6f0ce2053f46e1d7886a4a9af47a4a516416f"
-  integrity sha512-dflXkSBpgmke9ATSaXdka4mvHOz9EyUFioho7ffLj0FwzwOMapSjFnE2TpQTrDKnV9C3HuAO44c8Fhl6IewebQ==
-  dependencies:
-    axios "^1.6.0"
-    bignumber.js "^9.1.1"
-    buffer "^6.0.3"
-    stellar-base "10.0.0"
-    urijs "^1.19.1"
-
 source-map-js@^1.0.2, source-map-js@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.0.tgz#16b809c162517b5b8c3e7dcd315a2a5c2612b2af"
@@ -5191,20 +5207,6 @@ spinners-react@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/spinners-react/-/spinners-react-1.0.7.tgz#237e3e6f5fe2e6319083eb8703372e728eb2a304"
   integrity sha512-Xcgpc7Ybm6HOrpCVJjbH1G/NV852HaV4Zc9T1sJ2+S2hn05lGiBZS1dBOKGLc1kp8wv2sd3wtt94I/NNqDjs3Q==
-
-stellar-base@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/stellar-base/-/stellar-base-10.0.0.tgz#c12a188e2e7043c63a2f98bd4cf52c33cfe2f8b7"
-  integrity sha512-WQhxGXQLSwwmIxWbZqv0HcJtlSOiaUgv7yKCCEwP+OoYDHKBjPjQiZWyAkuEY+mRFX9L+hnejLaBorc3P2rk0g==
-  dependencies:
-    "@stellar/js-xdr" "^3.0.1"
-    base32.js "^0.1.0"
-    bignumber.js "^9.1.2"
-    buffer "^6.0.3"
-    sha.js "^2.3.6"
-    tweetnacl "^1.0.3"
-  optionalDependencies:
-    sodium-native "^4.0.1"
 
 stellar-sdk@11.1.0:
   version "11.1.0"
@@ -5242,7 +5244,16 @@ streamx@^2.15.0, streamx@^2.18.0:
   optionalDependencies:
     bare-events "^2.2.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -5333,7 +5344,14 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -5872,7 +5890,16 @@ word-wrap@^1.2.5:
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.5.tgz#d2c45c6dd4fbce621a66f136cbe328afd0410b34"
   integrity sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
