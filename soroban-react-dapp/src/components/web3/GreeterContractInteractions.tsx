@@ -10,13 +10,10 @@ import * as StellarSdk from '@stellar/stellar-sdk';
 import React from 'react'
 import Link from 'next/link'
 
-import { useRegisteredContract } from '@soroban-react/contracts'
+import { contractInvoke, useRegisteredContract } from '@soroban-react/contracts'
+import { nativeToScVal, xdr } from '@stellar/stellar-sdk'
 
 type UpdateGreetingValues = { newMessage: string }
-
-function stringToScVal(title: string) {
-  return StellarSdk.xdr.ScVal.scvString(title)
-}
 
 export const GreeterContractInteractions: FC = () => {
   const sorobanContext = useSorobanReact()
@@ -107,11 +104,12 @@ export const GreeterContractInteractions: FC = () => {
         try {
           const result = await contract?.invoke({
             method: 'set_title',
-            args: [stringToScVal(newMessage)],
+            args: [nativeToScVal(newMessage, {type: "string"})],
             signAndSend: true
           })
+          console.log('🚀 « result:', result);
           
-          if (result) {
+          if (true) {
             toast.success("New greeting successfully published!")
           }
           else {

@@ -1,6 +1,6 @@
 import React from 'react'
 import {SorobanReactProvider} from '@soroban-react/core';
-import {futurenet, sandbox, standalone,testnet} from '@soroban-react/chains';
+import {futurenet, sandbox, standalone, testnet} from '@soroban-react/chains';
 import {freighter} from '@soroban-react/freighter';
 import type {ChainMetadata, Connector} from "@soroban-react/types";
 import { xbull } from '@soroban-react/xbull';
