@@ -56,7 +56,7 @@ export async function deployContract(
   console.log('Deploying WASM', wasmKey, 'for', contractKey);
   const contractId = StrKey.encodeContract(hash(hashIdPreimage.toXDR()));
   addressBook.setContractId(contractKey, contractId);
-  const wasmHash = Buffer.from(addressBook.getWasmHash("greeting"), 'hex');//@param contractKey - The name of the contract
+  const wasmHash = Buffer.from(addressBook.getWasmHash(contractKey), 'hex');//@param contractKey - The name of the contract
 
   const deployFunction = xdr.HostFunction.hostFunctionTypeCreateContract(
     new xdr.CreateContractArgs({
@@ -85,7 +85,8 @@ export async function invokeContract(
   addressBook: AddressBook,
   method: string,
   params: xdr.ScVal[],
-  source: Keypair
+  source: Keypair,
+  sim: boolean = false,
 ) {
   console.log("Invoking contract: ", contractKey, " with method: ", method);
   const contractAddress = addressBook.getContractId(contractKey);
@@ -95,7 +96,7 @@ export async function invokeContract(
   return await invoke(
     contractOperation,
     source,
-    false,
+    sim,
   );  
 }
 
@@ -103,7 +104,8 @@ export async function invokeCustomContract(
   contractId: string,
   method: string,
   params: xdr.ScVal[],
-  source: Keypair
+  source: Keypair,
+  sim: boolean = false,
 ) {
   console.log("Invoking contract: ", contractId, " with method: ", method);
   const contractInstance = new Contract(contractId);
@@ -112,7 +114,7 @@ export async function invokeCustomContract(
   return await invoke(
     contractOperation,
     source,
-    false,
+    sim,
   );  
 }
 
