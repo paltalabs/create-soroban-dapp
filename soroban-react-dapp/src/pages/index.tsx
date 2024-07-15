@@ -2,7 +2,7 @@ import { HomePageTitle } from '@/components/home/HomePageTitle'
 import { CenterBody } from '@/components/layout/CenterBody'
 import { ChainInfo } from '@/components/web3/ChainInfo'
 import { ConnectButton } from '@/components/web3/ConnectButton'
-import { GreeterContractInteractions } from '@/components/web3/GreeterContractInteractions'
+import { VotingContractInteractions } from '@/components/web3/VotingContractInteractions'
 import type { NextPage } from 'next'
 import 'twin.macro'
 
@@ -30,8 +30,8 @@ const HomePage: NextPage = () => {
           {/* Chain Metadata Information */}
           <ChainInfo />
 
-          {/* Greeter Read/Write Contract Interactions */}
-          <GreeterContractInteractions />
+          {/* Voting Read/Write Contract Interactions */}
+          <VotingContractInteractions />
         </div>
       </CenterBody>
     </>

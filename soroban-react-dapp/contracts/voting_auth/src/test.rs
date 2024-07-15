@@ -7,7 +7,6 @@ use soroban_sdk::{testutils::{Address as _}, Address, Env, String};
 fn test_voting_contract() {
     // Initialize environment and entities
     let env = Env::default();
-    env.mock_all_auths();
     let admin = Address::generate(&env);
     let contract_id = env.register_contract(None, VotingContract);
     let client = VotingContractClient::new(&env, &contract_id);
