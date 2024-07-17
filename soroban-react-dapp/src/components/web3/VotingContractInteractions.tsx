@@ -82,6 +82,8 @@ const options = ['list_1', 'list_2', 'list_3'];
 
 export const VotingContractInteractions: FC = () => {
   const sorobanContext = useSorobanReact()
+  const { activeChain, server, address } = sorobanContext
+  console.log('🚀 « sorobanContext:', sorobanContext);
 
   const [, setFetchIsLoading] = useState<boolean>(false)
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false)
@@ -113,11 +115,22 @@ export const VotingContractInteractions: FC = () => {
         // TODO:
         // Should read votes from `contract` show both possible solutions contractInvoke and contract?.invoke
 
+        // const result = await contractInvoke({
+        //   contractAddress: "CDBZMC3JZNWN7GCJOJX3VN2K4GBNY7L3LKXUT2T7ILKYTYWKSPDQMBVC",
+        //   method: "get_votes",
+        //   args: [],
+        //   signAndSend: false,
+        //   sorobanContext
+        // })
 
 
+        const result = await contract?.invoke({
+          method: "get_votes",
+          signAndSend: false
+        })
+        const parsedResult = StellarSdk.scValToNative(result as xdr.ScVal)
 
-
-        setVotes(undefined)
+        setVotes(parsedResult)
       } catch (e) {
         console.error(e)
         toast.error('Error while fetching votes. Try again…')
@@ -131,7 +144,6 @@ export const VotingContractInteractions: FC = () => {
   useEffect(() => {void fetchVoting()}, [updateFrontend,fetchVoting])
 
 
-  const { activeChain, server, address } = sorobanContext
 
   const voteOnContract = async ({ selectedOption }: VoteSelectionType ) => {
     console.log('🚀 « selectedOption:', selectedOption);
@@ -159,11 +171,18 @@ export const VotingContractInteractions: FC = () => {
         try {
           // TODO:
           // Should define params scval[] and vote using contractInvoke or contract?.invoke
+          const voteParams: xdr.ScVal[] = [
+            new Address(address).toScVal(),
+            nativeToScVal(selectedOption, {type: "string"})
+          ]
 
-
-
-
-
+          const result = await contract?.invoke({
+            method: "vote",
+            args: voteParams,
+            signAndSend: true,
+          })
+          
+          console.log('🚀 « result:', result);
           
           if (true) {
             toast.success("New vote successfully published!")
@@ -190,7 +209,7 @@ export const VotingContractInteractions: FC = () => {
 
         {/* Fetched Votes */}
         <VStack spacing={4} align="stretch">
-          {/* <IndividualVotes votes={fetchedVotes} /> */}
+          <IndividualVotes votes={fetchedVotes} />
           <VoteSummary votes={fetchedVotes} />
         </VStack>
 
