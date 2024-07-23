@@ -49,47 +49,39 @@ From there, it is a normal nextjs app:
 `yarn` or `npm install` or `pnpm install`
 
 
-## Using quickstart!
-This will launch a Stellar node, when using standalone it will create a Stellar blockchain locally. Also, it will run a container with all the necessary dependancies to deploy and interact with the contracts. Along with the dapp container that will run the front-end of the dapp.
+# Get those containers up!
 
-First configure the `ADMIN_SECRET_KEY` and `MAINNET_RPC_URL` in the `contracts/.env` file. You can use the `contracts/.env.example` file as a template. 
+We will use docker-compose to get the containers up and running. This will rise a container for a local Stellar blockchain and another container with soroban-preview, which has all the necessary dependancies to deploy and interact with the contracts. Along with the dapp container that will run the front-end of the dapp.
 
-Second, move to `soroban-react-dapp`
-    
-    ```bash
-    cd soroban-react-dapp
-    ```
-    
+```bash
+# move to the right directory
+cd soroban-react-dapp/
 
-Then, run the following command to start the dapp and the soroban node:
-```bash
-bash quickstart.sh <network>
+# Then, run the containers
+docker compose up -d
+
+# To get inside the soroban-preview container
+bash run.sh 
+# or 
+# docker exec --tty --interactive soroban-contracts bash
 ```
-you will typically use this with standalone:
+Inside the container we can now compile the contracts, install the packages and deploy the contracts.
+
 ```bash
-bash quickstart.sh standalone
-```
-then open a new terminal, and run the following command to start the dapp:
-```bash
-bash run.sh
-```
-Then, compile contracts:
-```bash
-cd contracts
-make
-```
-Then, install packages
-```bash
-yarn
-```
-Then, deploy contracts (in this example we will deploy the greeting contract):
-```bash
+# build
+make build
+
+# Install dependencies and deploy the contract
+yarn install
 yarn deploy testnet greeting
 ```
+Now we can run our frontend
 
-and run the dapp locally in development mode
 ```bash
-cd .. # Move to the parent folder
+# move to the parent folder
+cd ..
+# install the dependencies
+yarn
+# run the frontend in development mode
 yarn dev
-```
 
