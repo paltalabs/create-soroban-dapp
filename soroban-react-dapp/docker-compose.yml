@@ -3,7 +3,9 @@ services:
     image: esteblock/soroban-preview:21.0.1
     container_name: soroban-contracts
     volumes:
-      - ./contracts:/workspace
+      - .:/workspace
+    ports:
+      - "3000:3000"
     ipc: host
     networks:
       - create-soroban-network

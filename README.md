@@ -68,6 +68,8 @@ bash run.sh
 Inside the container we can now compile the contracts, install the packages and deploy the contracts.
 
 ```bash
+# move to the contracts folder
+cd contracts
 # build
 make build
 
