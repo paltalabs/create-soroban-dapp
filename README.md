@@ -49,6 +49,28 @@ From there, it is a normal nextjs app:
 `yarn` or `npm install` or `pnpm install`
 
 
+# Set up your secrets!
+When deploying our contracts, we will need to the secret key of the deployer account. This secret key will be in a ignored file in `./contracts/.env`.
+
+To set up your secrets do
+```bash
+cp contracts/.env.example contracts/.env
+```
+If you are already inside the contracts folder (due to being inside the Docker Container), just do `cp .env.example .env`
+
+And then edit the `.env` file, that will look like this:
+```bash
+# Stellar accounts Secret Keys
+ADMIN_SECRET_KEY=
+
+# RPC Setup
+MAINNET_RPC_URL=
+```
+You can generate new Accounts and Private Keys from https://laboratory.stellar.org/#account-creator?network=test
+
+If you plan to deploy in Mainnet, you will also need a Mainnet RPC Provider. Find one in https://app.validationcloud.io/ or in https://nownodes.io/ 
+
+
 # Get those containers up!
 
 We will use docker-compose to get the containers up and running. This will rise a container for a local Stellar blockchain and another container with soroban-preview, which has all the necessary dependancies to deploy and interact with the contracts. Along with the dapp container that will run the front-end of the dapp.
