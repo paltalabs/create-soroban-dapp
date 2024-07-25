@@ -51,6 +51,8 @@ From there, it is a normal nextjs app:
 
 # Get those containers up!
 
+Make sure you have configured your .env file with the necessary variables. You can find an example in the .env.example file.
+
 We will use docker-compose to get the containers up and running. This will rise a container for a local Stellar blockchain and another container with soroban-preview, which has all the necessary dependancies to deploy and interact with the contracts. Along with the dapp container that will run the front-end of the dapp.
 
 ```bash

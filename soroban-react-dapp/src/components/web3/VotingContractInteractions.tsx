@@ -13,6 +13,8 @@ import Link from 'next/link'
 import { contractInvoke, useRegisteredContract } from '@soroban-react/contracts'
 import { Address, nativeToScVal, xdr } from '@stellar/stellar-sdk'
 
+import { Mercury, scValToJs } from 'mercury-sdk'
+
 type VoteSelectionType = { selectedOption: string };
 
 interface Votes {
@@ -89,13 +91,20 @@ export const VotingContractInteractions: FC = () => {
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false)
   const { register, handleSubmit, setValue, watch } = useForm<VoteSelectionType>();
   const selectedOption = watch('selectedOption');
-  
+
   const [fetchedVotes, setVotes] = useState<Votes>()
   const [updateFrontend, toggleUpdate] = useState<boolean>(true)
   const [contractAddressStored, setContractAddressStored] = useState<string>()
 
   // Retrieve the deployed contract object from contract Registry
   const contract = useRegisteredContract("voting")
+
+  const mercuryInstance = new Mercury({
+    backendEndpoint: "https://api.mercurydata.app",
+    graphqlEndpoint: "https://api.mercurydata.app",
+    email: "",
+    password: ""
+  })
 
   // Fetch Greeting
   const fetchVoting = useCallback(async () => {
@@ -139,13 +148,13 @@ export const VotingContractInteractions: FC = () => {
         setFetchIsLoading(false)
       }
     }
-  },[sorobanContext,contract])
+  }, [sorobanContext, contract])
 
-  useEffect(() => {void fetchVoting()}, [updateFrontend,fetchVoting])
+  useEffect(() => { void fetchVoting() }, [updateFrontend, fetchVoting])
 
 
 
-  const voteOnContract = async ({ selectedOption }: VoteSelectionType ) => {
+  const voteOnContract = async ({ selectedOption }: VoteSelectionType) => {
     console.log('🚀 « selectedOption:', selectedOption);
     if (!address) {
       console.log("Address is not defined")
@@ -173,7 +182,7 @@ export const VotingContractInteractions: FC = () => {
           // Should define params scval[] and vote using contractInvoke or contract?.invoke
           const voteParams: xdr.ScVal[] = [
             new Address(address).toScVal(),
-            nativeToScVal(selectedOption, {type: "string"})
+            nativeToScVal(selectedOption, { type: "string" })
           ]
 
           const result = await contract?.invoke({
@@ -181,15 +190,15 @@ export const VotingContractInteractions: FC = () => {
             args: voteParams,
             signAndSend: true,
           })
-          
+
           console.log('🚀 « result:', result);
-          
+
           if (true) {
             toast.success("New vote successfully published!")
           }
           else {
             toast.error("Greeting unsuccessful...")
-            
+
           }
         } catch (e) {
           // console.error(e)
@@ -197,7 +206,7 @@ export const VotingContractInteractions: FC = () => {
         } finally {
           setUpdateIsLoading(false)
           toggleUpdate(!updateFrontend)
-        } 
+        }
       }
     }
   }
@@ -242,10 +251,58 @@ export const VotingContractInteractions: FC = () => {
             </Button>
           </form>
         </Card>
+        {/* Mercury Data */}
+        <Card variant="outline" p={4} bgColor="whiteAlpha.100">
+          <p >
+            Mercury Data
+          </p>
+          <Button
+            onClick={async () => {
+              const myQuery = `
+            query MyQuery {
+              entryUpdateByContractId(
+                contract: "CB4L6XZ3OHC6GYXSSI5L5QBOP7QQZ3MI4PFATBYY46CKIKP4NNZDMHKC"
+                lastN: 1
+              ) {
+                nodes {
+                  contractId
+                  keyXdr
+                  txInfoByTx {
+                    txHash
+                    memo
+                    opCount
+                    fee
+                    ledgerByLedger {
+                      closeTime
+                      sequence
+                    }
+                  }
+                  valueXdr
+                }
+              }
+            }
+            `
+              const data = await mercuryInstance.getCustomQuery({
+                request: myQuery
+              })
+              console.log('🚀 ~ onClick={ ~ data:', data);
+              const base64Xdr = data?.data?.entryUpdateByContractId?.nodes[0]?.valueXdr
+              const parsedData: any = StellarSdk.xdr.ScVal.fromXDR(base64Xdr, 'base64');
+              const jsValues = scValToJs(parsedData)
+              console.log('🚀 ~ onClick={ ~ jsValues:', jsValues);
+              const element = jsValues.storage()[0].val();
+              console.log('🚀 ~ onClick={ ~ element:', element);
+              const humanReadable = scValToJs(element)
+              console.log('🚀 ~ onClick={ ~ humanReadable:', humanReadable);
 
+            }}
+          >
+            Fetch Data
+          </Button>
+        </Card>
         {/* Contract Address */}
         <p tw="text-center font-mono text-xs text-gray-600">
-          
+
           {contractAddressStored ? <Link href={"https://stellar.expert/explorer/testnet/contract/" + contractAddressStored} target="_blank">{contractAddressStored}</Link> : "Loading address.."}
         </p>
       </div>
