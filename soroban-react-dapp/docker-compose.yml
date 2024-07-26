@@ -1,10 +1,12 @@
 services:
-  soroban-contracts:
+  soroban-preview:
     image: esteblock/soroban-preview:21.0.1
-    container_name: soroban-contracts
+    container_name: soroban-preview
     volumes:
-      - ./contracts:/workspace
+      - .:/workspace
     ipc: host
+    ports:
+      - "3000:3000"
     networks:
       - create-soroban-network
     command: tail -f /dev/null
