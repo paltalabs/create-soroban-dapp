@@ -1,3 +1,3 @@
 # Troubleshooting
 
-The script in its early stage is likely to not function perfectly on every different os and configuration. If the script happens to not function properly **please report to @benjaminsalon** on the stellar developer discord channel.
+This script is still in its early stages of development and might not function perfectly on every operating system and configuration. If you encounter any issues, please report to **devs@paltalabs.io**

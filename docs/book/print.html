@@ -177,7 +177,7 @@
                         <h1 id="a-script-and-a-boilerplate"><a class="header" href="#a-script-and-a-boilerplate">A script and a boilerplate</a></h1>
 <p>@create-soroban-dapp is both a <a href="./create-soroban-dapp/overview.html">npx script</a> and a <a href="./soroban-dapp/overview.html">boilerplate dapp</a> for kickstarting any of your ideas for a Soroban-based Dapp.</p>
 <p>Largely inspired by the <a href="https://github.com/scio-labs/inkathon">ink!athon</a> project by <a href="https://github.com/scio-labs">Scio Labs</a> and by <a href="https://github.com/t3-oss/create-t3-app">@create-t3-app</a> by <a href="https://github.com/t3-oss">T3 Open Source</a> for the script mechanisms.</p>
-<p>Check the <a href="https://create-soroban-dapp.vercel.app/"><code>LIVE VERSION</code></a> of the dapp utilizing already deployed testnet contract!</p>
+<p>Check the <a href="https://create-soroban-dapp.vercel.app/"><code>LIVE VERSION</code></a> of the dapp that is already utilizing a deployed testnet contract!</p>
 <h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
 <p><code>@create-soroban-dapp</code> is composed of two things:</p>
 <ul>
@@ -185,42 +185,49 @@
 <p>A boilerplate dapp utilizing the <a href="https://github.com/paltalabs/soroban-react">@soroban-react</a>.</p>
 </li>
 <li>
-<p>A npx script allowing any developer to quickstart its project via the command line and <code>npx create-soroban-dapp</code>. Using the script will help them set up the boilerplate dapp.</p>
+<p>A npx script that allows developers to quickstart their project via the command line and <code>npx create-soroban-dapp</code>. Using the script will help them set up the boilerplate dapp.</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="usage"><a class="header" href="#usage">Usage</a></h1>
-<p>Open a terminal in the folder of your choice and simply use</p>
+<p>Open a terminal in the folder of your choice and simply use:</p>
 <p><code>npx create-soroban-dapp@latest</code></p>
 <p>or</p>
 <p><code>npm create soroban-dapp@latest</code></p>
-<p>Then, cd inside the new project repository.</p>
+<p>Then, navigate inside the new project directory:</p>
+<p><code>cd projectname</code></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="manual-cloning"><a class="header" href="#manual-cloning">Manual cloning</a></h1>
-<p>It is also possible to use the dapp boilerplate via manually cloning the repo:</p>
+<p>If you prefer to manually clone the repository instead of using the NPX script, follow these steps:</p>
+<h2 id="clone-the-repository"><a class="header" href="#clone-the-repository">Clone the Repository</a></h2>
+<p><strong>Clone the repository using the following command:</strong></p>
 <p><code>git clone git@github.com:paltalabs/create-soroban-dapp.git</code></p>
-<p>The dapp will then not be in the root folder, this folder is occupied by the npx script. You will find the dapp in the sub folder 'soroban-react-dapp':</p>
+<h2 id="navigate-to-the-project-folder"><a class="header" href="#navigate-to-the-project-folder">Navigate to the Project Folder</a></h2>
+<p>The main project (dapp) will be located in a subfolder named <code>soroban-react-dapp</code>, not in the root directory. The root directory is occupied by the NPX script.</p>
+<p><strong>Navigate to the subfolder:</strong></p>
 <p><code>cd soroban-react-dapp</code></p>
-<p>From there, it is a normal nextjs app:</p>
-<p><code>yarn</code> or <code>npm install</code> or <code>pnpm install</code></p>
+<h2 id="install-dependencies"><a class="header" href="#install-dependencies">Install Dependencies</a></h2>
+<p>Inside the <code>soroban-react-dapp</code> folder, install the necessary dependencies. You can use Yarn, npm, or pnpm as per your preference:</p>
+<p><code>yarn install</code> or <code>npm install</code> or <code>pnpm install</code></p>
 <blockquote>
-<p>Note: Using this technique you will clone also the npx script which will be of no use for you. You can only keep the subfolder <code>soroban-dapp</code> containing the nextjs project.</p>
+<p>Important Note: When using this manual cloning technique, you will also clone the NPX script located in the root folder. This script will not be necessary for your manually cloned project. You can choose to keep only the <code>soroban-react-dapp</code> subfolder, which contains the actual Next.js project.</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h1>
-<p>The script in its early stage is likely to not function perfectly on every different os and configuration. If the script happens to not function properly <strong>please report to @benjaminsalon</strong> on the stellar developer discord channel.</p>
+<p>This script is still in its early stages of development and might not function perfectly on every operating system and configuration. If you encounter any issues, please report to <strong>devs@paltalabs.io</strong></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="set-up-your-secrets"><a class="header" href="#set-up-your-secrets">Set up your secrets!</a></h1>
-<p>When deploying our contracts, we will need to the secret key of the deployer account. This secret key will be in a ignored file in <code>./contracts/.env</code>.</p>
-<p>To set up your secrets do</p>
+<p>When deploying our contracts, you will need the secret key of the deployer account. This secret key will be stored in an ignored file located at <code>./contracts/.env</code>.</p>
+<p>To set up your secrets, first copy the example environment file:</p>
 <pre><code class="language-bash">cp contracts/.env.example contracts/.env
 </code></pre>
-<p>If you are already inside the contracts folder (due to being inside the Docker Container), just do <code>cp .env.example .env</code></p>
-<p>And then edit the <code>.env</code> file, that will look like this:</p>
+<p>If you are already inside the contracts folder (such as when using a Docker container), simply use:</p>
+<p><code>cp .env.example .env</code></p>
+<p>Next, edit the <code>.env</code> file and add your secret keys. The file will look like this:</p>
 <pre><code class="language-bash"># Stellar accounts Secret Keys
 ADMIN_SECRET_KEY=
 
 # RPC Setup
 MAINNET_RPC_URL=
 </code></pre>
-<p>You can generate new Accounts and Private Keys from https://laboratory.stellar.org/#account-creator?network=test</p>
-<p>If you plan to deploy in Mainnet, you will also need a Mainnet RPC Provider. Find one in https://app.validationcloud.io/ or in https://nownodes.io/</p>
+<p>You can generate new Accounts and Private Keys from <a href="https://laboratory.stellar.org/#account-creator?network=test">Stellar Laboratory</a></p>
+<p>If you plan to deploy on the Mainnet, you will also need a Mainnet RPC Provider. Find one in <a href="https://app.validationcloud.io/">Validation Cloud</a> or <a href="https://nownodes.io/">Nownodes</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="welcome-to-your-soroban-react-dapp-boilerplate"><a class="header" href="#welcome-to-your-soroban-react-dapp-boilerplate">Welcome to your soroban react dapp boilerplate!</a></h1>
 <p>This dapp largely inspired by the <a href="https://github.com/scio-labs/inkathon">ink!athon</a> project will help you kickstart your soroban dapp creator journey.</p>
 <h1 id=""><a class="header" href="#"></a></h1>
