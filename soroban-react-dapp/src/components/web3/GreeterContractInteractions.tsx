@@ -18,6 +18,7 @@ type UpdateGreetingValues = { newMessage: string }
 export const GreeterContractInteractions: FC = () => {
   const sorobanContext = useSorobanReact()
 
+
   const [, setFetchIsLoading] = useState<boolean>(false)
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false)
   const { register, handleSubmit } = useForm<UpdateGreetingValues>()
@@ -38,6 +39,7 @@ export const GreeterContractInteractions: FC = () => {
 
   // Retrieve the deployed contract object from contract Registry
   const contract = useRegisteredContract("greeting")
+
   // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
     if (!sorobanContext.server) return
@@ -127,6 +129,24 @@ export const GreeterContractInteractions: FC = () => {
         // await sorobanContext.connect();
       }
     }
+  }
+
+
+  if(!contract){
+    return (
+      <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
+        <h2 tw="text-center font-mono text-gray-400">Greeter Smart Contract</h2>
+        <Card variant="outline" p={4} bgColor="whiteAlpha.100">
+          <p tw="text-center font-mono text-sm">No deployment found in the current chain</p>
+          <p tw="text-center font-mono text-lg mt-4">Available deployments:</p>
+          {
+            sorobanContext?.deployments?.map((d, i) => (
+              <p key={i} tw="text-center font-mono text-sm">- {d.networkPassphrase}</p>
+            )) 
+          }
+        </Card>
+      </div>
+    )
   }
 
   return (
