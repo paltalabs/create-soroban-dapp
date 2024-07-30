@@ -12,7 +12,7 @@
     "@stellar/tsconfig": "^1.0.2",
     "@types/chai": "^4.3.16",
     "@types/mocha": "^10.0.7",
-    "@types/node": "^20.11.20",
+    "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "chai": "^5.1.1",
@@ -24,6 +24,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@stellar/stellar-sdk": "11.3.0",
     "cors": "^2.8.5",

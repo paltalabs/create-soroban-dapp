@@ -17,6 +17,7 @@
     "lint:format": "prettier . --write",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@chakra-ui/react": "^2.8.1",
     "@emotion/css": "^11.11.2",
