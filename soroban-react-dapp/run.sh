@@ -1,1 +1,1 @@
-docker exec -it soroban-contracts bash
+docker exec -it soroban-preview bash
