@@ -45,12 +45,12 @@ export const GreeterContractInteractions: FC = () => {
     if (!sorobanContext.server) return
 
     const currentChain = sorobanContext.activeChain?.name?.toLocaleLowerCase()
+    console.log("Current chain: ", currentChain)
     if (!currentChain) {
       console.log("No active chain")
       toast.error('Wallet not connected. Try again…')
       return
-    }
-    else {
+    } else {
       const contractAddress = contract?.deploymentInfo.contractAddress
       setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
@@ -74,9 +74,9 @@ export const GreeterContractInteractions: FC = () => {
         setFetchIsLoading(false)
       }
     }
-  },[sorobanContext,contract])
+  },[sorobanContext, contract])
 
-  useEffect(() => {void fetchGreeting()}, [updateFrontend,fetchGreeting])
+  useEffect(() => {void fetchGreeting()}, [updateFrontend, fetchGreeting])
 
 
   const { activeChain, server, address } = sorobanContext
