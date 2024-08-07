@@ -1,4 +1,4 @@
-# @create-soroban-dapp
+# @create-soroban-dapp.
 
 @create-soroban-dapp is both a npx script and a boilerplate dapp for kickstarting any of your ideas for a Soroban-based Dapp.
 
