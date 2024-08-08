@@ -2,4 +2,5 @@
 dist
 .env
 contracts/*/target/
+contracts/*/test_snapshots/
 .soroban
