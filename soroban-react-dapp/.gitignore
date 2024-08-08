@@ -48,4 +48,5 @@ dist
 contract/target
 greeting_contract/target
 contracts/**/target
+contracts/**/test_snapshots
 .soroban/

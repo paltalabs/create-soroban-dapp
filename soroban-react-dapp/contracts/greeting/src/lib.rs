@@ -58,7 +58,7 @@ impl TitleContract {
     }
 
     // removes an admin from the list of admins, only the instantiator can remove an admin
-    pub fn remove_admin(env: Env, admin_to_remove: Address) -> Result<bool, Error> {
+    pub fn remove_admin(env: Env, admin_to_remove: Address) {
         let storage = env.storage().instance();
         let instantiator: Address = storage.get(&DataKey::Instantiator).unwrap();
         instantiator.require_auth();
@@ -68,7 +68,6 @@ impl TitleContract {
             .first_index_of(&admin_to_remove)
             .map(|index| admins.remove(index));
         env.storage().instance().set(&DataKey::Admins, &admins);
-        Ok(true)
     }
 
     // reads the list of admins from the storage
