@@ -1,6 +1,6 @@
-import { Horizon } from '@stellar/stellar-sdk';
+import { Address, Contract, Horizon, nativeToScVal, xdr } from '@stellar/stellar-sdk';
 import { AddressBook } from '../utils/address_book.js';
-import { airdropAccount, deployContract, installContract} from '../utils/contract.js';
+import { airdropAccount, deployContract, installContract, invokeContract} from '../utils/contract.js';
 import { config } from '../utils/env_config.js';
 
 export async function deployContracts(addressBook: AddressBook, contracts_to_deploy: Array<string>) {
@@ -23,7 +23,14 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
     console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
   }
 
-  
+  // get the id of the greeting contract and call init with the account
+  console.log('-------------------------------------------------------');
+  console.log('Initializing Greeting Contract');
+  let accountAddress = Address.fromString(loadedConfig.admin.publicKey());
+  const params: xdr.ScVal[] = [
+    nativeToScVal(accountAddress)
+  ];
+  await invokeContract('greeting', addressBook, 'init', params, loadedConfig.admin);
 }
 
 const network = process.argv[2];
