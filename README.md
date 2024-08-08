@@ -109,4 +109,6 @@ cd ..
 yarn
 # run the frontend in development mode
 yarn dev
+```
 
+⚠️ **To add new admins and change the greeting message, connect with the same wallet that deployed the contract.** ⚠️
