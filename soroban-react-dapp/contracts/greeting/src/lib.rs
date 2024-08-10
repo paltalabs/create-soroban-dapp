@@ -1,5 +1,8 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, symbol_short, Address, Env, String, Symbol, Vec};
+use soroban_sdk::{
+    contract, contracterror, contractimpl, contracttype, symbol_short, Address, Env, String,
+    Symbol, Vec,
+};
 
 const TITLE: Symbol = symbol_short!("TITLE");
 
@@ -28,12 +31,12 @@ impl TitleContract {
     }
 
     // set the title only available editors
-    pub fn set_title(env: Env, user: Address, title: String) {
+    pub fn set_title(env: Env, user: Address, title: String) -> Result<(), Error> {
         user.require_auth();
         let storage = env.storage().instance();
         let admin: Address = storage.get(&Assets::Admin).unwrap();
         let editors: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
-        if editors.contains(&user) || caller.eq(&admin) {
+        if editors.contains(&user) || user.eq(&admin) {
             env.storage().instance().set(&Assets::Title, &title);
             Ok(())
         } else {
