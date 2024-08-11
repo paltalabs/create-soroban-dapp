@@ -68,7 +68,7 @@ impl TitleContract {
     }
 
     // remove wallets from editors
-    pub fn remove_admin(env: Env, remover: Address) {
+    pub fn remove_editor(env: Env, remover: Address) {
         let storage = env.storage().instance();
         let admin: Address = storage.get(&Assets::Admin).unwrap();
         admin.require_auth();
