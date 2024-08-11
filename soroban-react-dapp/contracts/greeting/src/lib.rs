@@ -68,17 +68,19 @@ impl TitleContract {
         let admin: Address = storage.get(&Assets::Admin).unwrap();
         admin.require_auth();
 
-        let mut admins: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
-        admins
+        let mut editors: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
+        editors
             .first_index_of(&remover)
-            .map(|index| admins.remove(index));
-        env.storage().instance().set(&Assets::Editors, &admins);
+            .map(|index| editors.remove(index));
+        env.storage().instance().set(&Assets::Editors, &editors);
     }
 
     // fetch the editor lists
     pub fn fetch_editors(env: Env) -> Vec<Address> {
         let storage = env.storage().instance();
-        let editors: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
+        let admin: Address = storage.get(&Assets::Admin).unwrap();
+        let mut editors: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
+        editors.push_front(admin);
         editors
     }
 }

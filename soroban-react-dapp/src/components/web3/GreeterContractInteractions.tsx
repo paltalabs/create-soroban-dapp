@@ -23,7 +23,8 @@ export const GreeterContractInteractions: FC = () => {
 
 
   const [, setFetchIsLoading] = useState<boolean>(false)
-  const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false)
+  const [updateGreetingIsLoading, setUpdateGreetingIsLoading] = useState<boolean>(false)
+  const [updateEditorIsLoading, setUpdateEditorIsLoading] = useState<boolean>(false)
   const { register: registerGreeting, handleSubmit: handleSubmitGreeting } = useForm<UpdateGreetingValues>()
   const { register: registerEditor, handleSubmit: handleSubmitAdmin } = useForm<AddEditorValues>()
 
@@ -137,7 +138,7 @@ export const GreeterContractInteractions: FC = () => {
       }
       else {
 
-        setUpdateIsLoading(true)
+        setUpdateGreetingIsLoading(true)
 
         try {
           const result = await contract?.invoke({
@@ -158,7 +159,7 @@ export const GreeterContractInteractions: FC = () => {
           console.error(e)
           toast.error('Error while sending tx. Try again…')
         } finally {
-          setUpdateIsLoading(false)
+          setUpdateGreetingIsLoading(false)
           toggleUpdate(!updateFrontend)
         }
 
@@ -187,7 +188,7 @@ export const GreeterContractInteractions: FC = () => {
       }
       else {
 
-        setUpdateIsLoading(true)
+        setUpdateEditorIsLoading(true)
 
         try {
           const result = await contract?.invoke({
@@ -208,7 +209,7 @@ export const GreeterContractInteractions: FC = () => {
           console.error(e)
           toast.error('Error while sending tx. Try again…')
         } finally {
-          setUpdateIsLoading(false)
+          setUpdateEditorIsLoading(false)
           toggleUpdate(!updateFrontend)
         }
 
@@ -237,7 +238,7 @@ export const GreeterContractInteractions: FC = () => {
       }
       else {
 
-        setUpdateIsLoading(true)
+        setUpdateEditorIsLoading(true)
 
         try {
           const result = await contract?.invoke({
@@ -258,7 +259,7 @@ export const GreeterContractInteractions: FC = () => {
           console.error(e)
           toast.error('Error while sending tx. Try again…')
         } finally {
-          setUpdateIsLoading(false)
+          setUpdateEditorIsLoading(false)
           toggleUpdate(!updateFrontend)
         }
 
@@ -267,13 +268,17 @@ export const GreeterContractInteractions: FC = () => {
     }
   }
 
+  const trimAddress = (string: string, sideLength: number = 16) => {
+    return string.length > sideLength * 2 ? string.substring(0, sideLength) + '…'
+      + string.substring(string.length - sideLength) : string
+  }
+
   const adminManagement = (
     <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
-      <h2 tw="text-center font-mono text-gray-400">Contract Admins</h2>
       <Card variant="outline" p={4} bgColor="whiteAlpha.100">
         {editors?.map((editor, i) => (
           <div tw="flex justify-between" key={editor}>
-            <p key={i} tw="text-center font-mono text-sm">- {editor}</p>
+            <p key={i} tw="text-center font-mono text-sm">- {trimAddress(editor)}</p>
             {i !== 0 && <button onClick={() => {
               removeEditor({ remover: editor })
             }}>✕</button>}
@@ -286,15 +291,15 @@ export const GreeterContractInteractions: FC = () => {
         <form onSubmit={handleSubmitAdmin(addEditor)}>
           <Stack direction="row" spacing={2} align="end">
             <FormControl>
-              <FormLabel>Add Admin</FormLabel>
-              <Input disabled={updateIsLoading} {...registerEditor('newEditor')} />
+              <FormLabel>Add Editor</FormLabel>
+              <Input disabled={updateEditorIsLoading} {...registerEditor('newEditor')} />
             </FormControl>
             <Button
               type="submit"
               mt={4}
               colorScheme="purple"
-              isDisabled={updateIsLoading}
-              isLoading={updateIsLoading}
+              isDisabled={updateEditorIsLoading}
+              isLoading={updateEditorIsLoading}
             >
               Submit
             </Button>
@@ -345,14 +350,14 @@ export const GreeterContractInteractions: FC = () => {
               <Stack direction="row" spacing={2} align="end">
                 <FormControl>
                   <FormLabel>Update Greeting</FormLabel>
-                  <Input disabled={updateIsLoading} {...registerGreeting('newMessage')} />
+                  <Input disabled={updateGreetingIsLoading} {...registerGreeting('newMessage')} />
                 </FormControl>
                 <Button
                   type="submit"
                   mt={4}
                   colorScheme="purple"
-                  isDisabled={updateIsLoading}
-                  isLoading={updateIsLoading}
+                  isDisabled={updateGreetingIsLoading}
+                  isLoading={updateGreetingIsLoading}
                 >
                   Submit
                 </Button>

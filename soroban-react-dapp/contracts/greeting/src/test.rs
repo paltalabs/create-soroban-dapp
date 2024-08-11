@@ -40,5 +40,5 @@ fn test() {
     // remove editors by admin
     let _ = client.remove_editor(&new_editor);
     let admins = client.fetch_editors();
-    assert_eq!(admins.len(), 0);
+    assert_eq!(admins.len(), 1);
 }
