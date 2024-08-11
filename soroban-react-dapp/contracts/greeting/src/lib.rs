@@ -74,6 +74,13 @@ impl TitleContract {
             .map(|index| admins.remove(index));
         env.storage().instance().set(&Assets::Editors, &admins);
     }
+
+    // fetch the editor lists
+    pub fn fetch_editors(env: Env) -> Vec<Address> {
+        let storage = env.storage().instance();
+        let editors: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
+        editors
+    }
 }
 
 #[derive(Clone)]
