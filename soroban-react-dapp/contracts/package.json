@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "deploy": "yarn build && node dist/scripts/deploy.js"
+    "deploy": "yarn build && node dist/scripts/deploy.js",
+    "test": "yarn build && node dist/scripts/test_authorized_greeting.js"
   },
   "license": "MIT",
   "devDependencies": {

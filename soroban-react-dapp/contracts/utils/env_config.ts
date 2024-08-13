@@ -67,15 +67,13 @@ class EnvConfig {
     const mainnetRpcUrl = process.env.MAINNET_RPC_URL;
     const admin = process.env.ADMIN_SECRET_KEY;
 
-    if(!mainnetRpcUrl){
-      throw new Error('Error: MAINNET_RPC_URL key not found in .env');
-    }
-
     if(!admin){
       throw new Error('Error: ADMIN_SECRET_KEY key not found in .env');
     }
 
     if (network === 'mainnet') {
+      if (!mainnetRpcUrl) throw new Error('Error: MAINNET_RPC_URL key not found in .env');
+      
       passphrase = networkConfig.soroban_network_passphrase;
       rpc_url = mainnetRpcUrl;
       horizon_rpc_url = networkConfig.horizon_rpc_url;
