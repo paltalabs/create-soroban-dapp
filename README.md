@@ -1,3 +1,14 @@
+# Authorized Greetings - By pobletacio
+cd soroban-react-dapp/
+bash run.sh
+cd contracts
+make build
+yarn install
+yarn deploy testnet authorized_greeting
+yarn test testnet
+
+PD: THIS IS MY FIRST TIME PROGRAMMING ON RUST AND USING A BLOCKCHAIN SDK!
+
 # @create-soroban-dapp.
 
 @create-soroban-dapp is both a npx script and a boilerplate dapp for kickstarting any of your ideas for a Soroban-based Dapp.

@@ -5,7 +5,11 @@ import { config } from '../utils/env_config.js';
 
 export async function deployContracts(addressBook: AddressBook, contracts_to_deploy: Array<string>) {
 
-  if (network != "mainnet") await airdropAccount(loadedConfig.admin);
+  if (network != "mainnet") {
+    await airdropAccount(loadedConfig.admin);
+    await airdropAccount(loadedConfig.getUser("GREETER"));
+    await airdropAccount(loadedConfig.getUser("UNAUTHORIZED_GREETER"));
+  }
   // if (network === "standalone") await loadedConfig.initializeChildAccounts();
 
   let account = await loadedConfig.horizonRpc.loadAccount(loadedConfig.admin.publicKey())
@@ -22,8 +26,6 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
     
     console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
   }
-
-  
 }
 
 const network = process.argv[2];
