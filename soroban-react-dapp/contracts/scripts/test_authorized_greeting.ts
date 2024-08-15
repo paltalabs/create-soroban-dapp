@@ -3,167 +3,203 @@ import { AddressBook } from '../utils/address_book.js';
 import { invokeContract } from '../utils/contract.js';
 import { config } from '../utils/env_config.js';
 
-const getInitParams = () => {
-  const admin = loadedConfig.admin
-  const initialize_params: xdr.ScVal[] = [
-    new Address(admin.publicKey()).toScVal(),
-  ]
-  return { initialize_params, admin }
-}
-
-export async function testInitializeAdmin(addressBook: AddressBook) {
-  console.log('===============================');
-  console.log('Testing Initialize Admin');
-  console.log('===============================');
-  
-  const { initialize_params, admin } = getInitParams()
-  await invokeContract('authorized_greeting', addressBook, 'initialize', initialize_params, admin);
-  
-  const storedAdminResult = await invokeContract('authorized_greeting', addressBook, 'get_admin', [], admin, true);
-  
-  if (!storedAdminResult || !scValToNative(storedAdminResult.result.retval)) {
-    console.error("Error: Admin not retrieved successfully.");
-    return;
-  }
-  
-  const storedAdmin = scValToNative(storedAdminResult.result.retval);
-  
-  if (storedAdmin === admin.publicKey()) {
-    console.log("Admin was set correctly.");
-  } else {
-    console.error("Admin was not set correctly.");
-  }
-}
-
-export async function testAddGreeterToAuthorizedGreetersList(addressBook: AddressBook) {
-  console.log('===============================');
-  console.log('Testing Add Greeter to Authorized Greeters List');
-  console.log('===============================');
-  
-  const { initialize_params, admin } = getInitParams()
-  await invokeContract('authorized_greeting', addressBook, 'initialize', initialize_params, admin);
-  
-  const greeter = loadedConfig.getUser("GREETER_1")
-  const add_greeter_params: xdr.ScVal[] = [
-    new Address(greeter.publicKey()).toScVal(),
-  ]
-  
-  await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, admin);
-  
-  const authorizedGreeterListResult = await invokeContract('authorized_greeting', addressBook, 'get_authorized_greeter_list', [], admin);
-  
-  if (!authorizedGreeterListResult || !scValToNative(authorizedGreeterListResult.returnValue)) {
-    console.error("Error: Authorized Greeter List not retrieved successfully.");
-    return;
-  }
-  
-  const authorizedGreeterList = scValToNative(authorizedGreeterListResult.returnValue);
-  
-  const greeterPublicKey = greeter.publicKey();
-  console.assert(authorizedGreeterList[greeterPublicKey] === true, "Greeter was not added correctly");
-  
-  console.log("Greeter was added correctly.");
-}
-
-export async function testSetGreetUsingAnAuthorizedUser(addressBook: AddressBook) {
-  console.log('===============================');
-  console.log('Testing Set Greet Using An Authorized User');
-  console.log('===============================');
-  
-  const greeter = loadedConfig.getUser("GREETER_1");
-  const greetMessage = "Pobletacio was hired!";
-  
-  const { initialize_params, admin } = getInitParams()
-  await invokeContract('authorized_greeting', addressBook, 'initialize', initialize_params, admin);
-  
-  const add_greeter_params: xdr.ScVal[] = [
-    new Address(greeter.publicKey()).toScVal(),
-  ];
-  
-  await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, admin);
-  
-  const set_greet_params: xdr.ScVal[] = [
-    new Address(greeter.publicKey()).toScVal(),
-    nativeToScVal(greetMessage, { type: "string" }),
-  ];
-  
-  await invokeContract('authorized_greeting', addressBook, 'set_greet', set_greet_params, greeter);
-  const storedGreetResult = await invokeContract('authorized_greeting', addressBook, 'read_greet', [], greeter);
-  
-  if (!storedGreetResult || !scValToNative(storedGreetResult.returnValue)) {
-    console.error("Error: Greet message not retrieved successfully.");
-    return;
-  }
-  
-  const storedGreet = scValToNative(storedGreetResult.returnValue);
-  
-  console.assert(storedGreet === greetMessage, "Greet message was not set correctly");
-  console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀",)
-  console.log("Greet message was set correctly");
-  console.log("storedGreet -->", storedGreet.toUpperCase());
-  console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀",)
-}
-
-export async function testUnauthorizedUserAddingGreeterToAGreetersWhiteList(addressBook: AddressBook) {
-  console.log('===============================');
-  console.log('Testing Unauthorized User Adding Greeter to an Authorized Greeter List');
-  console.log('===============================');
-  
-  const { initialize_params, admin } = getInitParams()
-  await invokeContract('authorized_greeting', addressBook, 'initialize', initialize_params, admin);
-
-  const greeter = loadedConfig.getUser("GREETER_1");
-  
-  try {
-    const add_greeter_params: xdr.ScVal[] = [
-      new Address(greeter.publicKey()).toScVal(),
-    ];
-    // A SIMPLE GREETER CANT ADD HIMSELF TO A GREETERS WHITE LIST
-    await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, greeter);
-    console.assert(false, "Unauthorized user wasnt able to add a greeter");
-  } catch (e) {
-    console.log("Unauthorized user was not able to add a greeter as expected.");
-  }
-}
-
-export async function testUnauthorizedUserSetGreet(addressBook: AddressBook) {
-  console.log('===============================');
-  console.log('Testing Unauthorized User Setting Greet');
-  console.log('===============================');
-  
-  const { initialize_params, admin } = getInitParams()
-  await invokeContract('authorized_greeting', addressBook, 'initialize', initialize_params, admin);
-
-  const greeter = loadedConfig.getUser("GREETER_1");
-  const unauthorized_greeter = loadedConfig.getUser("GREETER_2");
-  const greetMessage = "Hello, Soroban!";
-  
-  const add_greeter_params: xdr.ScVal[] = [
-    new Address(greeter.publicKey()).toScVal(),
-  ];
-  
-  await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, admin);
-  
-  try {
-    const set_greet_params: xdr.ScVal[] = [
-      new Address(greeter.publicKey()).toScVal(),
-      nativeToScVal(greetMessage, { type: "string" }),
-    ];
-
-    await invokeContract('authorized_greeting', addressBook, 'set_greet', set_greet_params, unauthorized_greeter);
-    console.assert(false, "Unauthorized user wasnt able to set the greet message");
-  } catch (e) {
-    console.log("Unauthorized user was not able to set the greet message as expected.");
-  }
-}
-
 const network = process.argv[2];
 const loadedConfig = config(network);
 
 const addressBook = AddressBook.loadFromFile(network, loadedConfig);
 
-await testInitializeAdmin(addressBook);
-await testAddGreeterToAuthorizedGreetersList(addressBook);
-await testSetGreetUsingAnAuthorizedUser(addressBook);
-await testUnauthorizedUserAddingGreeterToAGreetersWhiteList(addressBook);
-await testUnauthorizedUserSetGreet(addressBook);
+export async function setAdmin(addressBook: AddressBook) {
+  console.log('==================================================');
+  console.log('Testing Admin Set');
+  console.log('==================================================');
+
+  const admin = loadedConfig.admin;
+  const set_admin_params = setAdminParams(admin);
+  const set_admin_result = await invokeContract('authorized_greeting', addressBook, 'set_admin', set_admin_params, admin);
+  set_admin_result.status == "SUCCESS" ? null : getResponseMessage('adminNotSetCorrectly')
+  
+  const storedAdminResult = await invokeContract('authorized_greeting', addressBook, 'get_admin', [], admin, true);
+  !storedAdminResult || !scValToNative(storedAdminResult.result.retval) ? getResponseMessage('adminSetFailure') : null
+
+  const storedAdmin = scValToNative(storedAdminResult.result.retval);
+  storedAdmin === admin.publicKey() ? getResponseMessage('adminSetSuccess') : getResponseMessage('adminNotSetCorrectly');
+}
+
+export async function addGreeterToAuthorizedList(addressBook: AddressBook) {
+  console.log('==================================================');
+  console.log('Testing Add Greeter to Authorized Greeters List');
+  console.log('==================================================');
+  
+  const admin = loadedConfig.admin;
+  const set_admin_params = setAdminParams(admin);
+  const set_admin_result = await invokeContract('authorized_greeting', addressBook, 'set_admin', set_admin_params, admin);
+  set_admin_result.status == "SUCCESS" ? null : getResponseMessage('adminNotSetCorrectly')
+  
+  const greeter = loadedConfig.getUser("GREETER")
+  const add_greeter_params = addGreeterParams(greeter)
+  const add_greeter_result = await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, admin);
+  add_greeter_result.status == "SUCCESS" ? null : getResponseMessage('greeterAddIncorrect')
+  
+  const authorizedGreeterListResult = await invokeContract('authorized_greeting', addressBook, 'get_authorized_greeter_list', [], admin);
+  
+  !authorizedGreeterListResult || !scValToNative(authorizedGreeterListResult.returnValue) ? getResponseMessage('greeterAddFailure') : null
+  
+  const authorizedGreeterList = scValToNative(authorizedGreeterListResult.returnValue);
+  
+  const greeterPublicKey = greeter.publicKey();
+  authorizedGreeterList[greeterPublicKey] === true ? getResponseMessage('greeterAddSuccess') : getResponseMessage('greeterAddIncorrect');
+}
+
+export async function authorizedUserGreetSet(addressBook: AddressBook) {
+  console.log('==================================================');
+  console.log('Testing Set Greet Using An Authorized User');
+  console.log('==================================================');
+
+  const greetMessage = "POBLETACIO WAS HIRED!";
+  
+  const admin = loadedConfig.admin;
+  const set_admin_params = setAdminParams(admin);
+  const set_admin_result = await invokeContract('authorized_greeting', addressBook, 'set_admin', set_admin_params, admin);
+  set_admin_result.status == "SUCCESS" ? null : getResponseMessage('adminNotSetCorrectly')
+  
+  const greeter = loadedConfig.getUser("GREETER")
+  const add_greeter_params = addGreeterParams(greeter)
+  const add_greeter_result = await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, admin);
+  add_greeter_result.status == "SUCCESS" ? null : getResponseMessage('greeterAddIncorrect')
+  
+  const set_greet_params = setGreetParams(greetMessage, greeter)
+  const set_greet_result = await invokeContract('authorized_greeting', addressBook, 'set_greet', set_greet_params, greeter);
+  set_greet_result.status == "SUCCESS" ? null : getResponseMessage('greetSetSuccess')
+
+  const storedGreetResult = await invokeContract('authorized_greeting', addressBook, 'read_greet', [], greeter);
+  
+  !storedGreetResult || !scValToNative(storedGreetResult.returnValue) ? getResponseMessage('greetSetFailure') : null
+  const storedGreet = scValToNative(storedGreetResult.returnValue);
+
+  if (storedGreet === greetMessage) {
+    getResponseMessage('greetSetSuccess');
+    console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀");
+    console.log("storedGreet -->", storedGreet.toUpperCase());
+    console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀");
+  } else {
+    getResponseMessage('greetSetFailure');
+  }
+}
+
+export async function unauthorizedUserGreeterSet(addressBook: AddressBook) {
+  console.log('==================================================');
+  console.log('Testing Unauthorized User Adding Greeter to Authorized Greeters List');
+  console.log('==================================================');
+  
+  const admin = loadedConfig.admin;
+  const set_admin_params = setAdminParams(admin);
+  const set_admin_result = await invokeContract('authorized_greeting', addressBook, 'set_admin', set_admin_params, admin);
+  set_admin_result.status == "SUCCESS" ? null : getResponseMessage('adminNotSetCorrectly')
+
+  try {
+    const greeter = loadedConfig.getUser("GREETER")
+    const add_greeter_params = addGreeterParams(greeter)
+    const add_greeter_result = await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, admin);
+    add_greeter_result.status == "SUCCESS" ? null : getResponseMessage('greeterAddIncorrect')
+
+    const unauthorizedUserAddingGreeter = await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, greeter);
+    unauthorizedUserAddingGreeter.status == "FAILED" ? getResponseMessage('unauthorizedGreeterAddSuccess') : getResponseMessage('unauthorizedGreeterAddFailure');
+  } catch (e) {
+    getResponseMessage('unauthorizedGreeterAddFailure');
+  }
+}
+
+export async function unauthorizedUserGreetSet(addressBook: AddressBook) {
+  console.log('==================================================');
+  console.log('Testing Unauthorized User Setting Greet');
+  console.log('==================================================');
+  
+  const admin = loadedConfig.admin;
+  const set_admin_params = setAdminParams(admin);
+  await invokeContract('authorized_greeting', addressBook, 'set_admin', set_admin_params, admin);
+  
+  const greeter = loadedConfig.getUser("GREETER")
+  const add_greeter_params = addGreeterParams(greeter)
+  const add_greeter_result = await invokeContract('authorized_greeting', addressBook, 'add_greeter', add_greeter_params, admin);
+  add_greeter_result.status == "SUCCESS" ? null : getResponseMessage('greeterAddIncorrect')
+  
+  try {
+    const greetMessage = "I'm an unauthorized message";
+    const set_greet_params = setGreetParams(greetMessage, greeter);
+    
+    // Check if the unauthorized greet set was unexpectedly successful
+    const unauthorized_greeter = loadedConfig.getUser("UNAUTHORIZED_GREETER");
+    const set_greet_result = await invokeContract('authorized_greeting', addressBook, 'set_greet', set_greet_params, unauthorized_greeter);
+    set_greet_result.status == "FAILED" ? getResponseMessage('unauthorizedGreetSetSuccess') : getResponseMessage('unauthorizedGreetSetFailure');
+
+  } catch (e) {
+    getResponseMessage('unauthorizedGreetSetFailure');
+  }
+}
+
+type MessageKey =
+  | 'adminSetSuccess'
+  | 'adminSetFailure'
+  | 'adminNotSetCorrectly'
+  | 'greeterAddSuccess'
+  | 'greeterAddFailure'
+  | 'greeterAddIncorrect'
+  | 'greetSetSuccess'
+  | 'greetSetFailure'
+  | 'unauthorizedGreeterAddSuccess'
+  | 'unauthorizedGreeterAddFailure'
+  | 'unauthorizedGreetSetSuccess'
+  | 'unauthorizedGreetSetFailure';
+
+const getResponseMessage = (messageKey: MessageKey): void => {
+  const messages = {
+    adminSetSuccess: { message: "Admin was set correctly.✔️", type: "success" },
+    greeterAddSuccess: { message: "Greeter was authorized correctly.✔️", type: "success" },
+    greetSetSuccess: { message: "Greet message was set correctly.✔️", type: "success" },
+    unauthorizedGreeterAddSuccess: { message: "Unauthorized user was not able to add a greeter.✔️", type: "success" },
+    unauthorizedGreetSetSuccess: { message: "Unauthorized user was not able to set the greet message.✔️", type: "success" },
+    adminSetFailure: { message: "Error: Admin not retrieved successfully.❌", type: "failure" },
+    adminNotSetCorrectly: { message: "Error: Admin was not set correctly.❌", type: "failure" },
+    greeterAddFailure: { message: "Error: Authorized Greeter List not retrieved successfully.❌", type: "failure" },
+    greeterAddIncorrect: { message: "Error: Greeter was not added correctly.❌", type: "failure" },
+    greetSetFailure: { message: "Error: Greet message not retrieved successfully.❌", type: "failure" },
+    unauthorizedGreeterAddFailure: { message: "Error: Unauthorized user was able to add a greeter.❌", type: "failure" },
+    unauthorizedGreetSetFailure: { message: "Error: Unauthorized user was able to set the greet message.❌", type: "failure" },
+  };
+
+  const { message, type } = messages[messageKey] || { message: "Message key not found.", type: "error" };
+
+  if (type === "log") {
+    console.log(message);
+  } else {
+    console.error(message);
+  }
+};
+
+const setAdminParams = (admin: any) => {
+  const set_admin_params: xdr.ScVal[] = [
+    new Address(admin.publicKey()).toScVal(),
+  ]
+  return set_admin_params
+}
+
+const addGreeterParams = (greeter: any) => {
+  const add_greeter_params: xdr.ScVal[] = [
+    new Address(greeter.publicKey()).toScVal(),
+  ]
+  return add_greeter_params
+}
+
+const setGreetParams = (greetMessage: any, greeter: any) => {
+  const set_greet_params: xdr.ScVal[] = [
+    new Address(greeter.publicKey()).toScVal(),
+    nativeToScVal(greetMessage, { type: "string" }),
+  ];
+  return set_greet_params
+}
+
+await setAdmin(addressBook);
+await addGreeterToAuthorizedList(addressBook);
+await authorizedUserGreetSet(addressBook);
+await unauthorizedUserGreeterSet(addressBook);
+await unauthorizedUserGreetSet(addressBook);

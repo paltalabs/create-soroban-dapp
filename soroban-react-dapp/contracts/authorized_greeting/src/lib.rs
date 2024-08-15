@@ -10,11 +10,7 @@ pub struct AuthorizedGreetingContract;
 
 #[contractimpl]
 impl AuthorizedGreetingContract {
-    pub fn get_authorized_greeter_list(env: &Env) -> Map<Address, bool> {
-        env.storage().instance().get(&AUTH_GRTRS).unwrap_or(Map::new(env))
-    }
-
-    pub fn initialize(env: Env, admin: Address) {
+    pub fn set_admin(env: Env, admin: Address) {
         env.storage().instance().set(&ADMIN, &admin);
     }
 
@@ -29,6 +25,10 @@ impl AuthorizedGreetingContract {
         let mut authorized_greeter_list = Self::get_authorized_greeter_list(&env);
         authorized_greeter_list.set(greeter, true);
         env.storage().instance().set(&AUTH_GRTRS, &authorized_greeter_list);
+    }
+
+    pub fn get_authorized_greeter_list(env: &Env) -> Map<Address, bool> {
+        env.storage().instance().get(&AUTH_GRTRS).unwrap_or(Map::new(env))
     }
 
     pub fn set_greet(env: Env, greeter: Address, greet: String) {
