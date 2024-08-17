@@ -1,4 +1,7 @@
 # Authorized Greetings - By pobletacio
+
+First add test wallets on .env! (Admin, greeter, unauthorized greeter)
+
 cd soroban-react-dapp/
 bash run.sh
 cd contracts
@@ -6,6 +9,11 @@ make build
 yarn install
 yarn deploy testnet authorized_greeting
 yarn test testnet
+
+At this point you import wallets on Freighter, admin is initialiazed, has only one greeter that can set a greet, an the unauthorized greeter can only read the message,
+admin can add more Authorized greeters using UI
+
+npm run dev
 
 PD: THIS IS MY FIRST TIME PROGRAMMING ON RUST AND USING A BLOCKCHAIN SDK!
 
