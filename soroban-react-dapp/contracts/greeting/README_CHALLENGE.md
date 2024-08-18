@@ -1,3 +1,5 @@
+Paltalabs Challenge
+
 # Paltalabs Challenge
 
 Este proyecto forma parte del desafío Paltalabs, que se enfoca en añadir controles de autorización a un contrato inteligente para garantizar que solo direcciones específicas puedan modificar un título. Además, el proyecto incluye la implementación de la gestión de direcciones y el uso de `required_auth` para verificar que los cambios sean realizados por usuarios autorizados.
@@ -34,6 +36,7 @@ pub enum Key {
     Admin,
     Editors,
 }
+```
 Estas estructuras permiten manejar errores de manera efectiva y gestionar la autenticación de los usuarios.
 
 lib.rs
@@ -47,35 +50,39 @@ Para configurar y probar el proyecto, sigue estos pasos:
 
 Clona el repositorio (si aún no lo has hecho):
 
-bash
-Copiar código
+```bash
+
 git clone <URL_DEL_REPOSITORIO>
 cd soroban-react-dapp/
+```
 Inicia los servicios de Docker:
 
-bash
-Copiar código
+```bash
 docker compose up -d
 Accede al contenedor de Docker:
+```
+```bash
 
-bash
-Copiar código
 docker exec -it soroban-preview bash
-Navega al directorio de contratos:
 
-bash
-Copiar código
+```
+
+Navega al directorio de contratos:
+```bash
+
 cd contracts
 Compila el contrato:
+```
+```bash
 
-bash
-Copiar código
 make build
 Ejecuta las pruebas:
-
-bash
+```
+```bash
 Copiar código
 make test
+```
+
 
 Falto
 
