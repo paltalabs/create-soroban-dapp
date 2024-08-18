@@ -13,7 +13,7 @@ import Link from 'next/link'
 import { contractInvoke, useRegisteredContract } from '@soroban-react/contracts'
 import { nativeToScVal, xdr } from '@stellar/stellar-sdk'
 
-type UpdateGreetingValues = { newMessage: string }
+type UpdateGreetingValues = { newAuthorizedGreeter: string }
 
 export const GreeterAuthorizedContractInteractions: FC = () => {
   const sorobanContext = useSorobanReact()
@@ -74,7 +74,7 @@ export const GreeterAuthorizedContractInteractions: FC = () => {
 
   const { activeChain, server, address } = sorobanContext
 
-  const updateGreeting = async ({ newMessage }: UpdateGreetingValues) => {
+  const updateGreeting = async ({ newMessage }: any) => {
     if (!address) {
       toast.error('Wallet is not connected. Try again...')
       return
@@ -155,7 +155,8 @@ export const GreeterAuthorizedContractInteractions: FC = () => {
         {/* IF ADMIN IS LOGGED IN ADD AUTHORIZED GREETERS AND FETCH AUTHORIZED GREETERS*/}
         {fetchedAdmin === address && (
           <Card variant="outline" p={4} bgColor="whiteAlpha.100">
-            <form onSubmit={handleSubmit(async ({ newAuthorizedGreeter }: { newAuthorizedGreeter: string }) => {
+            <form onSubmit={handleSubmit(async (data: UpdateGreetingValues) => {
+              const { newAuthorizedGreeter } = data;
               if (!contract) return
               try {
                 setUpdateIsLoading(true)
@@ -220,13 +221,13 @@ export const GreeterAuthorizedContractInteractions: FC = () => {
         )}
 
         {/* Update Greeting */}
-        {Array.isArray(fetchedAuthorizedGreeters) && fetchedAuthorizedGreeters.includes(address) && (
+        {Array.isArray(fetchedAuthorizedGreeters) && address && fetchedAuthorizedGreeters.includes(address) && (
           <Card variant="outline" p={4} bgColor="whiteAlpha.100">
             <form onSubmit={handleSubmit(updateGreeting)}>
               <Stack direction="row" spacing={2} align="end">
                 <FormControl>
                   <FormLabel>Update Greet</FormLabel>
-                  <Input disabled={updateIsLoading} {...register('newMessage')} />
+                  <Input disabled={updateIsLoading} {...register('newAuthorizedGreeter')} />
                 </FormControl>
                 <Button
                   type="submit"
