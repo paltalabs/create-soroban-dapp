@@ -1,7 +1,6 @@
+use crate::constants::*;
 use crate::error::Error;
-use soroban_sdk::{symbol_short, Address, Env, Symbol};
-
-const ADMIN: Symbol = symbol_short!("ADMIN");
+use soroban_sdk::{Address, Env};
 
 // init instruction to set admin
 pub fn init(env: Env, admin: Address) -> Result<(), Error> {
