@@ -22,7 +22,7 @@ pub enum AuthError {
 pub fn check_auth(env: &Env, user: &Address) -> bool {
     let admin: Address = match env.storage().instance().get(&Key::Admin) {
         Some(admin) => admin,
-        None => return false, // Admin not found
+        None => return false, 
     };
     let editors: Vec<Address> = env.storage().instance().get(&Key::Editors).unwrap_or(Vec::new(env));
     editors.contains(user) || user == &admin
@@ -31,10 +31,10 @@ pub fn check_auth(env: &Env, user: &Address) -> bool {
 pub fn search(env: &Env) -> Vec<Address> {
     let admin: Address = match env.storage().instance().get(&Key::Admin) {
         Some(admin) => admin,
-        None => return Vec::new(env), // Admin not found
+        None => return Vec::new(env), 
     };
     let mut editors: Vec<Address> = env.storage().instance().get(&Key::Editors).unwrap_or(Vec::new(env));
-    editors.push_back(admin); // Assuming `push_back` is available
+    editors.push_back(admin); 
     editors
 }
 
