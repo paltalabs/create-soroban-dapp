@@ -77,6 +77,13 @@ impl TitleContract {
             .get(&TITLE)
             .unwrap_or(String::from_str(&env, "Paltalabs Challenge"))
     }
+
+    pub fn get_authorized_users(env: Env) -> Map<Address, bool> {
+        env.storage()
+            .instance()
+            .get(&AUTH_USERS)
+            .unwrap_or(Map::new(&env))
+    }
 }
 
 mod test;
