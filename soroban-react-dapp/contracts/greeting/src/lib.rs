@@ -1,7 +1,5 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, symbol_short, Address, Env, String, Symbol, Vec};
-
-const TITLE: Symbol = symbol_short!("TITLE");
+use soroban_sdk::{contract, contractimpl, Address, Env, String, Vec};
 
 mod constants;
 mod error;
@@ -10,12 +8,13 @@ mod instruction;
 use error::Error;
 use instruction::auth::*;
 use instruction::init::*;
+use instruction::util::*;
 #[contract]
 pub struct TitleContract;
 
 #[contractimpl]
 impl TitleContract {
-    // init instruction to set admin
+    // initialze instruction to set admin
     pub fn init(env: Env, admin: Address) -> Result<(), Error> {
         init(env, admin)
     }
@@ -35,15 +34,14 @@ impl TitleContract {
         read_editors(env)
     }
 
-    pub fn set_title(env: Env, title: String) {
-        env.storage().instance().set(&TITLE, &title)
+    // set title
+    pub fn set_title(env: Env, editor: Address, title: String) -> Result<(), Error> {
+        set_title(env, editor, title)
     }
 
+    // read the title
     pub fn read_title(env: Env) -> String {
-        env.storage()
-            .instance()
-            .get(&TITLE)
-            .unwrap_or(String::from_str(&env, "Default Title"))
+        read_title(env)
     }
 }
 
