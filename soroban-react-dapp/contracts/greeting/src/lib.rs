@@ -14,6 +14,7 @@ const AUTH_USERS: Symbol = symbol_short!("AUTH_USRS");
 pub enum ContractError {
     Unauthorized = 1,
     AdminAlreadySet = 2,
+    AdminNotSet = 3,
 }
 
 #[contract]
@@ -48,6 +49,26 @@ impl TitleContract {
 
             Ok(address)
         }
+    }
+
+    pub fn set_authorized_user(env: Env, user: Address) -> Result<Address, ContractError> {
+        if !env.storage().instance().has(&ADMIN) {
+            return Err(ContractError::AdminNotSet);
+        }
+
+        let admin: Address = env.storage().instance().get(&ADMIN).unwrap();
+        admin.require_auth();
+
+        let mut authorized_users: Map<Address, bool> = env
+            .storage()
+            .instance()
+            .get(&AUTH_USERS)
+            .unwrap_or(Map::new(&env));
+
+        authorized_users.set(user.clone(), true);
+        env.storage().instance().set(&AUTH_USERS, &authorized_users);
+
+        Ok(user)
     }
 
     pub fn read_title(env: Env) -> String {
