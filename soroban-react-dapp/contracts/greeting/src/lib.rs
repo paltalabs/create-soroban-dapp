@@ -84,6 +84,13 @@ impl TitleContract {
             .get(&AUTH_USERS)
             .unwrap_or(Map::new(&env))
     }
+
+    pub fn get_admin(env: Env) -> Result<Address, ContractError> {
+        env.storage()
+            .instance()
+            .get(&ADMIN)
+            .ok_or(ContractError::AdminNotSet)
+    }
 }
 
 mod test;
