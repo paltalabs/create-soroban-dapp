@@ -1,11 +1,17 @@
-import { Horizon } from '@stellar/stellar-sdk';
+import { Address, Horizon, nativeToScVal, xdr } from '@stellar/stellar-sdk';
 import { AddressBook } from '../utils/address_book.js';
-import { airdropAccount, deployContract, installContract} from '../utils/contract.js';
+import { airdropAccount, deployContract, installContract, invokeContract} from '../utils/contract.js';
 import { config } from '../utils/env_config.js';
 
 export async function deployContracts(addressBook: AddressBook, contracts_to_deploy: Array<string>) {
+  const { admin } = loadedConfig;
 
-  if (network != "mainnet") await airdropAccount(loadedConfig.admin);
+  if (network != "mainnet") {
+    Promise.all([
+      airdropAccount(admin),
+      airdropAccount(loadedConfig.getUser("USER_1"))
+    ])
+  }
   // if (network === "standalone") await loadedConfig.initializeChildAccounts();
 
   let account = await loadedConfig.horizonRpc.loadAccount(loadedConfig.admin.publicKey())
@@ -23,7 +29,20 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
     console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
   }
 
-  
+  const adminPublicKey = admin.publicKey()
+  const setAdminParams: xdr.ScVal[] = [
+    new Address(adminPublicKey).toScVal()
+  ]
+
+  await invokeContract(
+    'greeting',
+    addressBook,
+    'set_admin',
+    setAdminParams,
+    admin,
+  )
+
+  console.log(`Admin successfully set`);
 }
 
 const network = process.argv[2];
