@@ -13,6 +13,7 @@ const AUTH_USERS: Symbol = symbol_short!("AUTH_USRS");
 #[repr(u32)]
 pub enum ContractError {
     Unauthorized = 1,
+    AdminAlreadySet = 2,
 }
 
 #[contract]
@@ -36,6 +37,16 @@ impl TitleContract {
             Ok(title)
         } else {
             Err(ContractError::Unauthorized)
+        }
+    }
+
+    pub fn set_admin(env: Env, address: Address) -> Result<Address, ContractError> {
+        if env.storage().instance().has(&ADMIN) {
+            Err(ContractError::AdminAlreadySet)
+        } else {
+            env.storage().instance().set(&ADMIN, &address);
+
+            Ok(address)
         }
     }
 
