@@ -71,11 +71,11 @@ impl TitleContract {
         Ok(user)
     }
 
-    pub fn read_title(env: Env) -> String {
+    pub fn get_title(env: Env) -> String {
         env.storage()
             .instance()
             .get(&TITLE)
-            .unwrap_or(String::from_str(&env, "Default Title"))
+            .unwrap_or(String::from_str(&env, "Paltalabs Challenge"))
     }
 }
 
