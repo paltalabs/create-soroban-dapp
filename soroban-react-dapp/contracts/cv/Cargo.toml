@@ -1,12 +1,10 @@
 [package]
 name = "cv"
 version = "1.0.0"
-edition = "2024"
-publish = false
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]
-doctest = false
 
 [dependencies]
 soroban-sdk = { workspace = true }

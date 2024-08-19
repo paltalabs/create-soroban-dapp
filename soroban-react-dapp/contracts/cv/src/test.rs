@@ -19,23 +19,29 @@ fn test_cv_contract() {
     client.update_cv(&owner, &name, &email);
 
     // Test adding skills
-    let skill = String::from_str(&env, "Rust");
-    client.add_skill(&owner, &skill);
+    let skill1 = String::from_str(&env, "Rust");
+    let skill2 = String::from_str(&env, "Soroban");
+    client.add_skill(&owner, &skill1);
+    client.add_skill(&owner, &skill2);
 
     // Test adding experience
-    let experience = String::from_str(&env, "Full Stack Developer Canasta Ahorro");
-    client.add_experience(&owner, &experience);
+    let experience1 = String::from_str(&env, "Full Stack Developer at Canasta Ahorro");
+    let experience2 = String::from_str(&env, "Blockchain Developer at Stellar");
+    client.add_experience(&owner, &experience1);
+    client.add_experience(&owner, &experience2);
 
     // Test adding education
-    let education = String::from_str(&env, "Civil Engineering");
-    client.add_education(&owner, &education);
+    let education1 = String::from_str(&env, "Civil Engineering");
+    let education2 = String::from_str(&env, "Blockchain Development Certification");
+    client.add_education(&owner, &education1);
+    client.add_education(&owner, &education2);
 
     // Test getting CV
     let cv = client.get_cv(&owner);
     assert_eq!(cv.owner, owner);
     assert_eq!(cv.name, name);
     assert_eq!(cv.email, email);
-    assert_eq!(cv.skills, Vec::from_array(&env, [skill]));
-    assert_eq!(cv.experience, Vec::from_array(&env, [experience]));
-    assert_eq!(cv.education, Vec::from_array(&env, [education]));
+    assert_eq!(cv.skills, Vec::from_array(&env, [skill1, skill2]));
+    assert_eq!(cv.experience, Vec::from_array(&env, [experience1, experience2]));
+    assert_eq!(cv.education, Vec::from_array(&env, [education1, education2]));
 }
