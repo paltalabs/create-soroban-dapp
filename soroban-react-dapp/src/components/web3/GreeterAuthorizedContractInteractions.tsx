@@ -13,14 +13,15 @@ import Link from 'next/link'
 import { contractInvoke, useRegisteredContract } from '@soroban-react/contracts'
 import { nativeToScVal, xdr } from '@stellar/stellar-sdk'
 
-type UpdateGreetingValues = { newAuthorizedGreeter: string }
+type UpdateAuthGreeterValue = { newAuthorizedGreeter: string }
+type UpdateGreetValue = { newMessage: string }
 
 export const GreeterAuthorizedContractInteractions: FC = () => {
   const sorobanContext = useSorobanReact()
 
   const [, setFetchIsLoading] = useState<boolean>(false)
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false)
-  const { register, handleSubmit } = useForm<UpdateGreetingValues>()
+  const { register, handleSubmit } = useForm<any>()
 
   const [fetchedGreeting, setGreeterMessage] = useState<string>()
   const [fetchedAdmin, setAdmin] = useState<string>()
@@ -89,14 +90,9 @@ export const GreeterAuthorizedContractInteractions: FC = () => {
       toast.error('Wallet not connected. Try again…')
       return
     }
-
-    if (newMessage.length > 32) {
-      toast.error("Message exceeds 32 bytes. Please shorten it.");
-      return;
-    }
     
     setUpdateIsLoading(true)
-    
+  
     try {
       const set_greet_params: xdr.ScVal[] = [
         new StellarSdk.Address(address).toScVal(),
@@ -155,18 +151,16 @@ export const GreeterAuthorizedContractInteractions: FC = () => {
         {/* IF ADMIN IS LOGGED IN ADD AUTHORIZED GREETERS AND FETCH AUTHORIZED GREETERS*/}
         {fetchedAdmin === address && (
           <Card variant="outline" p={4} bgColor="whiteAlpha.100">
-            <form onSubmit={handleSubmit(async (data: UpdateGreetingValues) => {
+            <form onSubmit={handleSubmit(async (data: UpdateAuthGreeterValue) => {
               const { newAuthorizedGreeter } = data;
               if (!contract) return
               try {
                 setUpdateIsLoading(true)
-                console.log("🚀 ~ <formonSubmit={handleSubmit ~ newAuthorizedGreeter:", newAuthorizedGreeter)
                 const keypair = StellarSdk.Keypair.fromSecret(newAuthorizedGreeter);
                 const publicKey = keypair.publicKey()
                 const add_greeter_params: xdr.ScVal[] = [
                   new StellarSdk.Address(publicKey).toScVal(),
                 ]
-                console.log("🚀 ~ <formonSubmit={handleSubmit ~ add_greeter_params:", add_greeter_params)
 
                 await contract.invoke({
                   method: 'add_greeter',
@@ -220,28 +214,69 @@ export const GreeterAuthorizedContractInteractions: FC = () => {
           </Card>
         )}
 
-        {/* Update Greeting */}
-        {Array.isArray(fetchedAuthorizedGreeters) && address && fetchedAuthorizedGreeters.includes(address) && (
-          <Card variant="outline" p={4} bgColor="whiteAlpha.100">
-            <form onSubmit={handleSubmit(updateGreeting)}>
-              <Stack direction="row" spacing={2} align="end">
-                <FormControl>
-                  <FormLabel>Update Greet</FormLabel>
-                  <Input disabled={updateIsLoading} {...register('newAuthorizedGreeter')} />
-                </FormControl>
-                <Button
-                  type="submit"
-                  mt={4}
-                  colorScheme="purple"
-                  isDisabled={updateIsLoading}
-                  isLoading={updateIsLoading}
-                >
-                  Submit
-                </Button>
-              </Stack>
-            </form>
-          </Card>
-        )}
+      {/* Update Greeting Form */}
+      {Array.isArray(fetchedAuthorizedGreeters) && address && fetchedAuthorizedGreeters.includes(address) && (
+        <Card variant="outline" p={4} bgColor="whiteAlpha.100">
+          <form onSubmit={handleSubmit(async (data: UpdateGreetValue) => {
+            const { newMessage } = data;
+            if (!contract) return
+
+            if (!address) {
+              toast.error('Wallet is not connected. Try again...')
+              return
+            }
+            if (!server) {
+              toast.error('Server is not defined. Unable to connect to the blockchain')
+              return
+            }
+            
+            const currentChain = activeChain?.name?.toLocaleLowerCase()
+            if (!currentChain) {
+              toast.error('Wallet not connected. Try again…')
+              return
+            }
+
+            setUpdateIsLoading(true)
+
+            try {
+              const set_greet_params: xdr.ScVal[] = [
+                new StellarSdk.Address(address).toScVal(),
+                nativeToScVal(newMessage, { type: "string" }),
+              ];
+
+              await contract?.invoke({
+                method: 'set_greet',
+                args: set_greet_params,
+                signAndSend: true
+              })
+
+              toast.success("New greeting successfully published!")
+              toggleUpdate(!updateFrontend)
+            } catch (e) {
+              console.error(e)
+              toast.error('Error while authorizing greeter. Try again…')
+            } finally {
+              setUpdateIsLoading(false)
+            }
+          })}>
+            <Stack direction="row" spacing={2} align="end">
+              <FormControl>
+                <FormLabel>Update Greet</FormLabel>
+                <Input disabled={updateIsLoading} {...register('newMessage')} />
+              </FormControl>
+              <Button
+                type="submit"
+                mt={4}
+                colorScheme="purple"
+                isDisabled={updateIsLoading}
+                isLoading={updateIsLoading}
+              >
+                Submit
+              </Button>
+            </Stack>
+          </form>
+        </Card>
+      )}
 
         {/* Contract Address */}
         <p tw="text-center font-mono text-xs text-gray-600">
