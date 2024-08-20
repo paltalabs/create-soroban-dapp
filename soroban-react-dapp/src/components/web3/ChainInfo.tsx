@@ -1,115 +1,80 @@
-import { Card, Link } from '@chakra-ui/react'
-import { useSorobanReact } from '@soroban-react/core'
-import { type FC, useEffect, useState } from 'react'
-import { HiOutlineExternalLink } from 'react-icons/hi'
+import Link from 'next/link'
+import type { FC } from 'react'
 import 'twin.macro'
+import tw, { styled } from 'twin.macro'
 
-interface ChainInfo {
-  Chain: string | undefined,
-  PassPhrase: string,
-  NetworkURL: string,
-  sorobanURL: string | undefined
-} 
-export const ChainInfo: FC = () => {
-  const sorobanContext = useSorobanReact();
-  // const { api, activeChain } = 
-  const [chainInfo, setChainInfo] = useState<ChainInfo>()
+const StyledIconLink = styled(Link)(() => [
+  tw`opacity-90 transition-all hover:(-translate-y-0.5 opacity-100)`,
+])
 
-  // Fetch Chain Info
-  const fetchChainInfo = () => {
-    // if (!api) {
-    //   setChainInfo(undefined)
-    //   return
-    // }
-
-    const chain = sorobanContext.activeChain ?? {name:"", networkPassphrase:"",networkUrl:"",sorobanRpcUrl:""}
-    // const version = (await api.rpc.system.version())?.toString() || ''
-    // const properties = ((await api.rpc.system.properties())?.toHuman() as any) || {}
-    // const tokenSymbol = properties?.tokenSymbol?.[0] || 'UNIT'
-    // const tokenDecimals = properties?.tokenDecimals?.[0] || 12
-    const chainInfo = {
-      Chain: chain.name,
-      PassPhrase: chain.networkPassphrase,
-      NetworkURL: chain.networkUrl,
-      sorobanURL: chain.sorobanRpcUrl
-      // Token: `${tokenSymbol} (${tokenDecimals} Decimals)`,
-    }
-    setChainInfo(chainInfo)
-  }
-  useEffect(fetchChainInfo, [sorobanContext])
-
-  // Connection Loading Indicator
-  // if (!api)
-  //   return (
-  //     <div tw="mt-8 mb-4 flex flex-col items-center justify-center space-y-3 text-center font-mono text-sm text-gray-400 sm:(flex-row space-x-3 space-y-0)">
-  //       <Spinner size="sm" />
-  //       <div>
-  //         Connecting to {activeChain?.name} ({activeChain?.rpcUrls?.[0]})
-  //       </div>
-  //     </div>
-  //   )
+export const HomePageTitle: FC = () => {
+  const title = 'Soroban React Dapp'
+  const desc = 'Full-Stack DApp Boilerplate for Soroban smart contracts'
+  const githubHref = 'https://github.com/paltalabs/create-soroban-dapp/'
 
   return (
     <>
-      <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
-        <h2 tw="text-center font-mono text-gray-400">Chain Info</h2>
+      <div tw="flex flex-col items-center text-center font-mono">
+        {/* Logo & Title */}
+        {/* <Link
+          href={githubHref}
+          target="_blank"
+          className="group"
+          tw="flex cursor-pointer items-center gap-4 rounded-3xl py-1.5 px-3.5 transition-all hover:bg-gray-900"
+        > */}
+          {/* <Image src={inkathonLogo} priority width={60} alt="ink!athon Logo" /> */}
+          {/* <h1 tw="font-black text-[2.5rem]">{title}</h1>
+        </Link> */}
 
-        <Card variant="outline" p={4} bgColor="whiteAlpha.100">
-          {/* Metadata */}
-          {Object.entries(chainInfo ?? {}).map(([key, value]:[string, string]) => (
-            <div key={key} tw="text-sm leading-7">
-              {key}:
-              <strong tw="float-right ml-6 truncate max-w-[15rem]" title={value}>
-                {value}
-              </strong>
-            </div>
-          ))}
+        {/* Tagline & Links */}
+        {/* <p tw="mt-2 text-gray-600 text-sm">
+          Largely inspired by the {' '}
+          <a
+            href="https://github.com/scio-labs/inkathon"
+            target="_blank"
+            tw="font-semibold text-gray-500 hover:text-gray-100"
+          >
+            Ink!athon
+          </a>{' '}
+           project.
+        </p>
+        <p tw="mt-2 text-gray-600 text-sm">
+          Adapted by {' '}
+          <a
+            href="https://github.com/benjaminsalon"
+            target="_blank"
+            tw="font-semibold text-gray-500 hover:text-gray-100"
+          >
+            Benjamin Salon
+          </a>{' '}
+          in collaboration with {' '}
+          <a
+            href="https://paltalabs.io"
+            target="_blank"
+            tw="font-semibold text-gray-500 hover:text-gray-100"
+          >
+            PaltaLabs &#129361;
+          </a>{' '}
+        </p>
+        <p tw="mt-4 mb-6 text-gray-400">{desc}</p> */}
 
-          {/* <div tw="mt-3 flex items-center justify-center space-x-3"> */}
-            {/* Explorer Link */}
-            {
-              <Link
-                href={"https://stellar.expert/explorer/testnet/"}
-                target="_blank"
-                tw="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
-              >
-                TestNet Explorer <HiOutlineExternalLink />
-              </Link>
-            }
-            {/* Faucet Link */}
-            {/* {!!activeChain?.faucetUrls?.length && (
-              <Link
-                href={activeChain.faucetUrls[0]}
-                target="_blank"
-                tw="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
-              >
-                Faucet <HiOutlineExternalLink />
-              </Link>
-            )} */}
-            {/* Contracts UI Link */}
-            {/* {!!activeChain?.rpcUrls?.length && (
-              <Link
-                href={`https://contracts-ui.substrate.io/?rpc=${activeChain.rpcUrls[0]}`}
-                target="_blank"
-                tw="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
-              >
-                Contracts UI <HiOutlineExternalLink />
-              </Link>
-            )} */}
-          {/* </div> */}
-        </Card>
+        {/* Github & Vercel Buttons */}
+        <div tw="flex space-x-2">
+          <StyledIconLink href={githubHref} target="_blank">
+            <img src="/icons/github-button.svg" alt="Github Repository" />
+          </StyledIconLink>
+          {/* <StyledIconLink href={deployHref} target="_blank">
+            <Image src={vercelIcon} priority height={32} alt="Deploy with Vercel" />
+          </StyledIconLink>
+          <StyledIconLink href={telegramHref} target="_blank">
+            <Image src={telegramIcon} priority height={32} alt="Telegram Group" />
+          </StyledIconLink>
+          <StyledIconLink href={sponsorHref} target="_blank">
+            <Image src={sponsorIcon} priority height={32} alt="Sponsor the Project" />
+          </StyledIconLink> */}
+        </div>
 
-        {/* Mainnet Security Disclaimer */}
-        {/* {!activeChain?.testnet && (
-          <>
-            <h2 tw="text-center font-mono text-red-400">Security Disclaimer</h2>
-
-            <Card variant="outline" p={4} bgColor="red.500" borderColor="red.300" fontSize={'sm'}>
-              You are interacting with un-audited mainnet contracts and risk all your funds. Never
-              transfer tokens to this contract.
-            </Card>
-          </>
-        )} */}
+        <div tw="my-14 w-14 bg-gray-800 h-[2px]" />
       </div>
     </>
   )

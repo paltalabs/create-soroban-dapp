@@ -38,7 +38,7 @@ export const GreeterContractInteractions: FC = () => {
   const [contractAddressStored, setContractAddressStored] = useState<string>()
 
   // Retrieve the deployed contract object from contract Registry
-  const contract = useRegisteredContract("greeting")
+  const contract = useRegisteredContract("access_control")
 
   // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
@@ -56,7 +56,7 @@ export const GreeterContractInteractions: FC = () => {
       setFetchIsLoading(true)
       try {
         const result = await contract?.invoke({
-          method: 'read_title',
+          method: 'get_admin_title',
           args: []
         })
 
@@ -135,7 +135,7 @@ export const GreeterContractInteractions: FC = () => {
   if(!contract){
     return (
       <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
-        <h2 tw="text-center font-mono text-gray-400">Greeter Smart Contract</h2>
+        <h2 tw="text-center font-mono text-gray-400">Access Control Smart Contract</h2>
         <Card variant="outline" p={4} bgColor="whiteAlpha.100">
           <p tw="text-center font-mono text-sm">No deployment found in the current chain</p>
           <p tw="text-center font-mono text-lg mt-4">Available deployments:</p>
@@ -152,12 +152,12 @@ export const GreeterContractInteractions: FC = () => {
   return (
     <>
       <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
-        <h2 tw="text-center font-mono text-gray-400">Greeter Smart Contract</h2>
+        <h2 tw="text-center font-mono text-gray-400">Access Control Smart Contract</h2>
 
         {/* Fetched Greeting */}
         <Card variant="outline" p={4} bgColor="whiteAlpha.100">
           <FormControl>
-            <FormLabel>Fetched Greeting</FormLabel>
+            <FormLabel>Admin Title</FormLabel>
             <Input
               placeholder={fetchedGreeting}
               disabled={true}
@@ -170,7 +170,7 @@ export const GreeterContractInteractions: FC = () => {
           <form onSubmit={handleSubmit(updateGreeting)}>
             <Stack direction="row" spacing={2} align="end">
               <FormControl>
-                <FormLabel>Update Greeting</FormLabel>
+                <FormLabel>Update Title</FormLabel>
                 <Input disabled={updateIsLoading} {...register('newMessage')} />
               </FormControl>
               <Button
@@ -180,7 +180,7 @@ export const GreeterContractInteractions: FC = () => {
                 isDisabled={updateIsLoading}
                 isLoading={updateIsLoading}
               >
-                Submit
+                Apply
               </Button>
             </Stack>
           </form>
