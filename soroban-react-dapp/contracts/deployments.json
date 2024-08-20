@@ -8,5 +8,10 @@
     "contractId": "greeting",
     "networkPassphrase": "Test SDF Network ; September 2015",
     "contractAddress": "CDWGVPSUXXSGABQ663FVV4TZJH4Q2R3HVAKTKWFFFMWPF23O7KMNS4KU"
+  },
+  {
+    "contractId": "access_control",
+    "networkPassphrase": "Test SDF Network ; September 2015",
+    "contractAddress": "CBIZKX4XRXEI4UQL2QG3G5B3K7MKQSGGZQ4ZZ22V56MW4ALOJKH4ZTTG"
   }
 ]
