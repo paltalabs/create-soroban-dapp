@@ -64,7 +64,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </BaseLayout>
 
               <HotToastConfig />
-            </DarkMode>
+              </DarkMode>
           </ChakraProvider>
         </CacheProvider>
       </MySorobanReactProvider>
