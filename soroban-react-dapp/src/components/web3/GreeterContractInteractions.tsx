@@ -56,7 +56,7 @@ export const GreeterContractInteractions: FC = () => {
       setFetchIsLoading(true)
       try {
         const result = await contract?.invoke({
-          method: 'read_title',
+          method: 'get_title',
           args: []
         })
 
@@ -104,9 +104,14 @@ export const GreeterContractInteractions: FC = () => {
         setUpdateIsLoading(true)
 
         try {
+          const setTitleParams: xdr.ScVal[] = [
+            new StellarSdk.Address(address).toScVal(),
+            nativeToScVal(newMessage, {type: "string"})
+          ]
+
           const result = await contract?.invoke({
             method: 'set_title',
-            args: [nativeToScVal(newMessage, {type: "string"})],
+            args: setTitleParams,
             signAndSend: true
           })
           console.log('🚀 « result:', result);

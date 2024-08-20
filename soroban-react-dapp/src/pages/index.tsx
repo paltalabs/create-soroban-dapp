@@ -30,6 +30,8 @@ const HomePage: NextPage = () => {
           {/* Chain Metadata Information */}
           <ChainInfo />
 
+          {/* Authorized users */}
+
           {/* Greeter Read/Write Contract Interactions */}
           <GreeterContractInteractions />
         </div>

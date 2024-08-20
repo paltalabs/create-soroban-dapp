@@ -8,8 +8,8 @@ const StyledIconLink = styled(Link)(() => [
 ])
 
 export const HomePageTitle: FC = () => {
-  const title = 'Soroban React Dapp'
-  const desc = 'Full-Stack DApp Boilerplate for Soroban smart contracts'
+  const title = 'Paltalabs Challenge - Tomás Opazo'
+  const desc = 'My submission for the Paltalabs Challenge. A simple Dapp to interact with a smart contract on the Stellar network.'
   const githubHref = 'https://github.com/paltalabs/create-soroban-dapp/'
 
   return (
@@ -39,13 +39,13 @@ export const HomePageTitle: FC = () => {
            project.
         </p>
         <p tw="mt-2 text-gray-600 text-sm">
-          Adapted by {' '}
+          Made by {' '}
           <a
-            href="https://github.com/benjaminsalon"
+            href="https://github.com/tomas-oa"
             target="_blank"
             tw="font-semibold text-gray-500 hover:text-gray-100"
           >
-            Benjamin Salon
+            Tomás Opazo
           </a>{' '}
           in collaboration with {' '}
           <a
@@ -56,7 +56,24 @@ export const HomePageTitle: FC = () => {
             PaltaLabs &#129361;
           </a>{' '}
         </p>
-        <p tw="mt-4 mb-6 text-gray-400">{desc}</p>
+        <p tw="mt-4 mb-2 text-gray-400">{desc}</p>
+        <p tw="mt-4 mb-2 text-gray-400">Here's some intresting links to get to know me better!</p>
+        <div tw='flex gap-12 mb-6'>
+          <Link
+            tw='text-blue-500 underline font-bold bg-gray-800 p-2 px-4 rounded-lg hover:bg-gray-900 hover:text-gray-100'
+            href={'https://tomas-oa.vercel.app'}
+            target="_blank"
+          >
+            Portfolio
+          </Link>
+          <Link
+            tw='text-blue-500 underline font-bold bg-gray-800 p-2 px-4 rounded-lg hover:bg-gray-900 hover:text-gray-100'
+            href={'https://docs.google.com/document/d/e/2PACX-1vRhw9Ec8D3yJypLLvmZbBIUSpNoNRTpeusR4vtYnBO5UdYy32yCopcExdskQgEfm0UKLNppr0hUEr5G/pub'}
+            target="_blank"
+          >
+            CV
+          </Link>
+        </div>
 
         {/* Github & Vercel Buttons */}
         <div tw="flex space-x-2">
