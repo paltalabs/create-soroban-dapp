@@ -1,6 +1,13 @@
 # @create-soroban-dapp.
 
+<img width="1418" alt="web" src="https://github.com/user-attachments/assets/9212f20a-ff8b-462c-835e-b43660705735">
+
+
+
+
+
 @create-soroban-dapp is both a npx script and a boilerplate dapp for kickstarting any of your ideas for a Soroban-based Dapp.
+
 
 Largely inspired by the [ink!athon](https://github.com/scio-labs/inkathon) project by [Scio Labs](https://github.com/scio-labs) and by [@create-t3-app](https://github.com/t3-oss/create-t3-app) by [T3 Open Source](https://github.com/t3-oss) for the script mechanisms.
 

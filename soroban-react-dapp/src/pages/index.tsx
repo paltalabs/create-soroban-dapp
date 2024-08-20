@@ -15,7 +15,7 @@ const HomePage: NextPage = () => {
   // }, [error])
 
   return (
-    <>
+      <>
       {/* Top Bar */}
       {/* <HomeTopBar /> */}
 

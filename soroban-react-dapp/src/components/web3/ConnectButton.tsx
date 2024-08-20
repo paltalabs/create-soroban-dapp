@@ -16,6 +16,7 @@ import { FiChevronDown } from 'react-icons/fi'
 import { AiOutlineCheckCircle, AiOutlineDisconnect } from 'react-icons/ai'
 import toast from 'react-hot-toast'
 import type { WalletChain } from '@soroban-react/types'
+import { white } from 'tailwindcss/colors'
 
 export const ConnectButton = () => {
     // Connect Button
@@ -43,11 +44,11 @@ export const ConnectButton = () => {
             as={Button}
             // isLoading={isConnecting}
             size="md"
-            rightIcon={<FiChevronDown size={22} />}
+            rightIcon={<FiChevronDown size={30} />}
             py={6}
             fontWeight="bold"
             rounded="2xl"
-            colorScheme="purple"
+            colorScheme="green"
           >
             Connect Wallet
           </MenuButton>
@@ -77,8 +78,10 @@ export const ConnectButton = () => {
         <HStack>
           {/* Account Name, Address, and AZNS-Domain (if assigned) */}
           <MenuButton
+          bgColor="#9ae6b4"
+          color="black"
             as={Button}
-            rightIcon={<FiChevronDown size={22} />}
+            rightIcon={<FiChevronDown size={30} />}
             hidden={false}
             py={6}
             pl={5}
@@ -88,7 +91,7 @@ export const ConnectButton = () => {
             <VStack spacing={0.5}>
               {/* <AccountName account={activeAccount} /> */}
               <Text>{activeChain?.name}</Text>
-              <Text fontSize="xs" fontWeight="normal" opacity={0.75}>
+              <Text fontSize="22" fontWeight="normal" opacity={1}>
                 {address}
               </Text>
             </VStack>
