@@ -1,5 +1,6 @@
 # @create-soroban-dapp.
-![Create Soroban Dapp Logo](https://github.com/JorgeOehrens/create-soroban-cv-dapp/blob/main/soroban-react-dapp/public/icons/web.png)
+
+<img width="1418" alt="web" src="https://github.com/user-attachments/assets/9212f20a-ff8b-462c-835e-b43660705735">
 
 
 
