@@ -3,3 +3,4 @@ dist
 .env
 contracts/*/target/
 .soroban
+test_snapshots
