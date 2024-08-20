@@ -60,7 +60,7 @@ export const GreeterContractInteractions: FC = () => {
     try {
         const result = await contract.invoke({
             method: 'get_cv',
-            args: [nativeToScVal('GBX32GYUA4VS7JZTED2W4CQ3LBVZ25XMZGHBEXKK6BDM3SSRMLVDCD3F', { type: "address" })],
+            args: [nativeToScVal(address, { type: "address" })],
         });
         console.log(result);
 
