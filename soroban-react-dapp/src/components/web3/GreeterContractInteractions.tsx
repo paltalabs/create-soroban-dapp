@@ -13,34 +13,27 @@ import Link from 'next/link'
 import { contractInvoke, useRegisteredContract } from '@soroban-react/contracts'
 import { nativeToScVal, xdr } from '@stellar/stellar-sdk'
 
-type UpdateGreetingValues = { newMessage: string }
+type UpdateGreetingValues = { 
+  name: string, 
+  email: string, 
+  skills: string, 
+  experience: string, 
+  education: string 
+}
 
 export const GreeterContractInteractions: FC = () => {
   const sorobanContext = useSorobanReact()
 
-
-  const [, setFetchIsLoading] = useState<boolean>(false)
+  const [fetchIsLoading, setFetchIsLoading] = useState<boolean>(false)
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false)
   const { register, handleSubmit } = useForm<UpdateGreetingValues>()
-  
-  // Two options are existing for fetching data from the blockchain
-  // The first consists on using the useContractValue hook demonstrated in the useGreeting.tsx file
-  // This hook simulate the transation to happen on the bockchain and allow to read the value from it
-  // Its main advantage is to allow for updating the value display on the frontend without any additional action
-  // const {isWrongConnection, fetchedGreeting} = useGreeting({ sorobanContext })
-  
-  // The other option, maybe simpler to understand and implement is the one implemented here
-  // Where we fetch the value manually with each change of the state.
-  // We trigger the fetch with flipping the value of updateFrontend or refreshing the page
   
   const [fetchedGreeting, setGreeterMessage] = useState<string>()
   const [updateFrontend, toggleUpdate] = useState<boolean>(true)
   const [contractAddressStored, setContractAddressStored] = useState<string>()
 
-  // Retrieve the deployed contract object from contract Registry
-  const contract = useRegisteredContract("greeting")
+  const contract = useRegisteredContract("cv")
 
-  // Fetch Greeting
   const fetchGreeting = useCallback(async () => {
     if (!sorobanContext.server) return
 
@@ -49,21 +42,18 @@ export const GreeterContractInteractions: FC = () => {
       console.log("No active chain")
       toast.error('Wallet not connected. Try again…')
       return
-    }
-    else {
+    } else {
       const contractAddress = contract?.deploymentInfo.contractAddress
       setContractAddressStored(contractAddress)
       setFetchIsLoading(true)
       try {
         const result = await contract?.invoke({
-          method: 'read_title',
+          method: 'add_skill',
           args: []
         })
 
         if (!result) return
 
-        // Value needs to be cast into a string as we fetch a ScVal which is not readable as is.
-        // You can check out the scValConversion.tsx file to see how it's done
         const result_string = StellarSdk.scValToNative(result as StellarSdk.xdr.ScVal) as string
         setGreeterMessage(result_string)
       } catch (e) {
@@ -74,50 +64,45 @@ export const GreeterContractInteractions: FC = () => {
         setFetchIsLoading(false)
       }
     }
-  },[sorobanContext,contract])
+  }, [sorobanContext, contract])
 
-  useEffect(() => {void fetchGreeting()}, [updateFrontend,fetchGreeting])
-
+  useEffect(() => { void fetchGreeting() }, [updateFrontend, fetchGreeting])
 
   const { activeChain, server, address } = sorobanContext
 
-  const updateGreeting = async ({ newMessage }: UpdateGreetingValues ) => {
+  const updateGreeting = async ({ name, email, skills, experience, education }: UpdateGreetingValues) => {
     if (!address) {
       console.log("Address is not defined")
       toast.error('Wallet is not connected. Try again...')
       return
-    }
-    else if (!server) {
+    } else if (!server) {
       console.log("Server is not setup")
-      toast.error('Server is not defined. Unabled to connect to the blockchain')
+      toast.error('Server is not defined. Unable to connect to the blockchain')
       return
-    }
-    else {
+    } else {
       const currentChain = activeChain?.name?.toLocaleLowerCase()
       if (!currentChain) {
         console.log("No active chain")
         toast.error('Wallet not connected. Try again…')
         return
-      }
-      else {
-
+      } else {
         setUpdateIsLoading(true)
 
         try {
           const result = await contract?.invoke({
-            method: 'set_title',
-            args: [nativeToScVal(newMessage, {type: "string"})],
+            method: 'add_skill',
+            args: [
+              nativeToScVal(name, { type: "string" }),
+              nativeToScVal(email, { type: "string" }),
+              nativeToScVal(skills, { type: "string" }),
+              nativeToScVal(experience, { type: "string" }),
+              nativeToScVal(education, { type: "string" })
+            ],
             signAndSend: true
           })
           console.log('🚀 « result:', result);
           
-          if (true) {
-            toast.success("New greeting successfully published!")
-          }
-          else {
-            toast.error("Greeting unsuccessful...")
-            
-          }
+          toast.success("New greeting successfully published!")
         } catch (e) {
           console.error(e)
           toast.error('Error while sending tx. Try again…')
@@ -125,25 +110,33 @@ export const GreeterContractInteractions: FC = () => {
           setUpdateIsLoading(false)
           toggleUpdate(!updateFrontend)
         } 
-
-        // await sorobanContext.connect();
       }
     }
   }
+  const initializeContract = async (ownerAddress: string) => {
+    if (!contract || !ownerAddress) return;
 
+    try {
+        await contract.invoke({
+            method: 'init',
+            args: [nativeToScVal(ownerAddress, { type: "address" })],
+            signAndSend: true
+        });
+        toast.success("Contract initialized successfully!");
+    } catch (e) {
+        console.error(e);
+        toast.error('Error while initializing contract. Try again…');
+    }
+  }
 
-  if(!contract){
+  if (!contract) {
     return (
       <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
         <h2 tw="text-center font-mono text-gray-400">Greeter Smart Contract</h2>
         <Card variant="outline" p={4} bgColor="whiteAlpha.100">
           <p tw="text-center font-mono text-sm">No deployment found in the current chain</p>
           <p tw="text-center font-mono text-lg mt-4">Available deployments:</p>
-          {
-            sorobanContext?.deployments?.map((d, i) => (
-              <p key={i} tw="text-center font-mono text-sm">- {d.networkPassphrase}</p>
-            )) 
-          }
+         
         </Card>
       </div>
     )
@@ -152,12 +145,11 @@ export const GreeterContractInteractions: FC = () => {
   return (
     <>
       <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
-        <h2 tw="text-center font-mono text-gray-400">Greeter Smart Contract</h2>
 
         {/* Fetched Greeting */}
-        <Card variant="outline" p={4} bgColor="whiteAlpha.100">
+        <Card variant="outline" p={4} bgColor="black">
           <FormControl>
-            <FormLabel>Fetched Greeting</FormLabel>
+            <FormLabel>The last modified sorban vitae</FormLabel>
             <Input
               placeholder={fetchedGreeting}
               disabled={true}
@@ -166,17 +158,33 @@ export const GreeterContractInteractions: FC = () => {
         </Card>
 
         {/* Update Greeting */}
-        <Card variant="outline" p={4} bgColor="whiteAlpha.100">
+        <Card variant="outline" p={4} bgColor="black">
           <form onSubmit={handleSubmit(updateGreeting)}>
-            <Stack direction="row" spacing={2} align="end">
+            <Stack direction="column" spacing={4}>
               <FormControl>
-                <FormLabel>Update Greeting</FormLabel>
-                <Input disabled={updateIsLoading} {...register('newMessage')} />
+                <FormLabel>Name</FormLabel>
+                <Input disabled={updateIsLoading} {...register('name')} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input disabled={updateIsLoading} {...register('email')} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Skills</FormLabel>
+                <Input disabled={updateIsLoading} {...register('skills')} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Experience</FormLabel>
+                <Input disabled={updateIsLoading} {...register('experience')} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Education</FormLabel>
+                <Input disabled={updateIsLoading} {...register('education')} />
               </FormControl>
               <Button
                 type="submit"
                 mt={4}
-                colorScheme="purple"
+                colorScheme="green"
                 isDisabled={updateIsLoading}
                 isLoading={updateIsLoading}
               >
@@ -187,8 +195,7 @@ export const GreeterContractInteractions: FC = () => {
         </Card>
 
         {/* Contract Address */}
-        <p tw="text-center font-mono text-xs text-gray-600">
-          
+        <p tw="text-center font-mono text-xs text-green-300 bg-black">
           {contractAddressStored ? <Link href={"https://stellar.expert/explorer/testnet/contract/" + contractAddressStored} target="_blank">{contractAddressStored}</Link> : "Loading address.."}
         </p>
       </div>

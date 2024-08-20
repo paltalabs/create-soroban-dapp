@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { FC } from 'react'
+import Image from 'next/image'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 
@@ -8,55 +9,25 @@ const StyledIconLink = styled(Link)(() => [
 ])
 
 export const HomePageTitle: FC = () => {
-  const title = 'Soroban React Dapp'
-  const desc = 'Full-Stack DApp Boilerplate for Soroban smart contracts'
-  const githubHref = 'https://github.com/paltalabs/create-soroban-dapp/'
+  const title = 'Soroban Vitae'
+  const desc = 'Added your curriculum vitae on the blockchain'
+  const githubHref = 'https://github.com/JorgeOehrens/create-soroban-cv-dapp'
 
   return (
     <>
       <div tw="flex flex-col items-center text-center font-mono">
-        {/* Logo & Title */}
         <Link
           href={githubHref}
           target="_blank"
           className="group"
           tw="flex cursor-pointer items-center gap-4 rounded-3xl py-1.5 px-3.5 transition-all hover:bg-gray-900"
         >
-          {/* <Image src={inkathonLogo} priority width={60} alt="ink!athon Logo" /> */}
           <h1 tw="font-black text-[2.5rem]">{title}</h1>
         </Link>
 
-        {/* Tagline & Links */}
-        <p tw="mt-2 text-gray-600 text-sm">
-          Largely inspired by the {' '}
-          <a
-            href="https://github.com/scio-labs/inkathon"
-            target="_blank"
-            tw="font-semibold text-gray-500 hover:text-gray-100"
-          >
-            Ink!athon
-          </a>{' '}
-           project.
-        </p>
-        <p tw="mt-2 text-gray-600 text-sm">
-          Adapted by {' '}
-          <a
-            href="https://github.com/benjaminsalon"
-            target="_blank"
-            tw="font-semibold text-gray-500 hover:text-gray-100"
-          >
-            Benjamin Salon
-          </a>{' '}
-          in collaboration with {' '}
-          <a
-            href="https://paltalabs.io"
-            target="_blank"
-            tw="font-semibold text-gray-500 hover:text-gray-100"
-          >
-            PaltaLabs &#129361;
-          </a>{' '}
-        </p>
-        <p tw="mt-4 mb-6 text-gray-400">{desc}</p>
+     
+      
+        <p tw="mt-4 mb-6 text-white">{desc}</p>
 
         {/* Github & Vercel Buttons */}
         <div tw="flex space-x-2">
