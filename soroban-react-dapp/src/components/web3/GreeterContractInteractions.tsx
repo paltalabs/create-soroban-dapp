@@ -20,6 +20,13 @@ type UpdateGreetingValues = {
   experience: string, 
   education: string 
 }
+type CV = {
+  name: string;
+  email: string;
+  skills: string[];
+  experience: string[];
+  education: string[];
+}
 
 export const GreeterContractInteractions: FC = () => {
   const sorobanContext = useSorobanReact()
@@ -64,7 +71,7 @@ export const GreeterContractInteractions: FC = () => {
         });
         console.log(result);
 
-        const cv = StellarSdk.scValToNative(result as StellarSdk.xdr.ScVal) as string;
+        const cv = StellarSdk.scValToNative(result as StellarSdk.xdr.ScVal) as CV; // Cast to CV interface
         const cvString = `Name: ${cv.name}\nEmail: ${cv.email}\nSkills: ${cv.skills.join(', ')}\nExperience: ${cv.experience.join(', ')}\nEducation: ${cv.education.join(', ')}`;
 
         console.log(cvString);
