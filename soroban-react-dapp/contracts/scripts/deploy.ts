@@ -24,6 +24,7 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
   }
 
   
+  
 }
 
 const network = process.argv[2];
