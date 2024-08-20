@@ -75,46 +75,6 @@ export const GreeterAuthorizedContractInteractions: FC = () => {
 
   const { activeChain, server, address } = sorobanContext
 
-  const updateGreeting = async ({ newMessage }: any) => {
-    if (!address) {
-      toast.error('Wallet is not connected. Try again...')
-      return
-    }
-    if (!server) {
-      toast.error('Server is not defined. Unable to connect to the blockchain')
-      return
-    }
-    
-    const currentChain = activeChain?.name?.toLocaleLowerCase()
-    if (!currentChain) {
-      toast.error('Wallet not connected. Try again…')
-      return
-    }
-    
-    setUpdateIsLoading(true)
-  
-    try {
-      const set_greet_params: xdr.ScVal[] = [
-        new StellarSdk.Address(address).toScVal(),
-        nativeToScVal(newMessage, { type: "string" }),
-      ];
-
-      await contract?.invoke({
-        method: 'set_greet',
-        args: set_greet_params,
-        signAndSend: true
-      })
-
-      toast.success("New greeting successfully published!")
-      toggleUpdate(!updateFrontend)
-    } catch (e) {
-      console.error(e)
-      console.log("🚀 ~ e:", e)
-      toast.error('Error while sending tx. Try again…')
-    } finally {
-      setUpdateIsLoading(false)
-    }
-  }
 
   if (!contract) {
     return (
