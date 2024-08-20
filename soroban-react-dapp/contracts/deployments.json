@@ -1,12 +1,12 @@
 [
   {
-    "contractId": "greeting",
-    "networkPassphrase": "Standalone Network ; February 2017",
-    "contractAddress": "CAQEPQ5ZX3CUQPZP47YBPR3J5LUOER44TC5WWMCV2K42X5AAWAU4DKNG"
+    "contractId": "cv",
+    "networkPassphrase": "Test SDF Network ; September 2015",
+    "contractAddress": "CD4PNGSLGNALYC7JLK46Z2FINRRWLG7WMMBBENGBUV7WQTE2USWV27VH"
   },
   {
     "contractId": "greeting",
     "networkPassphrase": "Test SDF Network ; September 2015",
-    "contractAddress": "CDWGVPSUXXSGABQ663FVV4TZJH4Q2R3HVAKTKWFFFMWPF23O7KMNS4KU"
+    "contractAddress": "CCMHPF4SU47BYB7BQ4CAW633WXGKPYXD3QVGVRT72ILXC3LUIDPU62XL"
   }
 ]
