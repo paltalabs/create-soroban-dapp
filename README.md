@@ -2,7 +2,7 @@
 
 <img width="1418" alt="web" src="https://github.com/user-attachments/assets/9212f20a-ff8b-462c-835e-b43660705735">
 
-
+[SMART CONTRACT CV](https://stellar.expert/explorer/testnet/contract/CB3MLRY4DF67V4XCR7KUOJYVUQZ5SC5RZNIY7G63I62OCE3P76KQ3Y6C?filter=history)
 
 
 
