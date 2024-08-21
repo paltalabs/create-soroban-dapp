@@ -1,3 +1,59 @@
+🛡️ Welcome to Title Contract
+
+Hello and welcome to Title Contract! 🎉
+
+🚀 What is Title?
+
+Title is a special wallet containing the following crucial data:
+
+    Account Admin:
+        Public Key: GA4HKU3GDGZHSUOAW6X3NQHG36EX4M5Z7THNWVXJA6GKTDHOI27OKUGI
+        Secret Key: SDDWPQWJFO7UGGFUBOZ4HZJDPBA62MWY3NUK7QTRL2LOTUVT5J3CRY7H
+
+This contract is the guardian that decides who can change the character associated with the wallet. Only those who know "the magic trick" will have that power.
+🛠️ Project Setup
+1. Environment Configuration readme soroban-react-dapp
+
+First, ensure that Soroban is set up in your environment. If you haven’t done so yet, you can add the admin identity by running:
+
+bash
+
+soroban config identity add --secret-key admin
+
+And, of course, you’ll need to input the secret key for Title (listed above).
+2. Build and Testnet
+
+Next, build and deploy the contract on the testnet. Simply run:
+
+bash
+
+yarn deploy testnet title
+
+yarn testtitle testnet
+
+This should execute like so:
+
+bash
+
+root@3b15f88a2fa0:/workspace/contracts# yarn testtitle testnet
+
+3. Launch the Application
+
+Now that the contract is set up, it’s time to see the magic in action. Start the application with:
+
+bash
+
+yarn dev
+
+Watch what happens and get ready to explore!
+4. Freight Configuration
+
+Don’t forget to configure Freight with Title to efficiently manage your tests.
+5. Additional Testing
+
+Finally, add more test addresses to ensure that only those chosen by Title can change the character. Test the security of your contract and have fun in the process!
+
+
 # Welcome to your soroban react dapp boilerplate!
 
 This dapp largely inspired by the [ink!athon](https://github.com/scio-labs/inkathon) project will help you kickstart your soroban dapp creator journey.
@@ -97,3 +153,4 @@ You then need to adapt the `contractInvoke()` calls in these functions to match 
 Finally feel, of course, free to change the front-end how you wish, to match your desired functionalities.
 
 *Good luck building!*
+
