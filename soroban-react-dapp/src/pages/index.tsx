@@ -3,6 +3,7 @@ import { CenterBody } from '@/components/layout/CenterBody'
 import { ChainInfo } from '@/components/web3/ChainInfo'
 import { ConnectButton } from '@/components/web3/ConnectButton'
 import { GreeterContractInteractions } from '@/components/web3/GreeterContractInteractions'
+import { TitleContractInteractions } from '@/components/web3/TitleContractIntereaction'
 import type { NextPage } from 'next'
 import 'twin.macro'
 
@@ -32,6 +33,9 @@ const HomePage: NextPage = () => {
 
           {/* Greeter Read/Write Contract Interactions */}
           <GreeterContractInteractions />
+
+          {/* Title Read/Write Contract Interactions */}
+           <TitleContractInteractions /> 
         </div>
       </CenterBody>
     </>
