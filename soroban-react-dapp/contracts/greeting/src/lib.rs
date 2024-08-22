@@ -10,6 +10,7 @@ pub struct TitleContract;
 pub enum Error {
     Unauthorized = 1,
     AlreadyInitialized = 2,
+    NotInitialized = 3,
 }
 
 #[contractimpl]
@@ -29,7 +30,12 @@ impl TitleContract {
     pub fn set_title(env: Env, user: Address, title: String) -> Result<(), Error> {
         user.require_auth();
         let storage = env.storage().instance();
-        let admin: Address = storage.get(&Assets::Admin).unwrap();
+        let admin: Address = storage.get(&Assets::Admin).unwrap_or_else(|| {
+            // You can log or handle the error here
+            // In this case, we'll return an error
+            return Err(Error::NotInitialized);
+        })?;
+
         let editors: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
         if editors.contains(&user) || user.eq(&admin) {
             env.storage().instance().set(&Assets::Title, &title);
