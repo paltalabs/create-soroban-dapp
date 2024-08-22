@@ -11,6 +11,7 @@ pub enum Error {
     Unauthorized = 1,
     AlreadyInitialized = 2,
     NotInitialized = 3,
+    AlreadyExist = 4,  // when editor already exist, add_editor invoke this error
 }
 
 #[contractimpl]
@@ -56,7 +57,7 @@ impl TitleContract {
     /// ***** Address Management ***** ///
 
     // add wallet address for editors
-    pub fn add_editor(env: Env, new_editor: Address) {
+    pub fn add_editor(env: Env, new_editor: Address) -> Result<(), Error>{
         let storage = env.storage().instance();
         let admin: Address = storage.get(&Assets::Admin).unwrap();
         admin.require_auth();
@@ -65,6 +66,9 @@ impl TitleContract {
         if !editors.contains(&new_editor) {
             editors.push_front(new_editor);
             env.storage().instance().set(&Assets::Editors, &editors);
+            Ok(())
+        } else {
+            Err(Error::AlreadyExist)
         }
     }
 
