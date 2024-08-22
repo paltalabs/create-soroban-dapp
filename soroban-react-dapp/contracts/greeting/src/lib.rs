@@ -73,14 +73,14 @@ impl TitleContract {
     }
 
     // remove wallets from editors
-    pub fn remove_editor(env: Env, remover: Address) {
+    pub fn remove_editor(env: Env, editor_to_remove: Address) {
         let storage = env.storage().instance();
         let admin: Address = storage.get(&Assets::Admin).unwrap();
         admin.require_auth();
 
         let mut editors: Vec<Address> = storage.get(&Assets::Editors).unwrap_or(Vec::new(&env));
         editors
-            .first_index_of(&remover)
+            .first_index_of(&editor_to_remove)
             .map(|index| editors.remove(index));
         env.storage().instance().set(&Assets::Editors, &editors);
     }
