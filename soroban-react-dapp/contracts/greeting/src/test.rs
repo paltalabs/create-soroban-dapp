@@ -1,7 +1,9 @@
 #![cfg(test)]
 
+extern crate std;
+
 use super::*;
-use soroban_sdk::{testutils::Address as _, Address, Env, String};
+use soroban_sdk::{symbol_short, testutils::{Address as _, AuthorizedFunction, AuthorizedInvocation}, vec, Address, Env, String};
 
 #[test]
 fn test() {
@@ -34,6 +36,33 @@ fn test() {
 
     // mofify the title with editors
     client.set_title(&new_editor, &String::from_str(&env, "Hello, Stellar"));
+
+    // test for require_auth
+    assert_eq!(
+        env.auths(),
+        std::vec![(
+            // Address for which authorization check is performed
+            new_editor.clone(),
+            // Invocation tree that needs to be authorized
+            AuthorizedInvocation {
+                // Function that is authorized. Can be a contract function or
+                // a host function that requires authorization.
+                function: AuthorizedFunction::Contract((
+                    // Address of the called contract
+                    contract_id.clone(),
+                    // Name of the called function
+                    symbol_short!("set_title"),
+                    // Arguments used to call `set_title`
+                    vec![&env, new_editor.to_val(), String::from_str(&env, "Hello, Stellar").into()]
+                )),
+                // The contract doesn't call any other contracts that require
+                // authorization,
+                sub_invocations: std::vec![]
+            }
+        )]
+    );
+
+    // test with new title 
     let client_new_title = client.read_title();
     assert_eq!(client_new_title, String::from_str(&env, "Hello, Stellar"));
 
