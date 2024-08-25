@@ -6,7 +6,6 @@ use soroban_sdk::{contract, contracttype, contractimpl, Env, Symbol, symbol_shor
 #[contracttype]
 pub enum DataKey {
     Map(Address),
-    IsOwnerMap(Address),
     Owner,
 }
 
