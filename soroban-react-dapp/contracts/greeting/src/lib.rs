@@ -1,77 +1,76 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, Env, Symbol, symbol_short, String, Address, Map, panic_with_error};
+use soroban_sdk::{contract, contracttype, contractimpl, Env, Symbol, symbol_short, String, Address};
+
+
+#[derive(Clone, PartialEq, Eq)]
+#[contracttype]
+pub enum DataKey {
+    Map(Address),
+    IsOwnerMap(Address),
+    Owner,
+}
 
 const TITLE: Symbol = symbol_short!("TITLE");
-const AUTHORIZED_ADDRESSES: Symbol = symbol_short!("AUTH_ADDRESSES");
-const OWNER: Symbol = symbol_short!("OWNER");
 
-// define the contract
+
 #[contract]
-
-// name the contract 
 pub struct TitleContract;
 
-// create an implementation
 #[contractimpl]
 impl TitleContract {
 
-    // Constructor to set owner and title
-    pub fn initialize(env: Env, default_title: String) {
-        let owner = env.invoker(); 
-        env.storage().instance().set(&OWNER, &owner);
-        let mut auth_addresses: Map<Address, ()> = Map::new(&env);
-        auth_addresses.set(owner.clone(), ());
-        env.storage().instance().set(&AUTHORIZED_ADDRESSES, &auth_addresses);
+    pub fn init(env: Env, addr: Address) {
+        if env.storage().instance().has(&DataKey::Owner) {
+            panic!("owner is already set");
+        }
+        env.storage().instance().set(&DataKey::Owner, &addr);
+        env.storage().persistent().set(&DataKey::Map(addr.clone()), &true);
     }
 
 
-   // Only authorized callers can set title
-   pub fn set_title(env: Env, title: String) {
-    let caller = env.invoker();
-    if !Self::is_authorized(&env, &caller) {
-        panic_with_error!(&env, "Unauthorized: Only specific addresses can set the title.");
-    }
-    env.storage().instance().set(&TITLE, &title)
-    }
-
-    // Read title
     pub fn read_title(env: Env) -> String {
         env.storage().instance().get(&TITLE)
             .unwrap_or(String::from_str(&env, "Default Title"))
     }
 
-    
-     // Add address to authorized addresses
-     pub fn add_authorized_address(env: Env, address: Address) {
-        let caller = env.invoker();
-        let owner: Address = env.storage().instance().get(&OWNER).unwrap();
-        if caller != owner {
-            panic_with_error!(&env, "Unauthorized: Only the owner can maanage authorized addresses.");
-        }
-        let mut auth_addresses: Map<Address, ()> = env.storage().instance().get(&AUTHORIZED_ADDRESSES)
-            .unwrap_or(Map::new(&env));
-        auth_addresses.set(address, ());
-        env.storage().instance().set(&AUTHORIZED_ADDRESSES, &auth_addresses);
+    pub fn set_title(env: Env, title: String, addr: Address) {
+        let is_auth = env.storage().persistent().get(&DataKey::Map(addr.clone())).unwrap_or(false);
+        
+        if is_auth {
+                addr.require_auth();
+                env.storage().instance().set(&TITLE, &title) 
+            }
+         else{
+            panic!("Not authorize to set title")
+         }
+          
     }
 
-     // Remove address from authorized addresses
-     pub fn remove_authorized_address(env: Env, address: Address) {
-        let caller = env.invoker();
-        let owner: Address = env.storage().instance().get(&OWNER).unwrap();
-        if caller != owner {
-            panic_with_error!(&env, "Unauthorized: Only the owner can manage authorized addresses.");
-        }
-        let mut auth_addresses: Map<Address, ()> = env.storage().instance().get(&AUTHORIZED_ADDRESSES)
-            .unwrap_or(Map::new(&env));
-        auth_addresses.remove(address);
-        env.storage().instance().set(&AUTHORIZED_ADDRESSES, &auth_addresses);
+    pub fn get_auth_addr(env: &Env, addr: Address) -> bool {
+        env.storage()
+            .persistent()
+            .get(&DataKey::Map(addr))
+            .unwrap_or(false)
     }
 
-    // check for address authorization
-    fn is_authorized(env: &Env, address: &Address) -> bool {
-        let auth_addresses: Map<Address, ()> = env.storage().instance().get(&AUTHORIZED_ADDRESSES)
-            .unwrap_or(Map::new(env));
-        auth_addresses.contains_key(address)
+    pub fn set_auth_addr(env: &Env, owner_addr: Address, new_addr: Address) {
+         let owner = env.storage().instance().get(&DataKey::Owner);
+         if owner == core::prelude::v1::Some(owner_addr.clone()) {
+            owner_addr.require_auth();
+            env.storage().persistent().set(&DataKey::Map(new_addr.clone()), &true);
+        } else {
+            panic!("caller not authorized");
+        }
+    }
+
+    pub fn restrict_auth_addr(env: &Env, owner_addr: Address, new_addr: Address) {
+         let owner = env.storage().instance().get(&DataKey::Owner);
+         if owner == core::prelude::v1::Some(owner_addr.clone()) {
+            owner_addr.require_auth();
+            env.storage().persistent().set(&DataKey::Map(new_addr.clone()), &false);
+        } else {
+            panic!("caller not authorized");
+        }
     }
     
 } 
