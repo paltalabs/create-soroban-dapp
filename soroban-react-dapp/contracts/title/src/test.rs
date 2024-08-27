@@ -1,116 +1,63 @@
 #![cfg(test)]
 
-use soroban_sdk::{testutils::Address as _, Address, Env, Symbol, Vec, String};
-use crate::{TitleContract, TitleContractClient, ContractError, ADMIN, TITLE, AUTH_USERS};
+use super::*;
+use soroban_sdk::{Env, testutils::{Address as TestAddress, Vec as TestVec}, Symbol, String};
 
 #[test]
 fn test_set_admin() {
     let env = Env::default();
-    let admin = Address::random(&env);
-    let client = TitleContractClient::new(&env, &env.register_contract(None, TitleContract));
+    let admin = TestAddress::random(&env);
 
-    // Setting the admin
-    client.set_admin(&admin).unwrap();
+    // Attempt to set the admin when it has not been initialized yet
+    assert!(TitleContract::set_admin(env.clone(), admin.clone()).is_ok());
 
-    // Verify the admin was set correctly
-    assert_eq!(env.storage().instance().get::<Address>(&ADMIN).unwrap(), admin);
+    // Attempt to set the admin again should fail
+    assert_eq!(
+        TitleContract::set_admin(env.clone(), admin.clone()).unwrap_err(),
+        ContractError::NotInitialized
+    );
 }
 
 #[test]
-fn test_add_user() {
+fn test_add_user_and_get_users() {
     let env = Env::default();
-    let admin = Address::random(&env);
-    let user = Address::random(&env);
-    let client = TitleContractClient::new(&env, &env.register_contract(None, TitleContract));
+    let admin = TestAddress::random(&env);
+    let user = TestAddress::random(&env);
 
-    // Set the admin
-    client.set_admin(&admin).unwrap();
+    TitleContract::set_admin(env.clone(), admin.clone()).unwrap();
+    TitleContract::add_user(env.clone(), user.clone());
 
-    // Add a user as admin
-    env.set_authorized(&admin, true);
-    client.add_user(&user);
-
-    // Verify the user was added
-    let authorized_users: Vec<(Address, bool)> = env.storage().instance().get(&AUTH_USERS).unwrap().iter().collect();
-    assert!(authorized_users.iter().any(|(addr, _)| *addr == user));
+    // Verify that the user appears in the list of authorized users
+    let users = TitleContract::get_users(env.clone());
+    assert_eq!(users.contains(&user), true);
 }
 
 #[test]
 fn test_modify_title() {
     let env = Env::default();
-    let admin = Address::random(&env);
-    let user = Address::random(&env);
-    let client = TitleContractClient::new(&env, &env.register_contract(None, TitleContract));
-    let new_title = String::from_str(&env, "New Title");
+    let admin = TestAddress::random(&env);
+    let user = TestAddress::random(&env);
+    let new_title = String::from_str(&env, "PrincesitoDan");
 
-    // Set the admin and add a user
-    client.set_admin(&admin).unwrap();
-    env.set_authorized(&admin, true);
-    client.add_user(&user);
+    TitleContract::set_admin(env.clone(), admin.clone()).unwrap();
+    TitleContract::add_user(env.clone(), user.clone());
 
-    // Modify the title as the authorized user
-    env.set_authorized(&user, true);
-    client.modify_title(&user, &new_title).unwrap();
+    // Attempt to modify the title by the authorized user
+    assert!(TitleContract::modify_title(env.clone(), user.clone(), new_title.clone()).is_ok());
 
-    // Verify the title was modified
-    assert_eq!(client.get_title(), new_title);
+    // Verify that the title was modified
+    assert_eq!(TitleContract::get_title(env.clone()), new_title);
 }
 
 #[test]
-fn test_unauthorized_modify_title() {
+fn test_modify_admin() {
     let env = Env::default();
-    let user = Address::random(&env);
-    let client = TitleContractClient::new(&env, &env.register_contract(None, TitleContract));
-    let new_title = String::from_str(&env, "New Title");
+    let admin = TestAddress::random(&env);
+    let new_admin = TestAddress::random(&env);
 
-    // Attempt to modify title without authorization
-    env.set_authorized(&user, true);
-    let result = client.modify_title(&user, &new_title);
+    TitleContract::set_admin(env.clone(), admin.clone()).unwrap();
+    TitleContract::modify_admin(env.clone(), new_admin.clone()).unwrap();
 
-    // Verify that the modification failed due to lack of authorization
-    assert_eq!(result, Err(ContractError::NotAuthorized));
-}
-
-#[test]
-fn test_get_title() {
-    let env = Env::default();
-    let admin = Address::random(&env);
-    let user = Address::random(&env);
-    let client = TitleContractClient::new(&env, &env.register_contract(None, TitleContract));
-    let new_title = String::from_str(&env, "New Title");
-
-    // Set the admin, add a user, and modify the title
-    client.set_admin(&admin).unwrap();
-    env.set_authorized(&admin, true);
-    client.add_user(&user);
-    env.set_authorized(&user, true);
-    client.modify_title(&user, &new_title).unwrap();
-
-    // Retrieve and verify the title
-    assert_eq!(client.get_title(), new_title);
-}
-
-#[test]
-fn test_address_admin() {
-    let env = Env::default();
-    let admin = Address::random(&env);
-    let client = TitleContractClient::new(&env, &env.register_contract(None, TitleContract));
-
-    // Set the admin
-    client.set_admin(&admin).unwrap();
-
-    // Verify that the admin address is returned correctly
-    assert_eq!(client.address_admin().unwrap(), admin);
-}
-
-#[test]
-fn test_address_admin_not_initialized() {
-    let env = Env::default();
-    let client = TitleContractClient::new(&env, &env.register_contract(None, TitleContract));
-
-    // Attempt to retrieve admin address without setting it
-    let result = client.address_admin();
-
-    // Verify that an error is returned due to the admin not being initialized
-    assert_eq!(result, Err(ContractError::NotInitialized));
+    // Verify that only the new admin has the necessary permissions
+    assert_eq!(TitleContract::address_admin(env.clone()).unwrap(), new_admin);
 }

@@ -7,8 +7,8 @@ Hello and welcome to Title Contract! 🎉
 Title is a special wallet containing the following crucial data:
 
     Account Admin:
-        Public Key: GA4HKU3GDGZHSUOAW6X3NQHG36EX4M5Z7THNWVXJA6GKTDHOI27OKUGI
-        Secret Key: SDDWPQWJFO7UGGFUBOZ4HZJDPBA62MWY3NUK7QTRL2LOTUVT5J3CRY7H
+        Public Key: GAMPJTSVJSEVX4KKWVY2G7JM66AI6PPQIZMTW2EI6ZVJLEZLMKI7GAFK
+        Secret Key: SCHWRT7BOMNJPOZECVKWZND2XFMEGVVJ4ILZEPFQIRTCYVPGCGKKFAIA
 
 This contract is the guardian that decides who can change the character associated with the wallet. Only those who know "the magic trick" will have that power.
 🛠️ Project Setup

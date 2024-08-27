@@ -11,14 +11,16 @@ import { Address, nativeToScVal, xdr } from '@stellar/stellar-sdk';
 
 export const ManageTitle: FC = () => {
   const sorobanContext = useSorobanReact();
-  const { activeChain, server, address } = sorobanContext; // Aquí se obtiene la dirección del contexto
+  const { activeChain, server, address } = sorobanContext;
 
   const [currentTitle, setCurrentTitle] = useState<string>('');
   const [adminAddress, setAdminAddress] = useState<string>('');
   const [newTitle, setNewTitle] = useState<string>('');
   const [newUser, setNewUser] = useState<string>('');
+  const [newAdmin, setNewAdmin] = useState<string>('');
+  const [authorizedUsers, setAuthorizedUsers] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   const contract = useRegisteredContract("title");
 
   const fetchTitle = useCallback(async () => {
@@ -53,17 +55,34 @@ export const ManageTitle: FC = () => {
     }
   }, [server, contract]);
 
+  const fetchAuthorizedUsers = useCallback(async () => {
+    if (!server || !contract) return;
+
+    try {
+      const result = await contract.invoke({
+        method: "get_users",
+        signAndSend: false
+      });
+      const users = StellarSdk.scValToNative(result as xdr.ScVal) as string[];
+      setAuthorizedUsers(users);
+    } catch (error) {
+      console.error("Error fetching authorized users:", error);
+      toast.error('Error fetching authorized users.');
+    }
+  }, [server, contract]);
+
   useEffect(() => {
     fetchTitle();
     fetchAdminAddress();
-  }, [fetchTitle, fetchAdminAddress]);
+    fetchAuthorizedUsers();
+  }, [fetchTitle, fetchAdminAddress, fetchAuthorizedUsers]);
 
   const modifyTitle = async () => {
     if (!newTitle) {
       toast.error('Please enter a new title.');
       return;
     }
-    if (!server || !contract || !address) return; // Verificamos que la dirección esté definida
+    if (!server || !contract || !address) return;
 
     setIsLoading(true);
     try {
@@ -76,6 +95,7 @@ export const ManageTitle: FC = () => {
       });
       toast.success("Title modified.");
       setCurrentTitle(newTitle);
+      setNewTitle(''); // Limpiar campo de entrada
     } catch (error) {
       console.error("Error modifying title:", error);
       toast.error('User not authorized.');
@@ -89,7 +109,7 @@ export const ManageTitle: FC = () => {
       toast.error('Please enter a new user address.');
       return;
     }
-    if (!server || !contract || !address) return; // También verificamos que la dirección esté definida
+    if (!server || !contract || !address) return;
 
     setIsLoading(true);
     try {
@@ -101,9 +121,37 @@ export const ManageTitle: FC = () => {
         sorobanContext
       });
       toast.success("User added.");
+      setNewUser(''); // Limpiar campo de entrada
     } catch (error) {
       console.error("Error adding user:", error);
       toast.error('You are not the admin, you are not authorized for this.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const modifyAdmin = async () => {
+    if (!newAdmin) {
+      toast.error('Please enter a new admin address.');
+      return;
+    }
+    if (!server || !contract || !address) return;
+
+    setIsLoading(true);
+    try {
+      await contractInvoke({
+        contractAddress: contract.deploymentInfo.contractAddress,
+        method: "modify_admin",
+        args: [new Address(newAdmin).toScVal()],
+        signAndSend: true,
+        sorobanContext
+      });
+      toast.success("Admin modified.");
+      setAdminAddress(newAdmin);
+      setNewAdmin(''); // Limpiar campo de entrada
+    } catch (error) {
+      console.error("Error modifying admin:", error);
+      toast.error('You are not authorized for this.');
     } finally {
       setIsLoading(false);
     }
@@ -115,10 +163,23 @@ export const ManageTitle: FC = () => {
         <FormLabel>Current Title</FormLabel>
         <Text>{currentTitle || "No Title Set"}</Text>
       </FormControl>
+
+      <FormControl mt={4}>
+        <FormLabel>Authorized Users</FormLabel>
+        <VStack align="start">
+          {authorizedUsers.length > 0 ? (
+            authorizedUsers.map((user, idx) => <Text key={idx}>{user}</Text>)
+          ) : (
+            <Text>No Authorized Users</Text>
+          )}
+        </VStack>
+      </FormControl>
+
       <FormControl mt={4}>
         <FormLabel>Admin Address</FormLabel>
         <Text>{adminAddress || "No Admin Set"}</Text>
       </FormControl>
+
       <FormControl mt={4}>
         <FormLabel>New Title</FormLabel>
         <Input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
@@ -126,6 +187,7 @@ export const ManageTitle: FC = () => {
           Modify Title
         </Button>
       </FormControl>
+
       <FormControl mt={4}>
         <FormLabel>New User Address</FormLabel>
         <Input value={newUser} onChange={(e) => setNewUser(e.target.value)} />
@@ -133,6 +195,15 @@ export const ManageTitle: FC = () => {
           Add User
         </Button>
       </FormControl>
+
+      <FormControl mt={4}>
+        <FormLabel>New Admin Address</FormLabel>
+        <Input value={newAdmin} onChange={(e) => setNewAdmin(e.target.value)} />
+        <Button mt={4} onClick={modifyAdmin} isLoading={isLoading} colorScheme="red">
+          Modify Admin
+        </Button>
+      </FormControl>
     </Card>
   );
 };
+
