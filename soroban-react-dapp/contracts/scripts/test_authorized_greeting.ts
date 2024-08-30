@@ -37,44 +37,13 @@ async function testSetAdminInitial(addressBook: any) {
   }
 }
 
-async function testAdminChangeByAuthorizedUser(addressBook: any) {
-  console.log('==================================================');
-  console.log('Testing Admin Change by Authorized User');
-  console.log('==================================================');
-
-  const admin = loadedConfig.admin;
-  const newAdmin = loadedConfig.getUser("ADMIN_SECRET_KEY_2") // Create a new admin
-
-  const setNewAdminParams = setAdminParams(newAdmin);
-
-  // Attempt to change the admin with the current admin (should succeed)
-  const setAdminResult = await invokeContract('authorized_greeting', addressBook, 'set_admin', setNewAdminParams, admin);
-  if (setAdminResult.status !== "SUCCESS") {
-    getResponseMessage('adminChangeFailure');
-    return;
-  }
-
-  const storedAdminResult = await invokeContract('authorized_greeting', addressBook, 'get_admin', [], newAdmin, true);
-  if (!storedAdminResult || !scValToNative(storedAdminResult.result.retval)) {
-    getResponseMessage('adminChangeFailure');
-    return;
-  }
-
-  const storedAdmin = scValToNative(storedAdminResult.result.retval);
-  if (storedAdmin === newAdmin.publicKey()) {
-    getResponseMessage('adminChangeSuccess');
-  } else {
-    getResponseMessage('adminChangeFailure');
-  }
-}
-
 async function testUnauthorizedAdminChange(addressBook: any) {
   console.log('==================================================');
   console.log('Testing Unauthorized Admin Change');
   console.log('==================================================');
 
   // const admin = loadedConfig.admin;
-  const newAdmin = loadedConfig.getUser("ADMIN_SECRET_KEY_3") // Create a new admin
+  const newAdmin = loadedConfig.getUser("ADMIN_SECRET_KEY_2") // Create a new admin
   const unauthorizedUser = loadedConfig.getUser("GREETER") 
 
   const setNewAdminParams = setAdminParams(newAdmin);
@@ -274,9 +243,8 @@ const setGreetParams = (greetMessage: any, greeter: any) => {
 }
 
 await testSetAdminInitial(addressBook);
-await testAdminChangeByAuthorizedUser(addressBook);
 await testUnauthorizedAdminChange(addressBook);
-// await addGreeterToAuthorizedList(addressBook);
-// await authorizedUserGreetSet(addressBook);
-// await unauthorizedUserGreeterSet(addressBook);
-// await unauthorizedUserGreetSet(addressBook);
+await addGreeterToAuthorizedList(addressBook);
+await authorizedUserGreetSet(addressBook);
+await unauthorizedUserGreeterSet(addressBook);
+await unauthorizedUserGreetSet(addressBook);
