@@ -11,11 +11,25 @@ pub struct AuthorizedGreetingContract;
 #[contractimpl]
 impl AuthorizedGreetingContract {
     pub fn set_admin(env: Env, admin: Address) {
+        // Specify the key type as `Symbol` and value type as `Address`
+        match env.storage().instance().get::<Symbol, Address>(&ADMIN) {
+            Some(current_admin) => {
+                current_admin.require_auth();
+            }
+            None => {
+                // If no admin is set, this is the first initialization
+                // No authorization check is needed
+            }
+        }
+
         env.storage().instance().set(&ADMIN, &admin);
     }
 
     pub fn get_admin(env: &Env) -> Address {
-        env.storage().instance().get(&ADMIN).expect("Admin not set in storage")
+        env.storage()
+            .instance()
+            .get(&ADMIN)
+            .expect("Admin not set in storage")
     }
 
     pub fn add_greeter(env: Env, greeter: Address) {

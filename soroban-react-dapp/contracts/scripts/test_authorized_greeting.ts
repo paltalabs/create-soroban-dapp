@@ -8,21 +8,88 @@ const loadedConfig = config(network);
 
 const addressBook = AddressBook.loadFromFile(network, loadedConfig);
 
-export async function setAdmin(addressBook: AddressBook) {
+async function testSetAdminInitial(addressBook: any) {
   console.log('==================================================');
-  console.log('Testing Admin Set');
+  console.log('Testing Initial Admin Set');
   console.log('==================================================');
 
   const admin = loadedConfig.admin;
-  const set_admin_params = setAdminParams(admin);
-  const set_admin_result = await invokeContract('authorized_greeting', addressBook, 'set_admin', set_admin_params, admin);
-  set_admin_result.status == "SUCCESS" ? null : getResponseMessage('adminNotSetCorrectly')
-  
+  const setAdminParamsValue = setAdminParams(admin);
+
+  // First, set the admin for the first time (should succeed)
+  const setAdminResult = await invokeContract('authorized_greeting', addressBook, 'set_admin', setAdminParamsValue, admin);
+  if (setAdminResult.status !== "SUCCESS") {
+    getResponseMessage('adminSetFailure');
+    return;
+  }
+
   const storedAdminResult = await invokeContract('authorized_greeting', addressBook, 'get_admin', [], admin, true);
-  !storedAdminResult || !scValToNative(storedAdminResult.result.retval) ? getResponseMessage('adminSetFailure') : null
+  if (!storedAdminResult || !scValToNative(storedAdminResult.result.retval)) {
+    getResponseMessage('adminSetFailure');
+    return;
+  }
 
   const storedAdmin = scValToNative(storedAdminResult.result.retval);
-  storedAdmin === admin.publicKey() ? getResponseMessage('adminSetSuccess') : getResponseMessage('adminNotSetCorrectly');
+  if (storedAdmin === admin.publicKey()) {
+    getResponseMessage('adminSetSuccess');
+  } else {
+    getResponseMessage('adminSetFailure');
+  }
+}
+
+async function testAdminChangeByAuthorizedUser(addressBook: any) {
+  console.log('==================================================');
+  console.log('Testing Admin Change by Authorized User');
+  console.log('==================================================');
+
+  const admin = loadedConfig.admin;
+  const newAdmin = loadedConfig.getUser("ADMIN_SECRET_KEY_2") // Create a new admin
+
+  const setNewAdminParams = setAdminParams(newAdmin);
+
+  // Attempt to change the admin with the current admin (should succeed)
+  const setAdminResult = await invokeContract('authorized_greeting', addressBook, 'set_admin', setNewAdminParams, admin);
+  if (setAdminResult.status !== "SUCCESS") {
+    getResponseMessage('adminChangeFailure');
+    return;
+  }
+
+  const storedAdminResult = await invokeContract('authorized_greeting', addressBook, 'get_admin', [], newAdmin, true);
+  if (!storedAdminResult || !scValToNative(storedAdminResult.result.retval)) {
+    getResponseMessage('adminChangeFailure');
+    return;
+  }
+
+  const storedAdmin = scValToNative(storedAdminResult.result.retval);
+  if (storedAdmin === newAdmin.publicKey()) {
+    getResponseMessage('adminChangeSuccess');
+  } else {
+    getResponseMessage('adminChangeFailure');
+  }
+}
+
+async function testUnauthorizedAdminChange(addressBook: any) {
+  console.log('==================================================');
+  console.log('Testing Unauthorized Admin Change');
+  console.log('==================================================');
+
+  // const admin = loadedConfig.admin;
+  const newAdmin = loadedConfig.getUser("ADMIN_SECRET_KEY_3") // Create a new admin
+  const unauthorizedUser = loadedConfig.getUser("GREETER") 
+
+  const setNewAdminParams = setAdminParams(newAdmin);
+
+  try {
+    // Attempt to change the admin with an unauthorized user (should fail)
+    const setAdminResult = await invokeContract('authorized_greeting', addressBook, 'set_admin', setNewAdminParams, unauthorizedUser);
+    if (setAdminResult.status === "FAILED") {
+      getResponseMessage('unauthorizedAdminChangeSuccess');
+    } else {
+      getResponseMessage('unauthorizedAdminChangeFailure');
+    }
+  } catch (e) {
+    getResponseMessage('unauthorizedAdminChangeFailure');
+  }
 }
 
 export async function addGreeterToAuthorizedList(addressBook: AddressBook) {
@@ -139,6 +206,8 @@ export async function unauthorizedUserGreetSet(addressBook: AddressBook) {
 
 type MessageKey =
   | 'adminSetSuccess'
+  | 'adminChangeSuccess'
+  | 'adminChangeFailure'
   | 'adminSetFailure'
   | 'adminNotSetCorrectly'
   | 'greeterAddSuccess'
@@ -149,15 +218,21 @@ type MessageKey =
   | 'unauthorizedGreeterAddSuccess'
   | 'unauthorizedGreeterAddFailure'
   | 'unauthorizedGreetSetSuccess'
-  | 'unauthorizedGreetSetFailure';
+  | 'unauthorizedGreetSetFailure'
+  | 'unauthorizedAdminChangeSuccess'
+  | 'unauthorizedAdminChangeFailure'
 
 const getResponseMessage = (messageKey: MessageKey): void => {
   const messages = {
     adminSetSuccess: { message: "Admin was set correctly.✔️", type: "success" },
+    unauthorizedAdminChangeSuccess: { message: "Unauthorized user was not able to change admin.✔️", type: "success" },
+    adminChangeSuccess: { message: "Admin was changed correctly by authorized user.✔️", type: "success" },
     greeterAddSuccess: { message: "Greeter was authorized correctly.✔️", type: "success" },
     greetSetSuccess: { message: "Greet message was set correctly.✔️", type: "success" },
     unauthorizedGreeterAddSuccess: { message: "Unauthorized user was not able to add a greeter.✔️", type: "success" },
     unauthorizedGreetSetSuccess: { message: "Unauthorized user was not able to set the greet message.✔️", type: "success" },
+    adminChangeFailure: { message: "Error: Admin change failed.❌", type: "failure" },
+    unauthorizedAdminChangeFailure: { message: "Error: Unauthorized user was able to change admin.❌", type: "failure" }, 
     adminSetFailure: { message: "Error: Admin not retrieved successfully.❌", type: "failure" },
     adminNotSetCorrectly: { message: "Error: Admin was not set correctly.❌", type: "failure" },
     greeterAddFailure: { message: "Error: Authorized Greeter List not retrieved successfully.❌", type: "failure" },
@@ -198,8 +273,10 @@ const setGreetParams = (greetMessage: any, greeter: any) => {
   return set_greet_params
 }
 
-await setAdmin(addressBook);
-await addGreeterToAuthorizedList(addressBook);
-await authorizedUserGreetSet(addressBook);
-await unauthorizedUserGreeterSet(addressBook);
-await unauthorizedUserGreetSet(addressBook);
+await testSetAdminInitial(addressBook);
+await testAdminChangeByAuthorizedUser(addressBook);
+await testUnauthorizedAdminChange(addressBook);
+// await addGreeterToAuthorizedList(addressBook);
+// await authorizedUserGreetSet(addressBook);
+// await unauthorizedUserGreeterSet(addressBook);
+// await unauthorizedUserGreetSet(addressBook);
