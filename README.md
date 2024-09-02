@@ -1,3 +1,34 @@
+# Authorized Greetings - By pobletacio
+
+First add test wallets declared on .env.example (Admin, greeter, unauthorized greeter), then the deploy script itself is gonna airdrop with XLM every accounts set
+
+```bash
+cd soroban-react-dapp/
+docker-compose up -d
+bash run.sh
+cd contracts
+make build
+yarn install
+yarn deploy testnet authorized_greeting
+yarn test testnet
+exit (or open another bash)
+```
+
+At this point you Import your Stellar Secret Key's on Freighter, with test script execution admin was initialiazed and asigned, has only one greeter that can set a greet an the unauthorized greeter can only read the message.
+
+* Admin can add more Authorized greeters using UI
+* Authorized Greeter can set and read the last greet
+* Unauthorized Greeter can only read the last greet
+
+
+Finally compile the UI:
+```bash
+yarn install 
+npm run dev
+```
+
+**PD: THIS IS MY FIRST TIME PROGRAMMING ON RUST AND USING A BLOCKCHAIN SDK! :D**
+
 # @create-soroban-dapp.
 
 @create-soroban-dapp is both a npx script and a boilerplate dapp for kickstarting any of your ideas for a Soroban-based Dapp.
