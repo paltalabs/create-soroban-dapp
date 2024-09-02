@@ -12,38 +12,50 @@ pub struct TitleContract;
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
 #[repr(u32)]
 pub enum ContractError {
-    NotInitialized = 400,
-    NotAuthorized = 401,
+    NotInitialized = 400, // Error if contract is not initialized
+    NotAuthorized = 401,  // Error if the user is not authorized
 }
 
 #[contractimpl]
 impl TitleContract {
-    // Sets the contract's administrator
+    // Sets the admin for the contract. Can only be called once.
     pub fn set_admin(env: Env, new_admin: Address) -> Result<(), ContractError> {
+        // Check if admin is already set; if yes, return an error
         if env.storage().instance().has(&ADMIN) {
-            Err(ContractError::NotInitialized)
-        } else {
-            env.storage().instance().set(&ADMIN, &new_admin);
-            Ok(())
+            return Err(ContractError::NotInitialized);
         }
+        // Set the new admin address in the storage
+        env.storage().instance().set(&ADMIN, &new_admin);
+        Ok(())
     }
 
-    // Adds an authorized address to modify the title
-    pub fn add_user(env: Env, user: Address) {
-        let admin: Address = env.storage().instance().get(&ADMIN).unwrap();
+    // Adds a new user to the list of authorized users. Only callable by the admin.
+    pub fn add_user(env: Env, user: Address) -> Result<(), ContractError> {
+        // Fetch the current admin from storage
+        let admin = env.storage().instance().get::<Symbol, Address>(&ADMIN)
+            .ok_or(ContractError::NotInitialized)?;
+        // Ensure the caller is the admin
         admin.require_auth();
 
-        let mut authorized_users: Map<Address, bool> = env.storage().instance().get(&AUTH_USERS).unwrap_or(Map::new(&env));
+        // Get the list of authorized users or initialize it if it doesn't exist
+        let mut authorized_users: Map<Address, bool> = env.storage().instance().get::<Symbol, Map<Address, bool>>(&AUTH_USERS).unwrap_or(Map::new(&env));
+        // Add the new user to the list
         authorized_users.set(user, true);
+        // Save the updated list back to storage
         env.storage().instance().set(&AUTH_USERS, &authorized_users);
+        Ok(())
     }
 
-    // Modifies the title if the address is authorized
+    // Modifies the title. Only authorized users can call this.
     pub fn modify_title(env: Env, user: Address, new_title: String) -> Result<(), ContractError> {
+        // Ensure the caller is the user who is trying to modify the title
         user.require_auth();
 
-        let authorized_users: Map<Address, bool> = env.storage().instance().get(&AUTH_USERS).unwrap_or(Map::new(&env));
-        if authorized_users.get(user.clone()).unwrap_or(false) {
+        // Fetch the list of authorized users from storage
+        let authorized_users: Map<Address, bool> = env.storage().instance().get::<Symbol, Map<Address, bool>>(&AUTH_USERS).unwrap_or(Map::new(&env));
+        // Check if the user is authorized
+        if let Some(true) = authorized_users.get(user.clone()) {
+            // Set the new title in storage
             env.storage().instance().set(&TITLE, &new_title);
             Ok(())
         } else {
@@ -51,35 +63,42 @@ impl TitleContract {
         }
     }
 
-    // Retrieves the current title
+    // Retrieves the current title. If not set, returns "No Title Set".
     pub fn get_title(env: Env) -> String {
-        env.storage().instance().get(&TITLE).unwrap_or(String::from_str(&env, "No Title Set"))
+        // Fetch the title from storage or return a default message
+        env.storage().instance().get::<Symbol, String>(&TITLE).unwrap_or(String::from_str(&env, "No Title Set"))
     }
 
-    // Retrieves the contract's administrator address
+    // Retrieves the current admin address.
     pub fn address_admin(env: Env) -> Result<Address, ContractError> {
-        match env.storage().instance().get(&ADMIN) {
-            Some(admin_address) => Ok(admin_address),
-            None => Err(ContractError::NotInitialized),
-        }
+        // Fetch the admin from storage or return an error if not initialized
+        env.storage().instance().get::<Symbol, Address>(&ADMIN).ok_or(ContractError::NotInitialized)
     }
 
-    // Retrieves the authorized users who can modify the title
+    // Retrieves a list of all authorized users.
     pub fn get_users(env: Env) -> Vec<Address> {
-        let authorized_users: Map<Address, bool> = env.storage().instance().get(&AUTH_USERS).unwrap_or(Map::new(&env));
+        // Fetch the list of authorized users from storage
+        let authorized_users: Map<Address, bool> = env.storage().instance().get::<Symbol, Map<Address, bool>>(&AUTH_USERS).unwrap_or(Map::new(&env));
         let mut users = Vec::new(&env);
+        // Collect all user addresses into a Vec
         for user in authorized_users.keys() {
             users.append(&mut Vec::from_slice(&env, &[user]));
         }
         users
     }
 
-    // Allows the current admin to transfer admin rights to a new address
+    // Changes the admin address. Only the current admin can call this.
     pub fn modify_admin(env: Env, new_admin: Address) -> Result<(), ContractError> {
-        let admin: Address = env.storage().instance().get(&ADMIN).unwrap();
+        // Fetch the current admin from storage
+        let admin = env.storage().instance().get::<Symbol, Address>(&ADMIN)
+            .ok_or(ContractError::NotInitialized)?;
+        // Ensure the caller is the current admin
         admin.require_auth();
 
+        // Set the new admin address in storage
         env.storage().instance().set(&ADMIN, &new_admin);
         Ok(())
     }
 }
+
+mod test;
