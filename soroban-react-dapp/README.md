@@ -1,57 +1,134 @@
 🛡️ Welcome to Title Contract
 
 Hello and welcome to Title Contract! 🎉
-
 🚀 What is Title?
 
-Title is a special wallet containing the following crucial data:
-
-    Account Admin:
-        Public Key: GAMPJTSVJSEVX4KKWVY2G7JM66AI6PPQIZMTW2EI6ZVJLEZLMKI7GAFK
-        Secret Key: SCHWRT7BOMNJPOZECVKWZND2XFMEGVVJ4ILZEPFQIRTCYVPGCGKKFAIA
-
-This contract is the guardian that decides who can change the character associated with the wallet. Only those who know "the magic trick" will have that power.
+This contract acts as the guardian, controlling who can modify the character associated with this wallet. Only those with the "magic trick" will have the power to make changes.
 🛠️ Project Setup
-1. Environment Configuration readme soroban-react-dapp
 
-First, ensure that Soroban is set up in your environment. If you haven’t done so yet, you can add the admin identity by running:
+1. Clone the Repository:
 
-bash
+Follow the instructions here: Manual Cloning:
 
-soroban config identity add --secret-key admin
+https://create-soroban-dapp.paltalabs.io/create-soroban-dapp/manual_cloning.html 
 
-And, of course, you’ll need to input the secret key for Title (listed above).
-2. Build and Testnet
-
-Next, build and deploy the contract on the testnet. Simply run:
+Navigate to the Project Directory:
 
 bash
 
-yarn deploy testnet title
+cd soroban-react-dapp
+
+2. Set Up Your Secrets:
+
+When deploying contracts, you’ll need the secret key of the deployer account. Store this key in a file located at ./contracts/.env.
+
+To set up your secrets, run:
+
+bash
+
+cp contracts/.env.example contracts/.env
+
+If you’re already in the contracts folder (e.g., inside the Docker container), run:
+
+bash
+
+cp .env.example .env
+
+Edit the .env file to include your secret keys and RPC URLs. The file should look like this:
+
+plaintext
+
+# Stellar accounts Secret Keys
+ADMIN_SECRET_KEY=
+
+# RPC Setup
+MAINNET_RPC_URL=https://mainnet.stellar.validationcloud.io/v1/3uELU0BKP-ARJhn6hngelkg5Y24i8xGgUA9QtB8KsYc
+
+USER_1=
+USER_2=
+USER_3=
+NEW_ADMIN=
+
+You can generate new accounts and private keys from Stellar Laboratory. Copy your secret keys into the .env file.
+
+Note: The initial ADMIN will start as the administrator. After executing test_title.txs, the contract’s admin will be NEW_ADMIN, and USER_1 and USER_2 will be authorized to modify the title. Create multiple accounts in Stellar Laboratory or use your own for testing the smart contract.
+
+If you plan to deploy on the mainnet, you'll need a Mainnet RPC Provider. Consider using providers like Validation Cloud or NowNodes.
+
+3. Container Setup:
+
+Navigate to the right directory:
+
+bash
+
+cd soroban-react-dapp/
+
+Bring up the necessary containers:
+
+bash
+
+docker-compose up -d
+./run.sh
+
+4. Build and Test Contracts:
+
+Run the following commands:
+
+bash
+
+cd contracts
+make build
+make test
+yarn deploy
+
+You can test the contract by invoking it with the ID shown in the console:
+
+bash
+
+soroban contract invoke --id XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --source admin --network testnet
+
+For testnet:
+
+bash
+
+soroban config network add --rpc-url https://soroban-testnet.stellar.org/ --network-passphrase "Test SDF Network ; September 2015" testnet
+
+5. Execute the Test Title:
+
+Run:
+
+bash
 
 yarn testtitle testnet
 
-This should execute like so:
+Run the Frontend:
+
+6. Navigate back and start the development server:
 
 bash
 
-root@3b15f88a2fa0:/workspace/contracts# yarn testtitle testnet
+    cd ..
+    yarn dev
 
-3. Launch the Application
+    Watch what happens and get ready to explore!
 
-Now that the contract is set up, it’s time to see the magic in action. Start the application with:
+7. Freight Configuration:
+
+    Don’t forget to configure Freight with Title to efficiently manage your tests.
+
+8. Additional Testing:
+
+    Finally, add more test addresses to ensure that only those chosen by Title can modify the character. Test the security of your contract and enjoy the process!
+
+Extra: Stopping the Containers:
+
+When you’re finished, you can stop the containers by running:
 
 bash
 
-yarn dev
+docker-compose down
 
-Watch what happens and get ready to explore!
-4. Freight Configuration
-
-Don’t forget to configure Freight with Title to efficiently manage your tests.
-5. Additional Testing
-
-Finally, add more test addresses to ensure that only those chosen by Title can change the character. Test the security of your contract and have fun in the process!
+###################################################################################
 
 
 # Welcome to your soroban react dapp boilerplate!

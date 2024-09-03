@@ -1,4 +1,4 @@
-import { Box, Button, Card, FormControl, FormLabel, Input, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Card, FormControl, FormLabel, Input, Text, VStack, Heading } from '@chakra-ui/react';
 import { type FC, useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import 'twin.macro';
@@ -23,6 +23,7 @@ export const ManageTitle: FC = () => {
 
   const contract = useRegisteredContract("title");
 
+  // 1. Implementación del estado reactivo para la lista de usuarios autorizados
   const fetchTitle = useCallback(async () => {
     if (!server || !contract) return;
 
@@ -71,10 +72,13 @@ export const ManageTitle: FC = () => {
     }
   }, [server, contract]);
 
+  // Intervalo para actualización automática de usuarios autorizados
   useEffect(() => {
     fetchTitle();
     fetchAdminAddress();
-    fetchAuthorizedUsers();
+    const intervalId = setInterval(fetchAuthorizedUsers, 1000); // Actualización cada 1 segundo
+
+    return () => clearInterval(intervalId); // Limpieza del intervalo
   }, [fetchTitle, fetchAdminAddress, fetchAuthorizedUsers]);
 
   const modifyTitle = async () => {
@@ -95,7 +99,9 @@ export const ManageTitle: FC = () => {
       });
       toast.success("Title modified.");
       setCurrentTitle(newTitle);
-      setNewTitle(''); // Limpiar campo de entrada
+
+      // Limpieza del campo de entrada
+      setNewTitle('');
     } catch (error) {
       console.error("Error modifying title:", error);
       toast.error('User not authorized.');
@@ -121,7 +127,9 @@ export const ManageTitle: FC = () => {
         sorobanContext
       });
       toast.success("User added.");
-      setNewUser(''); // Limpiar campo de entrada
+
+      // Limpieza del campo de entrada
+      setNewUser('');
     } catch (error) {
       console.error("Error adding user:", error);
       toast.error('You are not the admin, you are not authorized for this.');
@@ -148,7 +156,9 @@ export const ManageTitle: FC = () => {
       });
       toast.success("Admin modified.");
       setAdminAddress(newAdmin);
-      setNewAdmin(''); // Limpiar campo de entrada
+
+      // Limpieza del campo de entrada
+      setNewAdmin('');
     } catch (error) {
       console.error("Error modifying admin:", error);
       toast.error('You are not authorized for this.');
@@ -159,29 +169,30 @@ export const ManageTitle: FC = () => {
 
   return (
     <Card variant="outline" p={4} bgColor="whiteAlpha.100">
+      {/* Aplicación de estilos para los títulos */}
       <FormControl>
-        <FormLabel>Current Title</FormLabel>
-        <Text>{currentTitle || "No Title Set"}</Text>
+        <FormLabel as="h2" fontSize="lg" fontWeight="bold">Current Title</FormLabel>
+        <Text as="p">{currentTitle || "No Title Set"}</Text>
       </FormControl>
 
       <FormControl mt={4}>
-        <FormLabel>Authorized Users</FormLabel>
+        <FormLabel as="h2" fontSize="lg" fontWeight="bold">Authorized Users</FormLabel>
         <VStack align="start">
           {authorizedUsers.length > 0 ? (
-            authorizedUsers.map((user, idx) => <Text key={idx}>{user}</Text>)
+            authorizedUsers.map((user, idx) => <Text as="p" key={idx}>{user}</Text>)
           ) : (
-            <Text>No Authorized Users</Text>
+            <Text as="p">No Authorized Users</Text>
           )}
         </VStack>
       </FormControl>
 
       <FormControl mt={4}>
-        <FormLabel>Admin Address</FormLabel>
-        <Text>{adminAddress || "No Admin Set"}</Text>
+        <FormLabel as="h2" fontSize="lg" fontWeight="bold">Admin Address</FormLabel>
+        <Text as="p">{adminAddress || "No Admin Set"}</Text>
       </FormControl>
 
       <FormControl mt={4}>
-        <FormLabel>New Title</FormLabel>
+        <FormLabel as="h2" fontSize="lg" fontWeight="bold">New Title</FormLabel>
         <Input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
         <Button mt={4} onClick={modifyTitle} isLoading={isLoading} colorScheme="blue">
           Modify Title
@@ -189,7 +200,7 @@ export const ManageTitle: FC = () => {
       </FormControl>
 
       <FormControl mt={4}>
-        <FormLabel>New User Address</FormLabel>
+        <FormLabel as="h2" fontSize="lg" fontWeight="bold">New User Address</FormLabel>
         <Input value={newUser} onChange={(e) => setNewUser(e.target.value)} />
         <Button mt={4} onClick={addUser} isLoading={isLoading} colorScheme="green">
           Add User
@@ -197,7 +208,7 @@ export const ManageTitle: FC = () => {
       </FormControl>
 
       <FormControl mt={4}>
-        <FormLabel>New Admin Address</FormLabel>
+        <FormLabel as="h2" fontSize="lg" fontWeight="bold">New Admin Address</FormLabel>
         <Input value={newAdmin} onChange={(e) => setNewAdmin(e.target.value)} />
         <Button mt={4} onClick={modifyAdmin} isLoading={isLoading} colorScheme="red">
           Modify Admin
@@ -206,4 +217,3 @@ export const ManageTitle: FC = () => {
     </Card>
   );
 };
-
