@@ -22,17 +22,17 @@ export const GreeterContractInteractions: FC = () => {
   const [, setFetchIsLoading] = useState<boolean>(false)
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false)
   const { register, handleSubmit } = useForm<UpdateGreetingValues>()
-
+  
   // Two options are existing for fetching data from the blockchain
   // The first consists on using the useContractValue hook demonstrated in the useGreeting.tsx file
   // This hook simulate the transation to happen on the bockchain and allow to read the value from it
   // Its main advantage is to allow for updating the value display on the frontend without any additional action
   // const {isWrongConnection, fetchedGreeting} = useGreeting({ sorobanContext })
-
+  
   // The other option, maybe simpler to understand and implement is the one implemented here
   // Where we fetch the value manually with each change of the state.
   // We trigger the fetch with flipping the value of updateFrontend or refreshing the page
-
+  
   const [fetchedGreeting, setGreeterMessage] = useState<string>()
   const [updateFrontend, toggleUpdate] = useState<boolean>(true)
   const [contractAddressStored, setContractAddressStored] = useState<string>()
@@ -74,77 +74,65 @@ export const GreeterContractInteractions: FC = () => {
         setFetchIsLoading(false)
       }
     }
-  }, [sorobanContext, contract])
+  },[sorobanContext,contract])
 
-  useEffect(() => { void fetchGreeting() }, [updateFrontend, fetchGreeting])
+  useEffect(() => {void fetchGreeting()}, [updateFrontend,fetchGreeting])
 
 
-  const { activeChain, server, address, activeConnector } = sorobanContext
+  const { activeChain, server, address } = sorobanContext
 
-  const updateGreeting = async ({ newMessage }: UpdateGreetingValues) => {
-    if (!address || !server || !activeChain || !activeConnector) {
-      toast.error('Wallet not connected or missing configuration. Try again...');
-      return;
+  const updateGreeting = async ({ newMessage }: UpdateGreetingValues ) => {
+    if (!address) {
+      console.log("Address is not defined")
+      toast.error('Wallet is not connected. Try again...')
+      return
     }
-  
-    setUpdateIsLoading(true);
-  
-    try {
-      const account = await server.getAccount(address);
-      
-      const contract = new StellarSdk.Contract(contractAddressStored || '');
-      const tx = new StellarSdk.TransactionBuilder(account, { 
-        fee: StellarSdk.BASE_FEE,
-        networkPassphrase: activeChain.networkPassphrase
-      })
-        .addOperation(contract.call("set_title", nativeToScVal(newMessage, {type: "string"})))
-        .setTimeout(30)
-        .build();
-  
-      // Simulate the transaction
-      const simulation = await server.simulateTransaction(tx);
-      
-      if ('results' in simulation) {
-        // Instead of assembleTransaction, prepare the transaction for signing
-        const preparedTransaction = tx; // Use the built transaction directly
-  
-        const signedTransaction = await activeConnector.signTransaction(
-          preparedTransaction.toXDR(),
-          { networkPassphrase: activeChain.networkPassphrase }
-        );
-        
-        const txResponse = await server.sendTransaction(StellarSdk.TransactionBuilder.fromXDR(signedTransaction, activeChain.networkPassphrase));
-        
-        if (txResponse.status === "PENDING") {
-          let txResult = await server.getTransaction(txResponse.hash);
-          
-          while (txResult.status === "NOT_FOUND") {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            txResult = await server.getTransaction(txResponse.hash);
-          }
-          
-          if (txResult.status === "SUCCESS") {
-            toast.success("New greeting successfully published!");
-            toggleUpdate(!updateFrontend);
-          } else {
-            toast.error("Transaction failed. Please try again.");
-          }
-        }
-      } else {
-        console.error('Transaction simulation failed:', simulation);
-        toast.error('Transaction simulation failed. Please try again.');
+    else if (!server) {
+      console.log("Server is not setup")
+      toast.error('Server is not defined. Unabled to connect to the blockchain')
+      return
+    }
+    else {
+      const currentChain = activeChain?.name?.toLocaleLowerCase()
+      if (!currentChain) {
+        console.log("No active chain")
+        toast.error('Wallet not connected. Try again…')
+        return
       }
-    } catch (e) {
-      console.error(e);
-      toast.error('Error while sending tx. Try again…');
-    } finally {
-      setUpdateIsLoading(false);
+      else {
+
+        setUpdateIsLoading(true)
+
+        try {
+          const result = await contract?.invoke({
+            method: 'set_title',
+            args: [nativeToScVal(newMessage, {type: "string"})],
+            signAndSend: true
+          })
+          console.log('🚀 « result:', result);
+          
+          if (true) {
+            toast.success("New greeting successfully published!")
+          }
+          else {
+            toast.error("Greeting unsuccessful...")
+            
+          }
+        } catch (e) {
+          console.error(e)
+          toast.error('Error while sending tx. Try again…')
+        } finally {
+          setUpdateIsLoading(false)
+          toggleUpdate(!updateFrontend)
+        } 
+
+        // await sorobanContext.connect();
+      }
     }
-  };
+  }
 
 
-
-  if (!contract) {
+  if(!contract){
     return (
       <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
         <h2 tw="text-center font-mono text-gray-400">Greeter Smart Contract</h2>
@@ -154,10 +142,10 @@ export const GreeterContractInteractions: FC = () => {
           {
             sorobanContext?.deployments?.map((d, i) => (
               <p key={i} tw="text-center font-mono text-sm">- {d.networkPassphrase}</p>
-            ))
+            )) 
           }
         </Card>
-      </div>
+      </div>  
     )
   }
 
@@ -200,7 +188,7 @@ export const GreeterContractInteractions: FC = () => {
 
         {/* Contract Address */}
         <p tw="text-center font-mono text-xs text-gray-600">
-
+          
           {contractAddressStored ? <Link href={"https://stellar.expert/explorer/testnet/contract/" + contractAddressStored} target="_blank">{contractAddressStored}</Link> : "Loading address.."}
         </p>
       </div>
