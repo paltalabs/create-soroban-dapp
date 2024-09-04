@@ -145,7 +145,7 @@ export const GreeterContractInteractions: FC = () => {
             )) 
           }
         </Card>
-      </div>  
+      </div>
     )
   }
 
