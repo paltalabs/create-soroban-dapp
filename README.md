@@ -192,7 +192,7 @@ If you're already inside the contracts folder (e.g., within the Docker Container
 cp .env.example .env
 ```
 
-Then, edit the `.env` file to include your secret keys and RPC URLs. The `.env` file should look like this:
+Then, edit the `.env` file lcoated in `soroban-react-dapp/contracts` to include your secret keys and RPC URLs. The `.env` file should look like this:
 
 ```bash
 # Stellar accounts Secret Keys
@@ -218,28 +218,37 @@ First, navigate to the `soroban-react-dapp/` directory where the `docker-compose
 cd soroban-react-dapp/
 ```
 
-### 2. Run the Containers
+### 2. Setting up the containers
+
+#### 2.1 Copy the .env File
+To give a custom name to the project, copy the `.env.example` file to `.env` using:
+
+````
+cp .env.example .env
+````
+
+#### 2.2 Naming the containers
+then, edit the `.env` file in your `soroban-react-dapp` folder to include your project ID:
+
+```bash
+PROJECT_ID=your-project-id
+```
+
+> [!NOTE]
+> By default the containers name will be something like `soroban-preview-${dirname-timestamp}` and `soroban-contracts-${dirname-timestamp}`.
+
+### 3 Run the Containers
 
 To bring up the necessary containers, run:
 
 ```bash
-docker compose up -d
+bash run.sh
 ```
 
 This command will start the following services:
 
-- **soroban-preview**: Provides the Soroban environment required to compile, deploy, and interact with your contracts.
-- **stellar**: Runs a local Stellar blockchain with Soroban support enabled.
-
-### 3. Interact with the Containers
-
-To interact with the `soroban-preview` container, use the following command:
-
-```bash
-bash run.sh
-# or
-docker exec --tty --interactive soroban-preview-${PROJECT_ID} bash
-```
+- **soroban-preview**: Provides the Soroban environment required to compile, deploy, and interact with your contracts. This container will have the terminal attached to it, allowing for direct interaction with the Soroban environment.
+- **stellar**: Runs a local Stellar blockchain with Soroban support enabled. This service will run in the background, providing the necessary infrastructure for the Soroban environment.
 
 ### 4. Compile and Deploy Contracts
 
