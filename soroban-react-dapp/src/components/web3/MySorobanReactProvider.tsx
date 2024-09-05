@@ -15,14 +15,14 @@ const connectors: Connector[] = [freighter(), xbull(), hana(), lobstr()];
 
 export default function MySorobanReactProvider({children}:{children: React.ReactNode}) {
 
-    return (
-      <SorobanReactProvider
-        chains={chains}
-        appName={"Example Stellar App"}
-        activeChain={testnet}
-        connectors={connectors}
-        deployments={deployments}>
-          {children}
-      </SorobanReactProvider>
-    )
-  }
+  return (
+    <SorobanReactProvider
+      chains={chains}
+      appName={"Example Stellar App"}
+      activeChain={testnet}
+      connectors={connectors}
+      deployments={deployments}>
+        {children}
+    </SorobanReactProvider>
+  )
+}
