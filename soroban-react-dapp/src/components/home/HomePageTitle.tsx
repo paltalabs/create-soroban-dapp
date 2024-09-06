@@ -16,18 +16,18 @@ export const HomePageTitle: FC = () => {
     <>
       <div tw="flex flex-col items-center text-center font-mono">
         {/* Logo & Title */}
-        <Link
+        {/* <Link
           href={githubHref}
           target="_blank"
           className="group"
           tw="flex cursor-pointer items-center gap-4 rounded-3xl py-1.5 px-3.5 transition-all hover:bg-gray-900"
-        >
+        > */}
           {/* <Image src={inkathonLogo} priority width={60} alt="ink!athon Logo" /> */}
-          <h1 tw="font-black text-[2.5rem]">{title}</h1>
-        </Link>
+          {/* <h1 tw="font-black text-[2.5rem]">{title}</h1>
+        </Link> */}
 
         {/* Tagline & Links */}
-        <p tw="mt-2 text-gray-600 text-sm">
+        {/* <p tw="mt-2 text-gray-600 text-sm">
           Largely inspired by the {' '}
           <a
             href="https://github.com/scio-labs/inkathon"
@@ -56,7 +56,7 @@ export const HomePageTitle: FC = () => {
             PaltaLabs &#129361;
           </a>{' '}
         </p>
-        <p tw="mt-4 mb-6 text-gray-400">{desc}</p>
+        <p tw="mt-4 mb-6 text-gray-400">{desc}</p> */}
 
         {/* Github & Vercel Buttons */}
         <div tw="flex space-x-2">

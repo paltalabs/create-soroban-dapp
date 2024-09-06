@@ -51,30 +51,30 @@ export const ChainInfo: FC = () => {
 
   return (
     <>
-      <div tw="flex grow flex-col space-y-4 max-w-[20rem]">
-        <h2 tw="text-center font-mono text-gray-400">Chain Info</h2>
+      {/* <div tw="flex grow flex-col space-y-4 max-w-[20rem]"> */}
+        {/* <h2 tw="text-center font-mono text-gray-400">Chain Info</h2> */}
 
-        <Card variant="outline" p={4} bgColor="whiteAlpha.100">
+        {/* {<Card variant="outline" p={4} bgColor="whiteAlpha.100"> */}
           {/* Metadata */}
-          {Object.entries(chainInfo ?? {}).map(([key, value]:[string, string]) => (
+          {/* {Object.entries(chainInfo ?? {}).map(([key, value]:[string, string]) => (
             <div key={key} tw="text-sm leading-7">
               {key}:
               <strong tw="float-right ml-6 truncate max-w-[15rem]" title={value}>
                 {value}
               </strong>
             </div>
-          ))}
+          ))} */}
 
           {/* <div tw="mt-3 flex items-center justify-center space-x-3"> */}
             {/* Explorer Link */}
             {
-              <Link
-                href={"https://stellar.expert/explorer/testnet/"}
-                target="_blank"
-                tw="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
-              >
-                TestNet Explorer <HiOutlineExternalLink />
-              </Link>
+              // <Link
+              //   href={"https://stellar.expert/explorer/testnet/"}
+              //   target="_blank"
+              //   tw="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
+              // >
+              //   TestNet Explorer <HiOutlineExternalLink />
+              // </Link>
             }
             {/* Faucet Link */}
             {/* {!!activeChain?.faucetUrls?.length && (
@@ -97,7 +97,7 @@ export const ChainInfo: FC = () => {
               </Link>
             )} */}
           {/* </div> */}
-        </Card>
+        {/* </Card> */}
 
         {/* Mainnet Security Disclaimer */}
         {/* {!activeChain?.testnet && (
@@ -110,7 +110,7 @@ export const ChainInfo: FC = () => {
             </Card>
           </>
         )} */}
-      </div>
+      {/* </div> */}
     </>
   )
 }
