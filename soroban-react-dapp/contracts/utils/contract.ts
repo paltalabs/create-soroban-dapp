@@ -85,7 +85,8 @@ export async function invokeContract(
   addressBook: AddressBook,
   method: string,
   params: xdr.ScVal[],
-  source: Keypair
+  source: Keypair,
+  sim: boolean = false,
 ) {
   console.log("Invoking contract: ", contractKey, " with method: ", method);
   const contractAddress = addressBook.getContractId(contractKey);
@@ -95,7 +96,7 @@ export async function invokeContract(
   return await invoke(
     contractOperation,
     source,
-    false,
+    sim,
   );  
 }
 
