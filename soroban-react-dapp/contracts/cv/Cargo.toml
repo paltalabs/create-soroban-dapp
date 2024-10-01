@@ -1,0 +1,16 @@
+[package]
+name = "cv"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+testutils = ["soroban-sdk/testutils"]
+
+[dependencies]
+soroban-sdk = "21.5.1"
+
+[dev-dependencies]
+soroban-sdk = { version = "21.5.1", features = ["testutils"] }

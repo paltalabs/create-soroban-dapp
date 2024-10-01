@@ -15,7 +15,7 @@ const HomePage: NextPage = () => {
   // }, [error])
 
   return (
-    <>
+      <>
       {/* Top Bar */}
       {/* <HomeTopBar /> */}
 
@@ -28,7 +28,6 @@ const HomePage: NextPage = () => {
 
         <div tw="mt-10 flex w-full flex-wrap items-start justify-center gap-4">
           {/* Chain Metadata Information */}
-          <ChainInfo />
 
           {/* Greeter Read/Write Contract Interactions */}
           <GreeterContractInteractions />
