@@ -64,9 +64,20 @@ class EnvConfig {
       throw new Error(`Network configuration for '${network}' not found`);
     }
 
+    const mainnetRpcUrl = process.env.MAINNET_RPC_URL;
+    const admin = process.env.ADMIN_SECRET_KEY;
+
+    if(!mainnetRpcUrl){
+      throw new Error('Error: MAINNET_RPC_URL key not found in .env');
+    }
+
+    if(!admin){
+      throw new Error('Error: ADMIN_SECRET_KEY key not found in .env');
+    }
+
     if (network === 'mainnet') {
       passphrase = networkConfig.soroban_network_passphrase;
-      rpc_url = process.env.MAINNET_RPC_URL;
+      rpc_url = mainnetRpcUrl;
       horizon_rpc_url = networkConfig.horizon_rpc_url;
       friendbot_url = undefined;
     } else {
@@ -76,14 +87,13 @@ class EnvConfig {
       passphrase = networkConfig.soroban_network_passphrase;
     }
 
-    const admin = process.env.ADMIN_SECRET_KEY;
     if (
       rpc_url === undefined ||
       horizon_rpc_url === undefined ||
       (network != "mainnet" && friendbot_url === undefined) ||
-      passphrase === undefined ||
-      admin === undefined
+      passphrase === undefined 
       ) {
+
       throw new Error('Error: Configuration is missing required fields, include <network>');
     }
 

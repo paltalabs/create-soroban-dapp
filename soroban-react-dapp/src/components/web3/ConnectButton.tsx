@@ -73,7 +73,7 @@ export const ConnectButton = () => {
 
     // Account Menu & Disconnect Button
     return (
-      <Menu>
+      <Menu matchWidth>
         <HStack>
           {/* Account Name, Address, and AZNS-Domain (if assigned) */}
           <MenuButton
@@ -100,10 +100,11 @@ export const ConnectButton = () => {
           borderColor="whiteAlpha.300"
           rounded="2xl"
           maxHeight="40vh"
-          overflow="scroll"
         >
           {/* Supported Chains */}
-          {supportedChains.map((chain) => (
+          {/* Commented this as changing chain with the setActiveChain from soroban-react 
+          is not working well - should change chain in the browser extension */}
+          {/* {supportedChains.map((chain) => (
             <MenuItem
               key={chain.name}
               // isDisabled={chain.network === activeChain?.network}
@@ -120,7 +121,7 @@ export const ConnectButton = () => {
                 </HStack>
               </VStack>
             </MenuItem>
-          ))}
+          ))} */}
 
           {/* Disconnect Button */}
           <MenuDivider />

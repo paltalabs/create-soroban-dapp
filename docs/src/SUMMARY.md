@@ -5,6 +5,7 @@
 - [Usage](./create-soroban-dapp/overview.md)
 - [Manual cloning](create-soroban-dapp/manual_cloning.md)
 - [Troubleshooting](create-soroban-dapp/troubleshooting.md)
+- [Set your Secrets in .env](create-soroban-dapp/set_your_secrets.md)
 
 # Soroban Dapp Boilerplate
 - [Overview](./soroban-dapp/overview.md)
