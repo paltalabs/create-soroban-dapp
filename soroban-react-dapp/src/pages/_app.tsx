@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             //   height: 675,
             // },
           ],
-        }}
+        }} 
         twitter={{
           handle: '', // TODO
         }}

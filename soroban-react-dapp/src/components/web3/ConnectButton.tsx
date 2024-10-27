@@ -15,7 +15,9 @@ import {
 import { FiChevronDown } from 'react-icons/fi'
 import { AiOutlineCheckCircle, AiOutlineDisconnect } from 'react-icons/ai'
 import toast from 'react-hot-toast'
-import type { WalletChain } from '@soroban-react/types'
+import type { WalletChain,Connector } from '@soroban-react/types'
+
+
 
 export const ConnectButton = () => {
     // Connect Button
@@ -36,39 +38,47 @@ export const ConnectButton = () => {
     }
   };
 
-    if (!activeAccount)
-      return (
-        <Menu>
-          <MenuButton
-            as={Button}
-            // isLoading={isConnecting}
-            size="md"
-            rightIcon={<FiChevronDown size={22} />}
-            py={6}
-            fontWeight="bold"
-            rounded="2xl"
-            colorScheme="purple"
-          >
-            Connect Wallet
-          </MenuButton>
+  const connectWallet = async(wallet:Connector) => {
+    if (setActiveConnectorAndConnect) {
+      try {
+        await setActiveConnectorAndConnect(wallet);
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
+        toast.error('Failed to connect wallet. Please try again.');
+      }
+    }
+  };
 
-          <MenuList bgColor="blackAlpha.900" borderColor="whiteAlpha.300" rounded="2xl">
-            {/* Installed Wallets */}
-            {!activeAccount &&
-              browserWallets.map((w) => 
-                  <MenuItem
-                    key={w.name}
-                    onClick={() => {
-                      setActiveConnectorAndConnect && setActiveConnectorAndConnect(w)
-                    }}
-                    tw="bg-transparent hocus:bg-gray-800"
-                  >
-                    {w.name}
-                  </MenuItem>
-              )}
-          </MenuList>
-        </Menu>
-      )
+  if (!activeAccount) {
+    return (
+      <Menu>
+        <MenuButton
+          as={Button}
+          size="md"
+          rightIcon={<FiChevronDown size={22} />}
+          py={6}
+          fontWeight="bold"
+          rounded="2xl"
+          colorScheme="purple"
+        >
+          Connect Wallet
+        </MenuButton>
+
+        <MenuList bgColor="blackAlpha.900" borderColor="whiteAlpha.300" rounded="2xl">
+          {browserWallets.map((wallet) => (
+            <MenuItem
+              key={wallet.name}
+              onClick={() => connectWallet(wallet)}
+              tw="bg-transparent hocus:bg-gray-800"
+            >
+              {wallet.name}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+    );
+  }
+
       
 
     // Account Menu & Disconnect Button
