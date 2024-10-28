@@ -1,14 +1,21 @@
 import { Global } from '@emotion/react'
 import tw, { GlobalStyles as BaseStyles, css } from 'twin.macro'
-
+import sideImage from '../../public/images/side-img.svg'
 const customStyles = css`
   html {
     ${tw`scroll-smooth antialiased`}
   }
   body {
     ${tw`bg-black text-white`}
-    ${tw`relative h-screen min-h-screen`}
+    background-image: url(${sideImage.src});
+    background-size: cover;
+    background-position: center;
+  
+    min-height: 100vh;
+    width: 100%;
+    
   }
+
 
   #__next,
   #__next > div {
