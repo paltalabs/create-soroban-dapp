@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "deploy": "yarn build && node dist/scripts/deploy.js"
+    "deploy": "yarn build && node dist/scripts/deploy.js",
+    "testtitle": "yarn build && node dist/scripts/test_title.js"
   },
   "license": "MIT",
   "devDependencies": {

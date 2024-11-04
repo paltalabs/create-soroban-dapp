@@ -8,7 +8,7 @@ const StyledIconLink = styled(Link)(() => [
 ])
 
 export const HomePageTitle: FC = () => {
-  const title = 'Soroban React Dapp'
+  const title = 'Soroban React Dapp - Title'
   const desc = 'Full-Stack DApp Boilerplate for Soroban smart contracts'
   const githubHref = 'https://github.com/paltalabs/create-soroban-dapp/'
 
@@ -41,11 +41,11 @@ export const HomePageTitle: FC = () => {
         <p tw="mt-2 text-gray-600 text-sm">
           Adapted by {' '}
           <a
-            href="https://github.com/benjaminsalon"
+            href="https://github.com/PrincesoDan"
             target="_blank"
             tw="font-semibold text-gray-500 hover:text-gray-100"
           >
-            Benjamin Salon
+            Princeso Dan
           </a>{' '}
           in collaboration with {' '}
           <a
