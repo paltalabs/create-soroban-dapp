@@ -1,9 +1,10 @@
-import { Horizon } from '@stellar/stellar-sdk';
+import { Address, Horizon, nativeToScVal, xdr } from '@stellar/stellar-sdk';
 import { AddressBook } from '../utils/address_book.js';
-import { airdropAccount, deployContract, installContract} from '../utils/contract.js';
+import { airdropAccount, deployContract, installContract, invokeContract} from '../utils/contract.js';
 import { config } from '../utils/env_config.js';
 
 export async function deployContracts(addressBook: AddressBook, contracts_to_deploy: Array<string>) {
+  const { admin } = loadedConfig;
 
   if (network != "mainnet") await airdropAccount(loadedConfig.admin);
   // if (network === "standalone") await loadedConfig.initializeChildAccounts();
@@ -23,14 +24,27 @@ export async function deployContracts(addressBook: AddressBook, contracts_to_dep
     console.log(`Contract ID of ${contract_name} is ${contractId}\n\n`)
   }
 
-  
+  const adminPublicKey = admin.publicKey()
+  const setInitParams: xdr.ScVal[] = [
+    new Address(adminPublicKey).toScVal(),
+    nativeToScVal("empty", {type: "string"})
+  ]
+
+  await invokeContract(
+    'access_control',
+    addressBook,
+    'init',
+    setInitParams,
+    admin,
+  )
+
+  console.log(`Admin successfully set`);
 }
 
 const network = process.argv[2];
 const contracts_to_deploy = process.argv.slice(3)
 const loadedConfig = config(network);
 const addressBook = AddressBook.loadFromFile(network,loadedConfig);
-
 try {
   await deployContracts(addressBook, contracts_to_deploy);
 }
