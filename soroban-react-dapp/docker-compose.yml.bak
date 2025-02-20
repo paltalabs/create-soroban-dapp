@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  soroban-preview:
+    image: esteblock/soroban-preview:21.0.1
+    container_name: "soroban-preview-${PROJECT_ID}"
+    volumes:
+      - .:/workspace
+    ipc: host
+    ports:
+      - "3000:3000"
+    networks:
+      - create-soroban-network
+    command: tail -f /dev/null
+
+  stellar:
+    image: stellar/quickstart:v426-latest-amd64@sha256:274395daab6fa8033b9213f152d56699358917fb01d7c7e95392a37fc00c9d01
+    container_name: "stellar-${PROJECT_ID}"
+    networks:
+      - create-soroban-network
+    ports:
+      - "8000:8000"
+    command: --local --enable-soroban-rpc --enable-soroban-diagnostic-events
+    stdin_open: true
+    tty: true
+
+networks:
+  create-soroban-network:
+    driver: bridge
